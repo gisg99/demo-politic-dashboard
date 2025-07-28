@@ -11,3 +11,5 @@ export * from './BarChartRedes';
 export * from './DigitalActivityChart';
 export * from './AvgConnectionTimeChart';
 export * from './DemographicChart';
+export * from './Layout';
+export * from './Sidebar';
