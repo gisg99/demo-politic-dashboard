@@ -49,11 +49,11 @@ function ComportamientoTab() {
                 </div>
             </Card>
         </div>
-        <div className='grid grid-cols-1 w-full'>
+        {/* <div className='grid grid-cols-1 w-full'>
             <Card title='📍 Flujo de Personas (Portales Cautivos)'>
                 1
             </Card>
-        </div>
+        </div> */}
     </div>
   )
 }
