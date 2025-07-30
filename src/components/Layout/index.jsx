@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { AiOutlineMenu, AiOutlineBell, AiOutlineSearch, AiOutlineUser, AiOutlineQuestionCircle } from 'react-icons/ai';
 import {Sidebar} from '../../components';
+import logo from '../../assets/logo.png';
+import { FiFilter } from "react-icons/fi";
+import { IoSearchOutline } from "react-icons/io5";
 
-const Layout = ({ content, title = "DASHBOARD DE INTELIGENCIA ELECTORAL", subtitle = "Análisis Integral basado en Política, Gobierno, Redes Sociales, MEG y Eventos Locales de E-mail" }) => {
+const Layout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -10,98 +13,69 @@ const Layout = ({ content, title = "DASHBOARD DE INTELIGENCIA ELECTORAL", subtit
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Sidebar Component */}
-      <Sidebar isOpen={sidebarOpen} onToggle={toggleSidebar} />
+      <>
       
       {/* Contenido principal */}
-      <div className="lg:ml-40 min-h-screen flex flex-col">
+      <div className="h-svh flex flex-col">
         {/* Header integrado */}
-        <header className="bg-gray-600 text-white sticky top-0 z-30">
-          <div className="flex items-center justify-between px-4 py-3">
+        <header className="bg-[#acb8bf] h-[4rem] xl:h-[6rem] text-white z-30">
+          <div className="flex items-center h-full justify-between px-4 py-3">
             {/* Lado izquierdo - Logo y título */}
-            <div className="flex items-center space-x-4">
-              <button 
+            <div className="flex h-full items-center space-x-4">
+              {/* <button 
                 onClick={toggleSidebar}
                 className="lg:hidden p-2 rounded-md hover:bg-gray-700 transition-colors"
                 aria-label="Abrir menú"
-              >
+                >
                 <AiOutlineMenu size={20} />
-              </button>
-              
+              </button> */}
+              <div className='w-30 xl:w-32 flex justify-center'>
+                <img className='w-13 xl:w-17' src={logo} alt='logo'/>
+              </div>
+
               {/* Logo Jalisco */}
-              <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center">
-                  <span className="text-orange-500 font-bold text-lg">JL</span>
-                </div>
-                <div>
-                  <h1 className="text-lg font-bold leading-tight">
-                    {title}
+              <div className="flex flex-col h-full items-start justify-center space-x-3">
+                  <h1 className=" text-base xl:text-lg uppercase font-bold leading-tight">
+                    Dashboard de Inteligencia Electoral Jalisco 
                   </h1>
-                  <p className="text-xs text-gray-300 leading-tight">
-                    {subtitle}
+                  <p className="text-xs xl:font-bold text-white leading-tight">
+                    Analis integral basado en Portales Cautivos, Redes Sociales, INEGI y Reserve Lookup de E-mails
                   </p>
-                </div>
               </div>
             </div>
             
             {/* Lado derecho - Controles */}
-            <div className="flex items-center space-x-2">
-              {/* Botón de ayuda */}
-              <button className="p-2 rounded-full hover:bg-gray-700 transition-colors">
-                <AiOutlineQuestionCircle size={18} />
-              </button>
-              
+            <div className="flex items-start xl:mt-7 h-full space-x-2">
               {/* Filtros */}
-              <button className="px-3 py-2 text-xs bg-gray-700 rounded-md hover:bg-gray-600 transition-colors">
-                Filtros
-              </button>
+              <div className='flex flex-col justify-center items-center'>
+                <button className="flex justify-center items-center px-2 py-2 xl:px-3 xl:py-3 text-xs bg-white rounded-full hover:bg-gray-600 hover:text-white text-gray-600 transition-colors [&>svg]:w-4 [&>svg]:h-4 xl:[&>svg]:w-5 xl:[&>svg]:h-5">
+                  <FiFilter size={15} />
+                </button>
+                <h1 className='text-xs font-medium text-gray-600'>Filtro</h1>
+              </div>
               
               {/* Notificaciones */}
-              <button className="relative p-2 rounded-full hover:bg-gray-700 transition-colors">
-                <AiOutlineBell size={18} />
-                <span className="absolute -top-1 -right-1 w-3 h-3 bg-orange-500 rounded-full text-xs flex items-center justify-center">
-                  3
-                </span>
+              <button className="flex justify-center items-center px-2 py-2 xl:px-3 xl:py-3 text-xs bg-white rounded-full hover:bg-gray-600 hover:text-white text-gray-600 transition-colors [&>svg]:w-4 [&>svg]:h-4 xl:[&>svg]:w-5 xl:[&>svg]:h-5">
+                <IoSearchOutline size={15}/>
               </button>
               
               {/* Usuario */}
-              <div className="flex items-center space-x-2 bg-gray-700 rounded-lg px-3 py-2">
+              <div className="flex justify-center items-center px-2 py-2 xl:px-3 xl:py-3 text-xs bg-tertiary rounded-full hover:bg-gray-600 hover:text-white text-white transition-colors [&>svg]:w-4 [&>svg]:h-4 xl:[&>svg]:w-5 xl:[&>svg]:h-5">
                 <AiOutlineUser size={16} />
-                <span className="text-xs font-medium">Admin</span>
               </div>
             </div>
           </div>
         </header>
-
-        {/* Subheader con navegación de breadcrumbs */}
-        <div className="bg-white border-b border-gray-200 px-4 py-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2 text-sm text-gray-600">
-              <span>RESUMEN EJECUTIVO</span>
-            </div>
-            <div className="flex items-center space-x-3">
-              {/* Selector de período */}
-              <select className="text-xs border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-orange-500">
-                <option>Último mes</option>
-                <option>Última semana</option>
-                <option>Últimas 24h</option>
-              </select>
-              
-              {/* Botón de actualización */}
-              <button className="text-xs bg-orange-500 text-white px-3 py-1 rounded hover:bg-orange-600 transition-colors">
-                Actualizar datos
-              </button>
-            </div>
-          </div>
+        <div className='max-h-full max-w-full flex flex-1 overflow-y-hidden'>
+          {/* Sidebar Component */}
+          <Sidebar isOpen={sidebarOpen} onToggle={toggleSidebar} />
+          {/* Área de contenido */}
+          <main className='w-full h-full overflow-auto'>
+            {children}
+          </main>
         </div>
-        
-        {/* Área de contenido */}
-        <main className="flex-1 p-4 bg-gray-50">
-          {content}
-        </main>
       </div>
-    </div>
+      </>
   );
 };
 

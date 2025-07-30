@@ -1,58 +1,55 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { 
-  AiOutlineHome,
-  AiOutlineBarChart, 
-  AiOutlineTeam,
-  AiOutlineFileText,
-  AiOutlineAlert,
-  AiOutlineSetting,
-  AiOutlinePieChart,
-  AiOutlineMessage,
-  AiOutlineClose 
-} from 'react-icons/ai';
+import electoral from '../../assets/iconosDashboardPoliticoWEBP/electoral.webp';
+import eye from '../../assets/iconosDashboardPoliticoWEBP/eye.webp';
+import home from '../../assets/iconosDashboardPoliticoWEBP/home.webp';
+import network from '../../assets/iconosDashboardPoliticoWEBP/network.webp';
+import social from '../../assets/iconosDashboardPoliticoWEBP/social.webp';
+import user from '../../assets/iconosDashboardPoliticoWEBP/user-settings.webp';
+import warning from '../../assets/iconosDashboardPoliticoWEBP/warning.webp';
+import world from '../../assets/iconosDashboardPoliticoWEBP/world.webp';
 
 const Sidebar = ({ isOpen, onToggle }) => {
   const menuItems = [
     { 
-      icon: AiOutlineHome, 
+      icon: home, 
       label: 'Home', 
-      path: '/resumen',
+      path: '/',
     },
     { 
-      icon: AiOutlineBarChart, 
+      icon: eye, 
       label: 'Indicadores', 
       path: '/indicadores',
     },
     { 
-      icon: AiOutlineTeam, 
+      icon: world, 
       label: 'Geolocalización', 
-      path: '/demarcacion',
+      path: '/geolocalizacion',
     },
     { 
-      icon: AiOutlineAlert, 
+      icon: social, 
       label: 'Movilidad y conectividad', 
-      path: '/monitoreo',
+      path: '/movilidad',
     },
     { 
-      icon: AiOutlineMessage, 
+      icon: user, 
       label: 'Redes Sociales', 
-      path: '/redes-sociales',
+      path: '/redes',
     },
     { 
-      icon: AiOutlineFileText, 
+      icon: network, 
       label: 'Información electoral', 
       path: '/informacion',
     },
     { 
-      icon: AiOutlinePieChart, 
+      icon: warning, 
       label: 'Alertas estrategicas', 
       path: '/alertas',
     },
     { 
-      icon: AiOutlinePieChart, 
+      icon: electoral, 
       label: 'Configuración / usuarios', 
-      path: '/comunicacion',
+      path: '/configuracion',
     }
   ];
 
@@ -68,59 +65,43 @@ const Sidebar = ({ isOpen, onToggle }) => {
       
       {/* Contenedor del Sidebar */}
       <aside className={`
-        fixed top-0 left-0 h-full w-40 bg-gray-100 border-r border-gray-200 z-50 
+        px-2 bg-[#d6d6d6] border-r border-gray-300 z-50 
         transform transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
-        {/* Header del sidebar */}
-        <div className="flex items-center justify-between p-4 bg-white border-b border-gray-200">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">JL</span>
-            </div>
-            <div>
-              <h2 className="text-sm font-bold text-gray-800">JALISCO</h2>
-              <p className="text-xs text-gray-500">Dashboard</p>
-            </div>
-          </div>
-          <button 
-            onClick={onToggle}
-            className="lg:hidden p-1 rounded hover:bg-gray-100 transition-colors"
-          >
-            <AiOutlineClose size={18} className="text-gray-600" />
-          </button>
-        </div>
 
         {/* Navegación */}
-        <nav className="flex flex-col p-2 w-full h-full justify-start">
-          <ul className="flex h-full justify-center flex-col gap-1 -mt-8">
+        <nav className="flex flex-col p-2 w-full h-full justify-start ">
+          <ul className="flex justify-evenly h-full flex-col gap-1 overflow-y-auto hide-scrollbar" >
             {menuItems.map((item, index) => {
-              const IconComponent = item.icon;
               return (
-                <li key={index} className="relative">
+                <li key={index} className="relative max-w-28 xl:max-w-30 ">
                   <NavLink 
                     to={item.path}
                     className={({ isActive }) => `
-                      flex items-center justify-center space-x-3 p-2 rounded-lg text-xs
+                      flex items-center justify-center space-x-3 p-2 rounded-[30px] text-xs
                       transition-all duration-200 group relative
                       ${isActive 
-                        ? 'bg-[#ff914d] text-white shadow-lg' 
-                        : 'text-gray-600 hover:bg-orange-50 hover:text-orange-600'
+                        ? 'bg-tertiary text-white shadow-lg' 
+                        : 'text-white hover:bg-tertiary hover:text-white'
                       }
                     `}
                   >
                     {({ isActive }) => (
-                      <div className='flex flex-col justify-center items-center h-full w-full'>
+                      <div className='flex flex-col justify-center items-center h-full w-full group'>
                         <div className="flex-shrink-0">
-                          <IconComponent size={20} />
+                          <img className={`w-7 cl:w-8 group-hover:invert group-hover:brightness-0 ${isActive 
+                        ? 'invert brightness-0' 
+                        : 'text-gray-400'
+                      }`} src={item.icon} alt='icon'/> 
+                          {/* <IconComponent size={24} /> */}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="font-medium text-center text-[0.9svw] uppercase leading-tight">{item.label}</div>
+                          <div className={`font-medium text-gray-500 text-center text-[0.7rem] uppercase leading-tight ${isActive 
+                        ? 'text-white' 
+                        : 'text-gray-400 group-hover:text-white'
+                      }`}>{item.label}</div>
                         </div>
-                        {/* Indicador activo - SIN NavLink anidado */}
-                        {isActive && (
-                          <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-1 h-8 bg-white rounded-l-full"></div>
-                        )}
                       </div>
                     )}
                   </NavLink>

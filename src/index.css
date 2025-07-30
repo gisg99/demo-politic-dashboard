@@ -3,7 +3,7 @@
 @theme {
   --color-primary: #fff8f0;
   --color-secondary: #8b6914;
-  --color-tertiary: #d1681d;
+  --color-tertiary: #ff914d;
   --color-red: #ff4d4f;
   --color-purple-300: #c4b5fd;
   --color-purple-500: #a855f7;
@@ -14,9 +14,13 @@
 }
 
 body {
-  background-color: #f2ddc4;
+  background-color: #f7f7f7;
 }
 
 * {
   box-sizing: border-box;
 }
+
+.hide-scrollbar::-webkit-scrollbar {
+        display: none; /* Safari and Chrome */
+      }
