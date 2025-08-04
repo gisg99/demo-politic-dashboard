@@ -62,7 +62,7 @@ const FiltrosComponent = () => {
                 </label>
                 <div className="relative">
                   <div 
-                    className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-orange-100 p-1 rounded-sm cursor-pointer z-10"
+                    className="absolute left-2 top-1/2 transform -translate-y-1/2   p-1 rounded-sm cursor-pointer z-10"
                     onClick={() => openDatePicker(fechaInicioRef)}
                   >
                     <FaCalendarAlt className="text-tertiary w-2.5 h-2.5" />
@@ -90,7 +90,7 @@ const FiltrosComponent = () => {
                 </label>
                 <div className="relative">
                   <div 
-                    className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-orange-100 p-1 rounded-sm cursor-pointer z-10"
+                    className="absolute left-2 top-1/2 transform -translate-y-1/2   p-1 rounded-sm cursor-pointer z-10"
                     onClick={() => openDatePicker(fechaFinRef)}
                   >
                     <FaCalendarAlt className="text-tertiary w-2.5 h-2.5" />
