@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, Formik } from 'react';
 import { AiOutlineMenu, AiOutlineBell, AiOutlineSearch, AiOutlineUser, AiOutlineQuestionCircle } from 'react-icons/ai';
-import {Sidebar} from '../../components';
+import { Sidebar, FiltrosComponent } from '../../components';
 import logo from '../../assets/logo.png';
 import { FiFilter } from "react-icons/fi";
 import { IoSearchOutline } from "react-icons/io5";
 
+
 const Layout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [filterActive, setFilterActive] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -18,10 +20,10 @@ const Layout = ({ children }) => {
       {/* Contenido principal */}
       <div className="h-svh flex flex-col">
         {/* Header integrado */}
-        <header className="bg-[#acb8bf] h-[4rem] xl:h-[6rem] text-white z-30">
-          <div className="flex items-center h-full justify-between px-4 py-3">
+        <header className={`flex flex-col justify-start bg-[#acb8bf] ${filterActive ? "max-h-96" : "max-h-18 overflow-y-hidden"} duration-300 text-white z-30`} >
+          <div className="flex items-center  justify-between px-4 py-3">
             {/* Lado izquierdo - Logo y título */}
-            <div className="flex h-full items-center space-x-4">
+            <div className="flex  items-center space-x-4">
               {/* <button 
                 onClick={toggleSidebar}
                 className="lg:hidden p-2 rounded-md hover:bg-gray-700 transition-colors"
@@ -34,7 +36,7 @@ const Layout = ({ children }) => {
               </div>
 
               {/* Logo Jalisco */}
-              <div className="flex flex-col h-full items-start justify-center space-x-3">
+              <div className="flex flex-col  items-start justify-center space-x-3">
                   <h1 className=" text-base xl:text-lg uppercase font-bold leading-tight">
                     Dashboard de Inteligencia Electoral Jalisco 
                   </h1>
@@ -47,7 +49,7 @@ const Layout = ({ children }) => {
             {/* Lado derecho - Controles */}
             <div className="flex items-start xl:mt-7 h-full space-x-2">
               {/* Filtros */}
-              <div className='flex flex-col justify-center items-center'>
+              <div onClick={() => setFilterActive(prev => !prev)} className='flex flex-col justify-center items-center'>
                 <button className="flex justify-center items-center px-2 py-2 xl:px-3 xl:py-3 text-xs bg-white rounded-full hover:bg-gray-600 hover:text-white text-gray-600 transition-colors [&>svg]:w-4 [&>svg]:h-4 xl:[&>svg]:w-5 xl:[&>svg]:h-5">
                   <FiFilter size={15} />
                 </button>
@@ -64,6 +66,9 @@ const Layout = ({ children }) => {
                 <AiOutlineUser size={16} />
               </div>
             </div>
+          </div>
+          <div className='h-32'>
+            <FiltrosComponent/>
           </div>
         </header>
         <div className='max-h-full max-w-full flex flex-1 overflow-y-hidden'>

@@ -15,3 +15,4 @@ export * from './Layout';
 export * from './Sidebar';
 export * from './DonutChart';
 export * from './VerticalBars';
+export * from './FiltrosComponent';

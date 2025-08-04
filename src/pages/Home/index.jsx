@@ -3,6 +3,7 @@ import { Card, Layout, DonutChart, VerticalBars } from '../../components';
 import { VscFlame } from "react-icons/vsc";
 import { IoLogoWechat } from "react-icons/io5";
 import { ImArrowUp, ImArrowDown  } from "react-icons/im";
+import { HiBellAlert } from "react-icons/hi2";
 
 function Home() {
 
@@ -14,6 +15,12 @@ function Home() {
   const transporte = { label: 'Transporte', count: 63 }
   const salud = { label: 'Salud', count: 52 }
   const aceptacion = { semana1: '50', semana2: '100' }
+  const alertas = [ 
+  { label: 'Actividad inusual de competencia en zona' },
+  { label: 'Mención viral detectada: corrupción en zona Z' },
+  { label: 'Incremento repentino de menciones sobre falta de seguridad' },
+  { label: 'Tendencia creciente de quejas por servicios públicos en zona norte' }
+];
 
   function compararSemanas({ semana1, semana2 }) {
     const diferencia = semana2 - semana1;
@@ -195,7 +202,16 @@ function Home() {
               </div>
               <div className='w-[40%] h-full'>
                 <Card title='Alertas Estratégicas'>
-
+                  <div className='flex flex-col gap-3'>
+                    {alertas.slice(-3).map((alerta, index) => (
+                      <div key={index} className='flex items-center w-full gap-2'>
+                        <HiBellAlert className='text-tertiary mt-1' size={30} />
+                        <div style={{ background: 'var(--bg-orange-gradient)' }} className='flex items-start gap-2 p-2 rounded-2xl w-full'>
+                          <p className='text-lg text-white font-bold'>{alerta.label}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </Card>
               </div>
             </div>
