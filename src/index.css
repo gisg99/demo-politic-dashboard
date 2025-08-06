@@ -3,7 +3,7 @@
 @theme {
   --color-primary: #fff8f0;
   --color-secondary: #8b6914;
-  --color-tertiary: #d1681d;
+  --color-tertiary: #ff914d;
   --color-red: #ff4d4f;
   --color-purple-300: #c4b5fd;
   --color-purple-500: #a855f7;
@@ -11,12 +11,46 @@
   --color-green-600: #15803d;
   --color-gray-300: #d1d5db;
   --color-gray-800: #1f2937;
+  --bg-orange-gradient: linear-gradient(
+    90deg,
+    rgba(255, 145, 77, 1) 0%,
+    rgba(255, 145, 77, 1) 38%,
+    rgba(255, 195, 158, 1) 100%
+  );
 }
 
 body {
-  background-color: #f2ddc4;
+  background-color: #f7f7f7;
 }
 
 * {
   box-sizing: border-box;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+        display: none; /* Safari and Chrome */
+      }
+
+
+:root {
+  --bg-orange-gradient: linear-gradient(
+    90deg,
+    rgba(255, 145, 77, 1) 0%,
+    rgba(255, 145, 77, 1) 38%,
+    rgb(253, 190, 150) 100%
+  );
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+input {
+    color: #ff914d; /* ← Esto causa el problema */
+}
+
+/* Usa: */
+input {
+    color: #ff914d; /* ← Color oscuro visible */
+    background-color: #fff;
 }
