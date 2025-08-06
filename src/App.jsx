@@ -8,13 +8,14 @@ import Alertas from './pages/Alertas';
 import Informacion from './pages/Informacion';
 import Redes from './pages/Redes';
 import Configuracion from './pages/Configuracion';
-import viteLogo from '/vite.svg';
+import Segmentacion from './pages/Segmentacion';
 import './App.css';
 
 const AppRoutes = () => { 
 
   const routes = useRoutes([
     { path: '/', element: <Home/>},
+    { path: '/segmentacion', element: <Segmentacion/>},
     { path: '/indicadores', element: <Indicadores/> },
     { path: '/geolocalizacion', element: <Geolocalizacion/> },
     { path: '/configuracion', element: <Configuracion/> },

@@ -185,7 +185,7 @@ function Home() {
               <div className='w-[60%] h-full'>
                 <Card title='Nivel de aceptación PL'>
                    <div className='h-full w-full flex min-h-[120px]'>
-                    <div className='w-[50%] h-full'>
+                    <div className='w-[50%] h-full flex flex-col justify-center'>
                       <div className='flex items-end'>
                         <h1 className='text-gray-400 font-bold text-[70px] '>{resultado.porcentaje}%</h1>
                         {resultado.tipoCambio === 'incremento' ? <ImArrowUp className='text-tertiary' size={30} /> : <ImArrowDown className='text-tertiary' size={30} />}
