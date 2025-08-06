@@ -141,7 +141,7 @@ function Segmentacion() {
                     <div key={index} className='w-full flex flex-col'>
                       <div className='flex group gap-2 w-full items-center justify-between px-3'>
                         <h1 className='text-gray-500 text-lg'>{tema.label}</h1>
-                        <div className='w-[60%] h-2 rounded-2xl' style={{ background: getColor(index, tema.count)}}>
+                        <div className='w-[60%] h-3 rounded-xs' style={{ background: getColor(index, tema.count)}}>
                           <div className='text-gray-400 text-lg font-semibold w-min relative -top-3 -left-13 px-2 rounded-lg group-hover:block'>
                             {tema.count}%
                           </div>
@@ -154,7 +154,7 @@ function Segmentacion() {
                   </h1>
                   <div className="flex flex-wrap gap-1">
                     {Hashtags.map((tag, index) => (
-                      <span key={index} className="text-sm text-gray-700">{tag},</span>
+                      <span key={index} className="text-[1.3rem] text-gray-700">{tag},</span>
                     ))}
                   </div>
                 </div>
@@ -175,7 +175,7 @@ function Segmentacion() {
               </Card>
             </div>
           </div>
-
+ 
           {/* Tercera fila - Horarios/Plataformas y Comportamiento */}
           <div className='flex gap-3 w-full'>
             <div className='w-[50%]'>
@@ -186,7 +186,7 @@ function Segmentacion() {
                   </h1>
                   
                   {/* Plataformas más usadas */}
-                  <div className='mt-6'>
+                  <div>
                     <SocialPlatforms platforms={plataformasMasUsadas} />
                   </div>
                 </div>
