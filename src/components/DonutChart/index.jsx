@@ -68,7 +68,7 @@ function DonutChart({
   }, [percentage, color, backgroundColor]);
 
   return (
-    <div className={`flex flex-col items-center font-sans ${className}`}>
+    <div className={`flex flex-col w-full items-center font-sans ${className}`}>
       {/* Contenedor del gráfico */}
       <div className={`relative ${size}`}>
         <canvas 
