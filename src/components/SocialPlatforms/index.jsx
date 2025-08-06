@@ -74,9 +74,9 @@ const SocialPlatforms = ({ platforms = [] }) => {
 
   return (
     <div className="flex flex-col gap-3">
-      <h2 className="text-xl lg:text-2xl text-[#FF8C00] font-bold">
+      <h1 className='text-[1.3rem] xl:text-[1.8rem] text-tertiary font-bold mt-3'>
         Plataformas más usadas
-      </h2>
+      </h1>
       <div className="flex gap-4 items-center">
         {platforms.slice(0, 3).map((platform, index) => {
           const config = getPlatformConfig(platform);

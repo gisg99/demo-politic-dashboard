@@ -27,17 +27,17 @@ function Segmentacion() {
 
   // Datos para Ocupación
   const ocupacionData = [
-    { label: 'Agroindustria', value: 5, color: '#9E9E9E' },
-    { label: 'Artesanía', value: 8, color: '#757575' },
-    { label: 'Automotriz', value: 15, color: '#616161' },
+    { label: 'Agropecuario', value: 5, color: '#9E9E9E' },
+    { label: 'Artesano', value: 8, color: '#757575' },
+    { label: 'Comercio', value: 15, color: '#616161' },
     { label: 'Construcción', value: 10, color: '#424242' },
-    { label: 'Electrónica', value: 7, color: '#FFC107' },
+    { label: 'Electricista', value: 7, color: '#FFC107' },
     { label: 'Tecnología de la inf', value: 12, color: '#FFD54F' },
-    { label: 'Enegía Eléctrica', value: 6, color: '#FFE082' },
-    { label: 'Farmaceutico', value: 10, color: '#FFAB91' },
-    { label: 'Moda', value: 3, color: '#FF8A65' },
-    { label: 'Muebles', value: 18, color: '#FF7043' },
-    { label: 'Productos Químicos', value: 6, color: '#FF5722' }
+    { label: 'Energía Eléctrica', value: 6, color: '#FFE082' },
+    { label: 'Industria', value: 10, color: '#FFAB91' },
+    { label: 'Minería', value: 3, color: '#FF8A65' },
+    { label: 'Servicios', value: 18, color: '#FF7043' },
+    { label: 'Protección Ciudadana', value: 6, color: '#FF5722' }
   ];
   
   // Datos de intereses
@@ -89,13 +89,10 @@ function Segmentacion() {
 
   return (
     <Layout>
-      <div className='flex flex-col w-full h-full items-center py-4 px-6'>
+      <div className='flex flex-col w-full min-h-screen items-center py-4 px-6 mb-4'>
         {/* Header */}
-        <div className='w-full flex justify-between items-center mb-4'>
-          <h1 className='text-gray-400 font-bold uppercase text-sm lg:text-base'>
-            Segmentación de Audiencia
-          </h1>
-          <h2 className='bg-[#acb8bf] px-3 py-0.5 cursor-pointer text-white font-medium rounded-full hover:bg-tertiary text-xs lg:text-sm'>
+        <div className='w-full flex justify-end items-center mb-4'>
+          <h2 className='bg-gray-400 px-3 py-0.5 cursor-pointer text-white font-medium rounded-full hover:bg-tertiary text-xs lg:text-sm'>
             Descargar
           </h2>
         </div>
@@ -111,7 +108,7 @@ function Segmentacion() {
                     data={edadData}
                     type="default"
                   />
-                  <DonutChart2  
+                  <DonutChart2 
                     title="Género"
                     data={generoData}
                     type="gender"
@@ -183,8 +180,8 @@ function Segmentacion() {
           <div className='flex gap-3 w-full'>
             <div className='w-[50%]'>
               <Card title="Horarios de mayor actividad">
-                <div className='w-full h-full flex flex-col justify-center items-center py-4'>
-                  <h1 className='text-gray-500 font-bold text-3xl lg:text-4xl xl:text-5xl mb-2'>
+                <div className='w-full h-full flex flex-col justify-start items-start py-4'>
+                  <h1 className='text-gray-500 font-semibold text-3xl lg:text-4xl xl:text-5xl mb-2'>
                     5:00 a 8:00 pm
                   </h1>
                   
@@ -196,7 +193,7 @@ function Segmentacion() {
               </Card>
             </div>
             
-            <div className='w-[50%]'>
+            {/* <div className='w-[50%]'>
               <Card title="Comportamiento de navegación">
                 <div className='w-full h-full flex flex-col justify-center py-2'>
                   <p className='text-sm text-gray-600 mb-4'>
@@ -211,7 +208,7 @@ function Segmentacion() {
                   />
                 </div>
               </Card>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

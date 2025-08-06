@@ -75,7 +75,7 @@ const Layout = ({ children }) => {
           {/* Sidebar Component */}
           <Sidebar isOpen={sidebarOpen} onToggle={toggleSidebar} />
           {/* Área de contenido */}
-          <main className='w-full h-full overflow-auto'>
+          <main className='w-full overflow-auto'>
             {children}
           </main>
         </div>
