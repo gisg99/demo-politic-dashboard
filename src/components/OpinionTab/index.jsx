@@ -8,7 +8,7 @@ function OpinionTab() {
         const formateado = new Intl.NumberFormat('es-MX').format(number);
         return formateado;
     }
-
+ 
 
     const temas = [
         {label: 'Seguridad', count: 90},
