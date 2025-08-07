@@ -30,7 +30,7 @@ const FiltrosComponent = () => {
   };
 
   return (
-    <div className="px-4 py-3">
+    <div className="px-4 py-3 w-full">
       <style>
         {`
           .date-input::-webkit-calendar-picker-indicator {
@@ -54,15 +54,17 @@ const FiltrosComponent = () => {
           
           return (
           <div>
-            <div className="flex gap-2 mb-3">
-              {/* Fecha inicio - más angosto */}
-              <div className="w-34">
-                <label className="block text-xs text-gray-600 mb-1 font-medium">
+            {/* Contenedor con flex y wrap para campos más compactos */}
+            <div className="flex flex-wrap gap-2 mb-3">
+              
+              {/* Fecha inicio */}
+              <div className="w-32 lg:w-36 xl:w-40">
+                <label className="block text-xs text-gray-600 mb-0.5 font-medium">
                   Fecha inicio
                 </label>
                 <div className="relative">
                   <div 
-                    className="absolute left-2 top-1/2 transform -translate-y-1/2   p-1 rounded-sm cursor-pointer z-10"
+                    className="absolute left-2 top-1/2 transform -translate-y-1/2 p-0.5 rounded-sm cursor-pointer z-10"
                     onClick={() => openDatePicker(fechaInicioRef)}
                   >
                     <FaCalendarAlt className="text-tertiary w-2.5 h-2.5" />
@@ -77,20 +79,20 @@ const FiltrosComponent = () => {
                       name="fechaInicio"
                       value={values.fechaInicio}
                       onChange={(e) => setFieldValue('fechaInicio', e.target.value)}
-                      className="date-input w-full pl-8 pr-3 py-1.5 border border-gray-300 rounded-full bg-white text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 cursor-pointer"
+                      className="date-input w-full pl-7 pr-2 py-1 border border-gray-300 rounded-full bg-white text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 cursor-pointer"
                     />
                   </div>
                 </div>
               </div>
 
-              {/* Fecha fin - más angosto */}
-              <div className="w-34">
-                <label className="block text-xs text-gray-600 mb-1 font-medium">
+              {/* Fecha fin */}
+              <div className="w-32 lg:w-36 xl:w-40">
+                <label className="block text-xs text-gray-600 mb-0.5 font-medium">
                   Fecha fin
                 </label>
                 <div className="relative">
                   <div 
-                    className="absolute left-2 top-1/2 transform -translate-y-1/2   p-1 rounded-sm cursor-pointer z-10"
+                    className="absolute left-2 top-1/2 transform -translate-y-1/2 p-0.5 rounded-sm cursor-pointer z-10"
                     onClick={() => openDatePicker(fechaFinRef)}
                   >
                     <FaCalendarAlt className="text-tertiary w-2.5 h-2.5" />
@@ -105,24 +107,24 @@ const FiltrosComponent = () => {
                       name="fechaFin"
                       value={values.fechaFin}
                       onChange={(e) => setFieldValue('fechaFin', e.target.value)}
-                      className="date-input w-full pl-8 pr-3 py-1.5 border border-gray-300 rounded-full bg-white text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 cursor-pointer"
+                      className="date-input w-full pl-7 pr-2 py-1 border border-gray-300 rounded-full bg-white text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 cursor-pointer"
                     />
                   </div>
                 </div>
               </div>
 
-              {/* Hora inicio - mediano */}
-              <div className="w-28">
-                <label className="block text-xs text-gray-600 mb-1 font-medium">
+              {/* Hora inicio */}
+              <div className="w-24 lg:w-28 xl:w-32">
+                <label className="block text-xs text-gray-600 mb-0.5 font-medium">
                   Hora inicio
                 </label>
                 <div className="relative">
-                  <FaClock className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-tertiary w-2.5 h-2.5" />
+                  <FaClock className="absolute left-2 top-1/2 transform -translate-y-1/2 text-tertiary w-2.5 h-2.5" />
                   <select
                     name="horaInicio"
                     value={values.horaInicio}
                     onChange={(e) => setFieldValue('horaInicio', e.target.value)}
-                    className="w-full pl-8 pr-3 py-1.5 border border-gray-300 rounded-full bg-white text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 appearance-none text-tertiary"
+                    className="w-full pl-7 pr-2 py-1 border border-gray-300 rounded-full bg-white text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 appearance-none text-tertiary"
                   >
                     <option value="">Seleccionar</option>
                     <option value="00:00">00:00</option>
@@ -133,18 +135,18 @@ const FiltrosComponent = () => {
                 </div>
               </div>
 
-              {/* Hora fin - mediano */}
-              <div className="w-28">
-                <label className="block text-xs text-gray-600 mb-1 font-medium">
+              {/* Hora fin */}
+              <div className="w-24 lg:w-28 xl:w-32">
+                <label className="block text-xs text-gray-600 mb-0.5 font-medium">
                   Hora fin
                 </label>
                 <div className="relative">
-                  <FaClock className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-tertiary w-2.5 h-2.5" />
+                  <FaClock className="absolute left-2 top-1/2 transform -translate-y-1/2 text-tertiary w-2.5 h-2.5" />
                   <select
                     name="horaFin"
                     value={values.horaFin}
                     onChange={(e) => setFieldValue('horaFin', e.target.value)}
-                    className="w-full pl-8 pr-3 py-1.5 border border-gray-300 rounded-full bg-white text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 appearance-none text-tertiary"
+                    className="w-full pl-7 pr-2 py-1 border border-gray-300 rounded-full bg-white text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 appearance-none text-tertiary"
                   >
                     <option value="">Seleccionar</option>
                     <option value="06:00">06:00</option>
@@ -155,9 +157,9 @@ const FiltrosComponent = () => {
                 </div>
               </div>
 
-              {/* Zona - sin icono */}
-              <div className="w-40">
-                <label className="block text-xs text-gray-600 mb-1 font-medium">
+              {/* Zona */}
+              <div className="w-28 lg:w-32 xl:w-36">
+                <label className="block text-xs text-gray-600 mb-0.5 font-medium">
                   Zona
                 </label>
                 <div className="relative">
@@ -165,7 +167,7 @@ const FiltrosComponent = () => {
                     name="zona"
                     value={values.zona}
                     onChange={(e) => setFieldValue('zona', e.target.value)}
-                    className="w-full pl-3 pr-3 py-1.5 border border-gray-300 rounded-full bg-white text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 appearance-none text-tertiary"
+                    className="w-full pl-3 pr-2 py-1 border border-gray-300 rounded-full bg-white text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 appearance-none text-tertiary"
                   >
                     <option value="">Seleccionar</option>
                     <option value="norte">Norte</option>
@@ -177,9 +179,9 @@ const FiltrosComponent = () => {
                 </div>
               </div>
 
-              {/* Distrito - sin icono */}
-              <div className="w-40">
-                <label className="block text-xs text-gray-600 mb-1 font-medium">
+              {/* Distrito */}
+              <div className="w-28 lg:w-32 xl:w-36">
+                <label className="block text-xs text-gray-600 mb-0.5 font-medium">
                   Distrito
                 </label>
                 <div className="relative">
@@ -187,7 +189,7 @@ const FiltrosComponent = () => {
                     name="distrito"
                     value={values.distrito}
                     onChange={(e) => setFieldValue('distrito', e.target.value)}
-                    className="w-full pl-3 pr-3 py-1.5 border border-gray-300 rounded-full bg-white text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 appearance-none text-tertiary"
+                    className="w-full pl-3 pr-2 py-1 border border-gray-300 rounded-full bg-white text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 appearance-none text-tertiary"
                   >
                     <option value="">Seleccionar</option>
                     <option value="distrito1">Distrito 1</option>
@@ -198,9 +200,9 @@ const FiltrosComponent = () => {
                 </div>
               </div>
 
-              {/* Demográficos - sin icono */}
-              <div className="w-25">
-                <label className="block text-xs text-gray-600 mb-1 font-medium">
+              {/* Demográficos */}
+              <div className="w-32 lg:w-36 xl:w-40">
+                <label className="block text-xs text-gray-600 mb-0.5 font-medium">
                   Demográficos
                 </label>
                 <div className="relative">
@@ -208,7 +210,7 @@ const FiltrosComponent = () => {
                     name="demograficos"
                     value={values.demograficos}
                     onChange={(e) => setFieldValue('demograficos', e.target.value)}
-                    className="w-full pl-3 pr-3 py-1.5 border border-gray-300 rounded-full bg-white text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 appearance-none text-tertiary"
+                    className="w-full pl-3 pr-2 py-1 border border-gray-300 rounded-full bg-white text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 appearance-none text-tertiary"
                   >
                     <option value="">Seleccionar</option>
                     <option value="18-25">18-25 años</option>
@@ -220,9 +222,9 @@ const FiltrosComponent = () => {
                 </div>
               </div>
 
-              {/* Intención voto - sin icono */}
-              <div className="w-48">
-                <label className="block text-xs text-gray-600 mb-1 font-medium">
+              {/* Intención voto */}
+              <div className="w-36 lg:w-40 xl:w-44">
+                <label className="block text-xs text-gray-600 mb-0.5 font-medium">
                   Intención voto
                 </label>
                 <div className="relative">
@@ -230,7 +232,7 @@ const FiltrosComponent = () => {
                     name="intencionVoto"
                     value={values.intencionVoto}
                     onChange={(e) => setFieldValue('intencionVoto', e.target.value)}
-                    className="w-full pl-3 pr-3 py-1.5 border border-gray-300 rounded-full bg-white text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 appearance-none text-tertiary"
+                    className="w-full pl-3 pr-2 py-1 border border-gray-300 rounded-full bg-white text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 appearance-none text-tertiary"
                   >
                     <option value="">Seleccionar</option>
                     <option value="candidato1">Candidato 1</option>
@@ -243,19 +245,19 @@ const FiltrosComponent = () => {
               </div>
             </div>
 
-            {/* Botones */}
+            {/* Botones más compactos */}
             <div className="flex gap-2">
               <button
                 type="button"
                 onClick={() => handleSubmit(values)}
-                className="px-4 py-1.5 bg-white border border-tertiary text-tertiary hover:text-white rounded-full hover:bg-tertiary transition-colors duration-200 font-medium text-xs"
+                className="px-3 py-1 bg-white border border-tertiary text-tertiary hover:text-white rounded-full hover:bg-tertiary transition-colors duration-200 font-medium text-xs"
               >
                 Aplicar Filtros
               </button>
               <button
                 type="button"
                 onClick={() => handleReset(resetForm)}
-                className="px-4 py-1.5 bg-white border border-tertiary text-tertiary hover:text-white rounded-full hover:bg-tertiary transition-colors duration-200 font-medium text-xs"
+                className="px-3 py-1 bg-white border border-tertiary text-tertiary hover:text-white rounded-full hover:bg-tertiary transition-colors duration-200 font-medium text-xs"
               >
                 Limpiar Filtros
               </button>
@@ -268,4 +270,4 @@ const FiltrosComponent = () => {
   );
 };
 
-export {FiltrosComponent};
+export {FiltrosComponent}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Layout, Card, HeatmapComponent, ConnectionHoursChart } from '../../components';
+import { Layout, Card, HeatmapComponent, ConnectionHoursChart, DeviceChart, DonutChart2 } from '../../components';
 
 
 function Movilidad() {
@@ -15,11 +15,61 @@ function Movilidad() {
     [20.6752, -103.341, "45"],
     [20.6730, -103.343, "30"]
     ];
+  
+    const generoData = [
+      { label: 'Iphone', value: 64.6, color: '#ffbd59' },   // Naranja claro
+      { label: 'Android', value: 35.4, color: '#ff914d' },  // Naranja claro
+      { label: 'Otro', value: 35.4, color: '#d7d7d7' },    // Naranja medio
+    ];
 
+    const ocupacionData = [
+      { label: 'Agropecuario', value: 5, color: '#9E9E9E' },
+      { label: 'Artesano', value: 8, color: '#757575' },
+      { label: 'Comercio', value: 15, color: '#616161' },
+      { label: 'Construcción', value: 10, color: '#424242' },
+      { label: 'Electricista', value: 7, color: '#FFC107' },
+      { label: 'Tecnología de la inf', value: 12, color: '#FFD54F' },
+      { label: 'Energía Eléctrica', value: 6, color: '#FFE082' },
+      { label: 'Industria', value: 10, color: '#FFAB91' },
+      { label: 'Minería', value: 3, color: '#FF8A65' },
+      { label: 'Servicios', value: 18, color: '#FF7043' },
+      { label: 'Protección Ciudadana', value: 6, color: '#FF5722' }
+    ];
     const datosConexiones = [
       850, 520, 380, 290, 220, 340, 680, 1580,
       2180, 2450, 2280, 2120, 1980, 2150, 2320, 2480,
       2550, 2420, 2380, 2250, 2100, 1850, 1420, 980
+    ];
+    // Datos por defecto (como en tu imagen)
+    const defaultData = [
+      { label: 'Mobile', value: 97, color: '#f59e0b' },
+      { label: 'Desktop', value: 5, color: '#fbbf24' }
+    ];
+
+    // Ejemplo con más categorías
+    const browserData = [
+      { label: 'Chrome', value: 65, color: '#4285F4' },
+      { label: 'Safari', value: 18, color: '#000000' },
+      { label: 'Firefox', value: 10, color: '#FF7139' },
+      { label: 'Edge', value: 4, color: '#0078D4' },
+      { label: 'Other', value: 3, color: '#9ca3af' }
+    ];
+
+    // Ejemplo de datos de ventas
+    const salesData = [
+      { label: 'Q1', value: 45000, color: '#10b981' },
+      { label: 'Q2', value: 52000, color: '#34d399' },
+      { label: 'Q3', value: 48000, color: '#6ee7b7' },
+      { label: 'Q4', value: 61000, color: '#a7f3d0' }
+    ];
+
+    // Ejemplo de satisfacción
+    const satisfactionData = [
+      { label: 'Muy Satisfecho', value: 45, color: '#22c55e' },
+      { label: 'Satisfecho', value: 30, color: '#84cc16' },
+      { label: 'Neutral', value: 15, color: '#fbbf24' },
+      { label: 'Insatisfecho', value: 7, color: '#fb923c' },
+      { label: 'Muy Insatisfecho', value: 3, color: '#ef4444' }
     ];
 
   return (
@@ -56,10 +106,21 @@ function Movilidad() {
             <Card title='Tipo de Dispositivo'>
               <div className='flex justify-center items-center w-full h-full'>
                 <div className='flex w-[50%]'>
-                    grafica 1
+                  <DeviceChart 
+                    data={defaultData}
+                    height={250}
+                    maxValue={100}
+                  />
                 </div>
                 <div className='flex w-[50%]'>
-                    grafica 2
+                  <DonutChart2 
+                    data={[
+                      { label: 'iPhone', value: 15, color: '#fbbf24' },     // amarillo/naranja claro
+                      { label: 'Android', value: 70, color: '#fb923c' },    // naranja
+                      { label: 'Otro', value: 15, color: '#d1d5db' }        // gris
+                    ]}
+                    type="default"
+                  />
                 </div>
               </div>
             </Card>
