@@ -111,34 +111,14 @@ const ElectoralMap = () => {
   return (
     <div className="w-full h-full">
       {/* Header - Solo Leyenda */}
-      <div className="p-4">
-        {/* Leyenda */}
-        <div className="flex flex-wrap justify-center gap-4 text-sm">
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-full bg-red-800"></div>
-            <span>MORENA</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-full bg-orange-500"></div>
-            <span>MC</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-full bg-blue-500"></div>
-            <span>PAN</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-full bg-green-700"></div>
-            <span>PRI</span>
-          </div>
-        </div>
-      </div>
+      
 
       {/* Mapa */}
       <div className="h-5/6 rounded-lg overflow-hidden ">
         <MapContainer
           center={[20.7214, -103.3844]} // Centro de Zapopan
           zoom={12}
-          style={{ height: '100%', width: '100%', minHeight: '300px' }}
+          style={{ height: '50%', width: '100%', minHeight: '150px' }}
           className="z-0"
         >
           <TileLayer
@@ -166,25 +146,46 @@ const ElectoralMap = () => {
               }}
             >
               <Popup closeButton={false} className="custom-popup" maxWidth={100} minWidth={10}>
-                <div className="text-center px-1">
-                  <h3 className="font-medium text-xs text-gray-800">
+                <div className="text-center flex flex-col gap-0">
+                  <h3 className="font-medium text-xs text-gray-800 gap-0">
                     {district.name}
                   </h3>
-                  <div className="flex items-center justify-center gap-1">
+                  {/* <div className="flex items-center justify-center">
                     <div 
                       className="w-1.5 h-1.5 rounded-full"
                       style={{ backgroundColor: district.color }}
                     ></div>
                     <span className="font-medium text-xs">{district.partidoGanador}</span>
-                  </div>
-                  <p className="text-md font-bold text-gray-700">
+                  </div> */}
+                  <h1 className="text-md font-bold text-gray-700 ">
                     {district.porcentaje}%
-                  </p>
+                  </h1>
                 </div>
               </Popup>
             </CircleMarker>
           ))}
         </MapContainer>
+      </div>
+      <div className="p-4">
+        {/* Leyenda */}
+        <div className="flex flex-wrap justify-center gap-4 text-sm">
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-full bg-red-800"></div>
+            <span className='text-[0.6rem]'>MORENA</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-full bg-orange-500"></div>
+            <span className='text-[0.6rem]'>MC</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-full bg-blue-500"></div>
+            <span className='text-[0.6rem]'>PAN</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-full bg-green-700"></div>
+            <span className='text-[0.6rem]'>PRI</span>
+          </div>
+        </div>
       </div>
     </div>
   );
