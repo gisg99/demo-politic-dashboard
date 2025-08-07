@@ -5,7 +5,7 @@ import { Layout, Card } from '../../components';
 function Redes() {
   return (
     <Layout>
-      <div className='flex flex-col w-full h-full items-center py-4 px-6'>
+      <div className='flex flex-col w-full h-full items-center py-4 px-6 mb-10'>
         <div className='w-full flex justify-end items-center'>
          <h2 className='relative  bg-[#acb8bf] px-3 py-0.5 cursor-pointer text-white font-medium rounded-full hover:bg-tertiary'>Descargar</h2>
         </div>
