@@ -28,3 +28,4 @@ export * from './Economia';
 export * from './MedioAmbiente';
 export * from './SimpleFunnelChart';
 export * from './HeatmapComponent';
+export * from './ConnectionHoursChart';
