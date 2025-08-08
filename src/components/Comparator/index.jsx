@@ -1,0 +1,208 @@
+import React, { useEffect } from "react";
+import { candidatos } from "./candidatosData";
+import { FaChevronLeft, FaChevronRight, FaXTwitter, FaUsers } from "react-icons/fa6";
+import { FaFacebookF, FaInstagram, FaTiktok, FaWhatsapp, FaYoutube, FaGoogle, FaMapMarkedAlt, FaLongArrowAltUp } from 'react-icons/fa';
+import { BiSolidLike } from "react-icons/bi";
+import { MdTouchApp } from "react-icons/md";
+
+const Comparator = ({ start }) => {
+    const [selectedIndex, setSelectedIndex] = React.useState(start);
+    const platformsConfig = {
+        facebook: {
+            icon: FaFacebookF,
+            bgColor: '#1877F2',
+            name: 'Facebook'
+        },
+        instagram: {
+            icon: FaInstagram,
+            bgColor: 'linear-gradient(45deg, #833AB4, #FD1D1D, #FCB045)',
+            solidColor: '#E4405F',
+            name: 'Instagram'
+        },
+        x: {
+            icon: FaXTwitter,
+            bgColor: '#000000',
+            name: 'X (Twitter)'
+        },
+        twitter: { // Por si mandan "twitter" en lugar de "x"
+            icon: FaXTwitter,
+            bgColor: '#000000',
+            name: 'X (Twitter)'
+        },
+        tiktok: {
+            icon: FaTiktok,
+            bgColor: '#000000',
+            name: 'TikTok'
+        },
+        whatsapp: {
+            icon: FaWhatsapp,
+            bgColor: '#25D366',
+            name: 'WhatsApp'
+        },
+        google: {
+            icon: FaGoogle,
+            bgColor: '#4285F4',
+            name: 'Google'
+        },
+        'google maps': {
+            icon: FaMapMarkedAlt,
+            bgColor: '#EA4335',
+            name: 'Google Maps'
+        },
+        googlemaps: { // Por si viene sin espacio
+            icon: FaMapMarkedAlt,
+            bgColor: '#EA4335',
+            name: 'Google Maps'
+        },
+        youtube: {
+            icon: FaYoutube,
+            bgColor: '#FF0000',
+            name: 'YouTube'
+        }
+    };
+
+    const socialMediaIcon = (platform) => {
+        const config = platformsConfig[platform];
+        if (!config) return null;
+
+        const IconComponent = config.icon;
+
+        return (
+            <div
+              className="group cursor-pointer transition-transform hover:scale-110"
+              title={config.name}
+            >
+              <div
+                className="w-6 h-6 lg:w-8 lg:h-8 rounded-full flex items-center justify-center shadow-lg"
+                style={{ 
+                  background: config.bgColor,
+                  backgroundColor: config.solidColor || config.bgColor
+                }}
+              >
+                <IconComponent 
+                  className="text-white text-lg lg:text-xl"
+                />
+              </div>
+            </div>
+        )
+    }
+    
+    const handleNextIndex = () => {
+        setSelectedIndex((prevIndex) => (prevIndex + 1) % candidatos.length);
+    }
+
+    const handlePrevIndex = () => {
+        setSelectedIndex((prevIndex) => (prevIndex - 1 + candidatos.length) % candidatos.length);
+    }
+
+    return (
+        <div className="h-full w-full flex items-center">
+            <span onClick={handlePrevIndex} className="p-3 -mr-5 z-10 text-white bg-gray-300 rounded-full cursor-pointer"><FaChevronLeft /></span>
+            <div className={`flex flex-col gap-4 w-full min-h-[70svh] bg-gray-100 p-4 border-2 border-${candidatos[selectedIndex].color_partido} rounded-2xl`} style={{ borderColor: candidatos[selectedIndex].color_partido }}>
+                {/* <h2 className="text-xl font-bold mb-4">{candidatos[selectedIndex].nombre} - {candidatos[selectedIndex].partido}</h2> */}
+                <div className="flex gap-4 h-full">
+                    <div className="flex justify-center items-center h-24 w-24 rounded-full border-2 border-gray-300" style={{ backgroundColor: candidatos[selectedIndex].color_partido }}>
+                        <p className="font-medium text-white">{candidatos[selectedIndex].partido}</p>
+                    </div>
+                    <div className="flex flex-col h-full justify-between gap-4">
+                        <h1 className="text-3xl font-semibold text-orange-500">{candidatos[selectedIndex].nombre}</h1>
+                        <div className="flex gap-2 h-full items-end">
+                            <span className="text-sm font-medium">Redes sociales</span>
+                            {candidatos[selectedIndex].facebook && <a href={candidatos[selectedIndex].facebook} target="_blank" rel="noopener noreferrer">{socialMediaIcon("facebook")}</a>}
+                            {candidatos[selectedIndex].instagram && <a href={candidatos[selectedIndex].instagram} target="_blank" rel="noopener noreferrer">{socialMediaIcon("instagram")}</a>}
+                            {candidatos[selectedIndex].twitter && <a href={candidatos[selectedIndex].twitter} target="_blank" rel="noopener noreferrer">{socialMediaIcon("twitter")}</a>}
+                            {candidatos[selectedIndex].youtube && <a href={candidatos[selectedIndex].youtube} target="_blank" rel="noopener noreferrer">{socialMediaIcon("youtube")}</a>}
+                            {candidatos[selectedIndex].whatsapp && <a href={candidatos[selectedIndex].whatsapp} target="_blank" rel="noopener noreferrer">{socialMediaIcon("whatsapp")}</a>}
+                            {candidatos[selectedIndex].tiktok && <a href={candidatos[selectedIndex].tiktok} target="_blank" rel="noopener noreferrer">{socialMediaIcon("tiktok")}</a>}
+                            {candidatos[selectedIndex].linkedin && <a href={candidatos[selectedIndex].linkedin} target="_blank" rel="noopener noreferrer"></a>}
+                        </div>
+                    </div>
+                </div>
+                <div className="grid grid-cols-3 gap-4 h-full">
+                    <div className="flex flex-col items-center gap-2">
+                        <div className="flex gap-2 items-center text-gray-600">
+                            <FaUsers />
+                            <span className="text-sm font-medium">Comunidad</span>
+                        </div>
+                        <div className={`h-32 w-32 bg-amber-500 rounded-full flex items-center justify-center text-white font-semibold text-xl`}>{candidatos[selectedIndex].comunidad}</div>
+                        <div className={`h-14 w-14 bg-amber-500 rounded-full flex items-center justify-center text-white font-medium text-md border-2 border-white -mt-10`}><FaLongArrowAltUp />{candidatos[selectedIndex].aumento_comunidad}%</div>
+                    </div>
+                    <div className="flex flex-col items-center gap-2">
+                        <div className="flex gap-2 items-center text-gray-600">
+                            <BiSolidLike />
+                            <span className="text-sm font-medium">Interacciones</span>
+                        </div>
+                        <div className={`h-32 w-32 bg-orange-500 rounded-full flex items-center justify-center text-white font-semibold text-xl`}>{candidatos[selectedIndex].interacciones}</div>
+                        <div className={`h-14 w-14 bg-orange-500 rounded-full flex items-center justify-center text-white font-medium text-md border-2 border-white -mt-10`}><FaLongArrowAltUp />{candidatos[selectedIndex].aumento_interacciones}%</div>
+                    </div>
+                    <div className="flex flex-col items-center gap-2">
+                        <div className="flex gap-2 items-center text-gray-600">
+                            <MdTouchApp />
+                            <span className="text-sm font-medium">Publicaciones</span>
+                        </div>
+                        <div className={`h-32 w-32 bg-orange-600 rounded-full flex items-center justify-center text-white font-semibold text-xl`}>{candidatos[selectedIndex].publicaciones}</div>
+                        <div className={`h-14 w-14 bg-orange-600 rounded-full flex items-center justify-center text-white font-medium text-md border-2 border-white -mt-10`}><FaLongArrowAltUp className={`${candidatos[selectedIndex].aumento_publicaciones > 0 ? "" : "rotate-180"}`} />{candidatos[selectedIndex].aumento_publicaciones}%</div>
+                    </div>
+                </div>
+                <div className="flex flex-col gap-4 px-8">
+                    <h1 className="text-2xl font-semibold text-orange-500">Resumen de Redes Sociales del Candidato</h1>
+                    <div className="flex gap-4">
+                        <span className="w-2/5">Seguidores nuevos</span>
+                        <div className="flex bg-orange-500 w-[35%]"></div>
+                        <span className="font-semibold">{candidatos[selectedIndex].seguidores_nuevos}</span>
+                    </div>
+                    <div className="flex gap-4">
+                        <span className="w-2/5">Interacciones</span>
+                        <div className="flex bg-amber-400 w-[30%]"></div>
+                        <span className="font-semibold">{candidatos[selectedIndex].interacciones_nuevas}</span>
+                    </div>
+                    <div className="flex gap-4">
+                        <span className="w-2/5">Menciones</span>
+                        <div className="flex bg-gray-600 w-[42%]"></div>
+                        <span className="font-semibold">{candidatos[selectedIndex].menciones_nuevas}</span>
+                    </div>
+                </div>
+                <div className="flex flex-col gap-4 px-8">
+                    <h1 className="text-2xl font-semibold text-orange-500">Resumen de Redes Sociales del Candidato</h1>
+                    <div className="grid grid-cols-3 gap-4">
+                        <div className="flex items-center justify-center">
+                            <div className={`h-32 w-32 bg-amber-500 rounded-full flex flex-col gap-2 items-center justify-center text-white font-semibold text-sm`}>
+                                <span>Edad Promedio</span>
+                                <b className="text-3xl font-semibold">{candidatos[selectedIndex].edad_votantes}</b>
+                            </div>
+                        </div>
+                        <div className="flex items-center justify-center">
+                            <div className={`h-32 w-32 bg-orange-500 rounded-full flex flex-col gap-2 items-center justify-center text-white font-semibold text-sm`}>
+                                <span>Género</span>
+                                <b className="font-semibold">Hombres: {candidatos[selectedIndex].porcentaje_hombres}%</b>
+                                <b className="font-semibold">Mujeres: {100 - candidatos[selectedIndex].porcentaje_hombres}%</b>
+                        </div>
+                        </div>
+                        <div className="flex items-center justify-center">
+                            <div className={`h-32 w-32 bg-orange-600 rounded-full flex flex-col gap-2 items-center justify-center text-white font-semibold text-sm`}>
+                                <span>Intención de voto</span>
+                                <div className="flex">
+                                    <FaLongArrowAltUp className={`text-3xl ${candidatos[selectedIndex].aumento_intencion > 0 ? "" : "rotate-180"}`} />
+                        </div>
+                                <b className="text-3xl font-semibold">{candidatos[selectedIndex].aumento_intencion}%</b>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="flex gap-2">
+                        <h1 className="text-md font-semibold text-orange-500">Redes Sociales más usadas</h1>
+                        {candidatos[selectedIndex].redes_mas_usadas.map((red, index) => (
+                            <span key={index} className="text-sm font-medium text-gray-700">{socialMediaIcon(red.toLowerCase())}</span>
+                        ))}
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <h1 className="text-md font-semibold text-orange-500">Hashtags / Temas de interés</h1>
+                        <span className="text-sm font-medium text-gray-700">{candidatos[selectedIndex].hashtags.join(', ')}</span>
+                    </div>
+                </div>
+            </div>
+            <span onClick={handleNextIndex} className="p-3 -ml-5 z-10 text-white bg-gray-300 rounded-full cursor-pointer"><FaChevronRight /></span>
+        </div>
+    );
+}
+
+export { Comparator };

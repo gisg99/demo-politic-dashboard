@@ -1,21 +1,34 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Layout, Card } from '../../components';
+import { SummaryTab } from './SummaryTab';
+import { DefaultTab } from './DefaultTab';
+import { ComparativeTab } from './ComparativeTab';
+import { partidosData } from "./partidosData";
 
 
 function Informacion() {
+  const [ selectedTab, setSelectedTab ] = useState('resumen');
   return (
     <Layout>
-      <div className='flex flex-col w-full h-full items-center py-4 px-6 mb-10'>
+      <div className='flex flex-col w-full h-full items-center py-4 px-6 mb-10 gap-4'>
         <div className='w-full flex justify-end items-center'>
          <h2 className='relative  bg-[#acb8bf] px-3 py-0.5 cursor-pointer text-white font-medium rounded-full hover:bg-tertiary'>Descargar</h2>
         </div>
-        <div className='flex gap-2 w-full'>
-          <div className='w-[60%]'>
-            <Card title='Nivel de aceptación PL'>
-
-            </Card>
-          </div>
+        <div className='w-full flex justify-between'>
+          <span onClick={() => setSelectedTab('resumen')} className={`uppercase py-1 px-2 rounded-full text-xs font-medium hover:bg-gray-300 cursor-pointer ${selectedTab === 'resumen' ? 'bg-tertiary hover:bg-tertiary text-white' : ' bg-white'}`}>resumen</span>
+          {Object.keys(partidosData).map(tab => (
+            <span key={tab} onClick={() => setSelectedTab(tab)} className={`uppercase py-1 px-2 rounded-full text-xs font-medium hover:bg-gray-300 cursor-pointer ${selectedTab === tab ? 'bg-tertiary hover:bg-tertiary text-white' : ' bg-white'}`}>{tab}</span>
+          ))}
+          <span onClick={() => setSelectedTab('comparativa')} className={`uppercase py-1 px-2 rounded-full text-xs font-medium hover:bg-gray-300 cursor-pointer ${selectedTab === 'comparativa' ? 'bg-tertiary hover:bg-tertiary text-white' : ' bg-white'}`}>comparativa</span>
         </div>
+        {
+          selectedTab === 'resumen' ? <SummaryTab /> 
+          :
+          selectedTab === 'comparativa' ? <ComparativeTab /> 
+          :
+          <DefaultTab tab={partidosData[selectedTab]} />
+        }
+
       </div>
     </Layout>
   )

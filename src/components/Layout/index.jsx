@@ -21,9 +21,9 @@ const Layout = ({ children }) => {
       <div className="h-svh flex flex-col">
         {/* Header integrado */}
         <header className={`flex flex-col justify-start bg-[#acb8bf] ${filterActive ? "max-h-96" : "xl:max-h-28 max-h-18 overflow-y-hidden"} duration-300 text-white z-30`} >
-          <div className="flex items-center  justify-between px-4 py-3">
+          <div className="flex items-center justify-between px-4 py-3">
             {/* Lado izquierdo - Logo y título */}
-            <div className="flex  items-center space-x-4">
+            <div className="flex items-center space-x-4">
               {/* <button 
                 onClick={toggleSidebar}
                 className="lg:hidden p-2 rounded-md hover:bg-gray-700 transition-colors"

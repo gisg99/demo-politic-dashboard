@@ -23,7 +23,7 @@ const HeatmapLayer = ({ points }) => {
 
 const HeatmapComponent = ({ data }) => {
   return (
-    <div className="w-full h-[450px] rounded-lg overflow-hidden shadow-lg">
+    <div className="w-full h-45svh xl:h-[50svh] rounded-lg overflow-hidden shadow-lg">
       <MapContainer
         center={[20.6748, -103.344]}
         zoom={12}
