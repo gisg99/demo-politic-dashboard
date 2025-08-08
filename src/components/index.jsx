@@ -30,3 +30,8 @@ export * from './SimpleFunnelChart';
 export * from './HeatmapComponent';
 export * from './ConnectionHoursChart';
 export * from './DeviceChart';
+export * from './PoliticalMentionsChart';
+export * from './ApprovalVsCompetencyChart';
+export * from './CandidateChart';
+export * from './EmojiDonutChart';
+export * from './PercentRings';
