@@ -49,7 +49,7 @@ const SummaryTab = () => {
     const apatia = {tipoCambio: 'incremento', porcentaje: 15}
 
     return (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 w-full">
             <div className='flex gap-2 w-full'>
             <div className='w-[60%]'>
                 <Card title='Mapa de Calor por sección con resultados históricos'>
