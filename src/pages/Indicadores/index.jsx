@@ -8,7 +8,7 @@ const tabs = [
   { label: 'EDUCACIÓN', value: 'educacion' },
   { label: 'TRANSPORTE', value: 'transporte' },
   { label: 'ECONOMÍA', value: 'economia' },
-  { label: 'M A', value: 'medioambiente' },
+  { label: 'MEDIO AMBIENTE', value: 'medioambiente' },
 ]
 
 function Indicadores() {
