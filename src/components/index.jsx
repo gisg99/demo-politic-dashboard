@@ -14,7 +14,7 @@ export * from './DemographicChart';
 export * from './Layout';
 export * from './Sidebar';
 export * from './DonutChart';
-export * from './VerticalBars';
+export * from './VerticalBar';
 export * from './FiltrosComponent';
 export * from './CircleChart';
 export * from './DonutChart2';

@@ -99,10 +99,10 @@ function Segmentacion() {
         
         <div className='flex flex-col w-full gap-4'> 
           {/* Primera fila - Demográficos y Ocupación */}
-          <div className='flex gap-3 w-full'>
-            <div className='w-[50%]'>
+          <div className='flex gap-3 w-full h-full'>
+            <div className='w-[50%] h-[30rem]'>
               <Card title="Demográficos generales">
-                <div className='w-full h-full flex flex-col gap-4 py-2'>
+                <div className='w-full h-[30rem] flex flex-col gap-4 py-2'>
                   <DonutChart2 
                     title="Edad"
                     data={edadData}
@@ -119,7 +119,7 @@ function Segmentacion() {
             
             <div className='w-[50%]'>
               <Card title="Ocupación">
-                <div className='w-full h-full flex flex-col justify-center py-2'>
+                <div className='w-full h-[30rem] flex flex-col justify-center py-2'>
                   <CircleChart 
                     title="Sector productivo"
                     data={ocupacionData}
@@ -136,7 +136,7 @@ function Segmentacion() {
           <div className='flex gap-3 w-full'>
             <div className='w-[50%]'>
               <Card title="Intereses">
-                <div className='w-full h-full flex flex-col justify-around py-1'>
+                <div className='w-full h-[15rem] flex flex-col justify-around py-1'>
                   {intereses.map((tema, index) => (
                     <div key={index} className='w-full flex flex-col'>
                       <div className='flex group gap-2 w-full items-center justify-between px-3'>
@@ -163,7 +163,7 @@ function Segmentacion() {
             
             <div className='w-[50%]'>
               <Card title="Nivel socioeconómico">
-                <div className='w-full h-full flex flex-col justify-center py-2'>
+                <div className='w-full h-[15rem] flex flex-col justify-center py-2'>
                   <CircleChart 
                     title=""
                     data={nivelSocioeconomicoData}

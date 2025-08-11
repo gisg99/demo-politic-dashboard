@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Layout, DonutChart, VerticalBars } from '../../components';
+import { Card, Layout, DonutChart, VerticalBar } from '../../components';
 import { VscFlame } from "react-icons/vsc";
 import { IoLogoWechat } from "react-icons/io5";
 import { ImArrowUp, ImArrowDown  } from "react-icons/im";
@@ -14,7 +14,7 @@ function Home() {
   
   const transporte = { label: 'Transporte', count: 63 }
   const salud = { label: 'Salud', count: 52 }
-  const aceptacion = { semana1: '50', semana2: '100' }
+  const aceptacion = { semana1: '50', semana2: '70' }
   const alertas = [ 
   { label: 'Actividad inusual de competencia en zona' },
   { label: 'Mención viral detectada: corrupción en zona Z' },
@@ -67,6 +67,8 @@ function Home() {
       />
     </svg>
   );
+  console.log('Semana1:', aceptacion.semana1);
+  console.log('Semana2:', aceptacion.semana2);
 
   // Triste
   const FelizSvg = () => (
@@ -216,23 +218,23 @@ function Home() {
               <div className='w-[60%]'>
                 <Card title='Nivel de aceptación PL'>
                   <div className='h-full w-full flex min-h-[120px]'>
-                    <div className='w-[50%] h-full flex flex-col justify-center p-2'>
+                    <div className='w-[70%] h-full flex flex-col justify-center p-2'>
                       <div className='flex items-end'>
-                        <h1 className='text-gray-400 font-bold text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-[70px]'>
+                        <h1 className='text-gray-400 font-bold text-[5rem] md:text-[5rem] lg:text-[5rem] xl:text-[5rem] 2xl:text-[6rem]'>
                           {resultado.porcentaje}%
                         </h1>
                         {resultado.tipoCambio === 'incremento' ? 
-                          <ImArrowUp className='text-tertiary w-5 h-5 lg:w-6 lg:h-6 xl:w-7 xl:h-7' /> : 
-                          <ImArrowDown className='text-tertiary w-5 h-5 lg:w-6 lg:h-6 xl:w-7 xl:h-7' />
+                          <ImArrowUp className='text-tertiary w-10 h-10 lg:w-10 lg:h-10 xl:w-7 xl:h-7' /> : 
+                          <ImArrowDown className='text-tertiary w-10 h-10 lg:w-10 lg:h-10 xl:w-7 xl:h-7' />
                         }
                       </div>
-                      <h1 className='text-gray-400 text-xs lg:text-sm xl:text-base'>
+                      <h1 className='text-gray-400 text-xl lg:text-xl xl:text-base'>
                         Respecto a la semana anterior <br/> tuvimos un {resultado.tipoCambio}
                       </h1>
                     </div>
-                    <div className='w-[50%] h-full min-h-[120px] flex gap-5 justify-center'>
-                      <VerticalBars porcentage={aceptacion.semana1} />
-                      <VerticalBars porcentage={aceptacion.semana2} />
+                    <div className="w-[30%] flex justify-center items-end gap-6">
+                      <VerticalBar value={aceptacion.semana1} label="MC" />
+                      <VerticalBar value={aceptacion.semana2} label="Morena" />
                     </div>
                   </div>
                 </Card>
