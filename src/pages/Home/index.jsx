@@ -44,7 +44,7 @@ function Home() {
 
   // Seria
   const SeriaSvg = () => (
-    <svg className='text-gray-400 w-20 lg:w-24 xl:w-32 h-16 lg:h-20' viewBox="0 5 40 20">
+    <svg className='text-gray-400 mb-4 w-32 lg:w-32 xl:w-32 h-16 lg:h-20' viewBox="0 5 40 20">
       <path
         d="M 10 20 L 30 20"
         stroke="currentColor"
@@ -57,7 +57,7 @@ function Home() {
 
   // Feliz
   const TristeSvg = () => (
-    <svg className='text-gray-400 w-20 lg:w-24 xl:w-32 h-16 lg:h-20' viewBox="0 5 40 20">
+    <svg className='text-gray-400 mb-4 w-32 lg:w-32 xl:w-32 h-16 lg:h-20' viewBox="0 5 40 20">
       <path
         d="M 10 25 Q 20 15 30 25"
         stroke="currentColor"
@@ -70,7 +70,7 @@ function Home() {
 
   // Triste
   const FelizSvg = () => (
-    <svg className='text-gray-400 w-20 lg:w-24 xl:w-32 h-16 lg:h-20' viewBox="0 0 40 20">
+    <svg className='text-gray-400 mb-4 w-32 lg:w-32 xl:w-32 h-16 lg:h-20' viewBox="0 0 40 20">
       <path
         d="M 10 15 Q 20 25 30 15"
         stroke="currentColor"
@@ -131,7 +131,7 @@ function Home() {
                           {transporte.count}%
                         </h1>
                       </div>
-                      <div className='w-[50%] h-full flex flex-col justify-center items-center'>
+                      <div className='w-[50%] h-full pb-4 flex flex-col justify-center items-center'>
                         <div>{lipsTransporte}</div>
                         <h1 className='text-gray-400 font-bold text-xs lg:text-sm xl:text-base'>
                           {percepcionTransporte}
@@ -156,7 +156,7 @@ function Home() {
                           {salud.count}%
                         </h1>
                       </div>
-                      <div className='w-[50%] h-full flex flex-col justify-center items-center'>
+                      <div className='w-[50%] h-full pb-4 flex flex-col justify-center items-center'>
                         <div>{lipsSalud}</div>
                         <h1 className='text-gray-400 font-bold text-xs lg:text-sm xl:text-base'>
                           {percepcionSalud}
