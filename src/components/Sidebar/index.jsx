@@ -51,12 +51,12 @@ const Sidebar = () => {
       icon: warning, 
       label: 'Alertas estrategicas', 
       path: '/alertas',
-    },
-    { 
-      icon: user, 
-      label: 'Configuración / usuarios', 
-      path: '/configuracion',
     }
+    // { 
+    //   icon: user, 
+    //   label: 'Configuración / usuarios', 
+    //   path: '/configuracion',
+    // }
   ];
 
   return (
