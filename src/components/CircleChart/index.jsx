@@ -2,8 +2,6 @@ import React from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import { BsPersonFill } from 'react-icons/bs';
-import { FaUserFriends } from 'react-icons/fa';
-import { IoPersonSharp } from 'react-icons/io5';
 
 // Registrar los componentes necesarios de Chart.js
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -16,6 +14,9 @@ const CircleChart = ({
   size = 'medium' // 'small', 'medium', 'large'
 }) => {
   
+  // Ordenar los datos de mayor a menor
+  const sortedData = [...data].sort((a, b) => b.value - a.value);
+
   // Tamaños predefinidos
   const sizes = {
     small: { width: 120, height: 120 },
@@ -27,10 +28,10 @@ const CircleChart = ({
 
   // Configuración del gráfico
   const chartData = {
-    labels: data.map(item => item.label),
+    labels: sortedData.map(item => item.label),
     datasets: [{
-      data: data.map(item => item.value),
-      backgroundColor: data.map(item => item.color),
+      data: sortedData.map(item => item.value),
+      backgroundColor: sortedData.map(item => item.color),
       borderWidth: 0,
     }]
   };
@@ -58,8 +59,8 @@ const CircleChart = ({
   };
 
   // Calcular porcentajes
-  const total = data.reduce((sum, item) => sum + item.value, 0);
-  const dataWithPercentages = data.map(item => ({
+  const total = sortedData.reduce((sum, item) => sum + item.value, 0);
+  const dataWithPercentages = sortedData.map(item => ({
     ...item,
     percentage: Math.round((item.value / total) * 100)
   }));
@@ -111,4 +112,4 @@ const CircleChart = ({
   );
 };
 
-export {CircleChart};
+export { CircleChart };
