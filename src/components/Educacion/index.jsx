@@ -55,35 +55,37 @@ function Educacion() {
     }));
 
   return (
-    <div className='flex flex-col w-full gap-4'> 
-        {/* Primera fila - Demográficos y Ocupación */}
-        <div className='flex gap-3 w-full'>  
-        <div className='w-[100%]'>
+    <div className='flex flex-col w-full gap-2 lg:gap-4'> 
+        {/* Primera fila - Percepción */}
+        <div className='flex gap-2 lg:gap-3 w-full'>  
+        <div className='w-full'>
             <Card title="Percepción Ciudadana en Educación">
                 <div className='flex flex-col w-full items-end'>
-                    <div className='w-[79%] pr-4 flex justify-between'>
-                        <h1 className='border-0 p-0.5 shadow-gray-500 shadow-sm'>Positivo</h1>
-                        <h1 className='border-0 p-0.5 shadow-gray-500 shadow-sm'>Negativo</h1>
+                    <div className='w-[79%] pr-2 lg:pr-4 flex justify-between'>
+                        <h1 className='border-0 p-0.5 shadow-gray-500 shadow-sm text-xs lg:text-base'>Positivo</h1>
+                        <h1 className='border-0 p-0.5 shadow-gray-500 shadow-sm text-xs lg:text-base'>Negativo</h1>
                     </div>
                     {intereses.map((tema, index) => (   
                         <div key={index} className='w-full flex flex-col'>
-                        <div className='flex group gap-2 w-full items-center justify-end px-3'>
-                            <h1 className='text-gray-500 mr-12 text-lg'>{tema.label}</h1>
-                            <div className='w-[75%] h-4 rounded-xs' style={{ background: `linear-gradient(90deg,rgb(255, 145, 77) 0%,rgb(255, 196, 160) ${tema.count}%, rgb(215, 215, 215, 0.8) ${tema.count}%, rgb(215, 215, 215, 0.8) 100%)`}}>
-                                <div className='text-gray-400 text-sm font-semibold w-min relative -top-0.5 -left-13 px-2 rounded-lg group-hover:block'>
+                        <div className='flex group gap-1 lg:gap-2 w-full items-center justify-end px-2 lg:px-3'>
+                            <h1 className='text-gray-500 mr-4 lg:mr-12 text-sm lg:text-lg'>{tema.label}</h1>
+                            <div className='w-[75%] h-3 lg:h-4 rounded-xs' style={{ background: `linear-gradient(90deg,rgb(255, 145, 77) 0%,rgb(255, 196, 160) ${tema.count}%, rgb(215, 215, 215, 0.8) ${tema.count}%, rgb(215, 215, 215, 0.8) 100%)`}}>
+                                <div className='text-gray-400 text-xs lg:text-sm font-semibold w-min relative -top-0.5 -left-8 lg:-left-13 px-1 lg:px-2 rounded-lg group-hover:block'>
                                     {tema.count}%
                                 </div>
                             </div>
                         </div>
                         </div>
                     ))}
-                </div>
+                </div> 
             </Card>
         </div>   
         </div>
-        <div className='flex gap-3 w-full'>  
-        <div className='w-[60%] flex flex-col gap-3'>
-            <div className='flex gap-3'>
+        
+        {/* Segunda fila - Demográficos y Mapa */}
+        <div className='flex flex-col lg:flex-row gap-2 lg:gap-3 w-full'>  
+        <div className='w-full lg:w-[60%] flex flex-col gap-2 lg:gap-3'>
+            <div className='grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-3'>
                 <Card title="Edad">
                     <DonutChart2 
                     title="Edad"
@@ -99,7 +101,7 @@ function Educacion() {
                     />
                 </Card>
             </div>
-            <div className='flex gap-3'>
+            <div className='grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-3'>
                 <Card title="Sección electoral">
                     <ElectoralMap/>
                 </Card>
@@ -113,7 +115,7 @@ function Educacion() {
                 </Card>
             </div>
         </div>  
-        <div className='w-[40%]'>
+        <div className='w-full lg:w-[40%]'>
             <Card title="Mapa de calor">
                 <HeatmapComponent data={heatmapData} />
             </Card>

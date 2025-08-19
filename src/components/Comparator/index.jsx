@@ -73,14 +73,14 @@ const Comparator = ({ start }) => {
               title={config.name}
             >
               <div
-                className="w-6 h-6 lg:w-8 lg:h-8 rounded-full flex items-center justify-center shadow-lg"
+                className="w-4 h-4 lg:w-6 lg:h-6 xl:w-8 xl:h-8 rounded-full flex items-center justify-center shadow-lg"
                 style={{ 
                   background: config.bgColor,
                   backgroundColor: config.solidColor || config.bgColor
                 }}
               >
                 <IconComponent 
-                  className="text-white text-lg lg:text-xl"
+                  className="text-white text-xs lg:text-sm xl:text-lg"
                 />
               </div>
             </div>
@@ -97,17 +97,16 @@ const Comparator = ({ start }) => {
 
     return (
         <div className="h-full w-full flex items-center">
-            <span onClick={handlePrevIndex} className="p-3 -mr-5 z-10 text-white bg-gray-300 rounded-full cursor-pointer"><FaChevronLeft /></span>
-            <div className={`flex flex-col gap-4 w-full min-h-[70svh] bg-gray-100 p-4 border-2 border-${candidatos[selectedIndex].color_partido} rounded-2xl`} style={{ borderColor: candidatos[selectedIndex].color_partido }}>
-                {/* <h2 className="text-xl font-bold mb-4">{candidatos[selectedIndex].nombre} - {candidatos[selectedIndex].partido}</h2> */}
-                <div className="flex gap-4 h-full">
-                    <div className="flex justify-center items-center h-24 w-24 rounded-full border-2 border-gray-300" style={{ backgroundColor: candidatos[selectedIndex].color_partido }}>
-                        <p className="font-medium text-white">{candidatos[selectedIndex].partido}</p>
+            <span onClick={handlePrevIndex} className="p-2 lg:p-3 -mr-3 lg:-mr-5 z-10 text-white bg-gray-300 rounded-full cursor-pointer text-sm lg:text-base"><FaChevronLeft /></span>
+            <div className={`flex flex-col gap-2 lg:gap-4 w-full min-h-[50vh] lg:min-h-[70svh] bg-gray-100 p-2 lg:p-4 border-2 border-${candidatos[selectedIndex].color_partido} rounded-xl lg:rounded-2xl`} style={{ borderColor: candidatos[selectedIndex].color_partido }}>
+                <div className="flex gap-2 lg:gap-4 h-full">
+                    <div className="flex justify-center items-center h-16 w-16 lg:h-24 lg:w-24 rounded-full border-2 border-gray-300" style={{ backgroundColor: candidatos[selectedIndex].color_partido }}>
+                        <p className="font-medium text-white text-xs lg:text-base">{candidatos[selectedIndex].partido}</p>
                     </div>
-                    <div className="flex flex-col h-full justify-between gap-4">
-                        <h1 className="text-3xl font-semibold text-orange-500">{candidatos[selectedIndex].nombre}</h1>
-                        <div className="flex gap-2 h-full items-end">
-                            <span className="text-sm font-medium">Redes sociales</span>
+                    <div className="flex flex-col h-full justify-between gap-2 lg:gap-4">
+                        <h1 className="text-lg lg:text-3xl font-semibold text-orange-500">{candidatos[selectedIndex].nombre}</h1>
+                        <div className="flex gap-1 lg:gap-2 h-full items-end">
+                            <span className="text-xs lg:text-sm font-medium">Redes sociales</span>
                             {candidatos[selectedIndex].facebook && <a href={candidatos[selectedIndex].facebook} target="_blank" rel="noopener noreferrer">{socialMediaIcon("facebook")}</a>}
                             {candidatos[selectedIndex].instagram && <a href={candidatos[selectedIndex].instagram} target="_blank" rel="noopener noreferrer">{socialMediaIcon("instagram")}</a>}
                             {candidatos[selectedIndex].twitter && <a href={candidatos[selectedIndex].twitter} target="_blank" rel="noopener noreferrer">{socialMediaIcon("twitter")}</a>}
@@ -118,89 +117,89 @@ const Comparator = ({ start }) => {
                         </div>
                     </div>
                 </div>
-                <div className="grid grid-cols-3 gap-4 h-full">
-                    <div className="flex flex-col items-center gap-2">
-                        <div className="flex gap-2 items-center text-gray-600">
-                            <FaUsers />
-                            <span className="text-sm font-medium">Comunidad</span>
+                <div className="grid grid-cols-3 gap-2 lg:gap-4 h-full">
+                    <div className="flex flex-col items-center gap-1 lg:gap-2">
+                        <div className="flex gap-1 lg:gap-2 items-center text-gray-600">
+                            <FaUsers className="text-xs lg:text-base" />
+                            <span className="text-xs lg:text-sm font-medium">Comunidad</span>
                         </div>
-                        <div className={`h-32 w-32 bg-amber-500 rounded-full flex items-center justify-center text-white font-semibold text-xl`}>{candidatos[selectedIndex].comunidad}</div>
-                        <div className={`h-14 w-14 bg-amber-500 rounded-full flex items-center justify-center text-white font-medium text-md border-2 border-white -mt-10`}><FaLongArrowAltUp />{candidatos[selectedIndex].aumento_comunidad}%</div>
+                        <div className={`h-20 w-20 lg:h-32 lg:w-32 bg-amber-500 rounded-full flex items-center justify-center text-white font-semibold text-sm lg:text-xl`}>{candidatos[selectedIndex].comunidad}</div>
+                        <div className={`h-8 w-8 lg:h-14 lg:w-14 bg-amber-500 rounded-full flex items-center justify-center text-white font-medium text-xs lg:text-md border-2 border-white -mt-6 lg:-mt-10`}><FaLongArrowAltUp className="text-xs lg:text-base" />{candidatos[selectedIndex].aumento_comunidad}%</div>
                     </div>
-                    <div className="flex flex-col items-center gap-2">
-                        <div className="flex gap-2 items-center text-gray-600">
-                            <BiSolidLike />
-                            <span className="text-sm font-medium">Interacciones</span>
+                    <div className="flex flex-col items-center gap-1 lg:gap-2">
+                        <div className="flex gap-1 lg:gap-2 items-center text-gray-600">
+                            <BiSolidLike className="text-xs lg:text-base" />
+                            <span className="text-xs lg:text-sm font-medium">Interacciones</span>
                         </div>
-                        <div className={`h-32 w-32 bg-orange-500 rounded-full flex items-center justify-center text-white font-semibold text-xl`}>{candidatos[selectedIndex].interacciones}</div>
-                        <div className={`h-14 w-14 bg-orange-500 rounded-full flex items-center justify-center text-white font-medium text-md border-2 border-white -mt-10`}><FaLongArrowAltUp />{candidatos[selectedIndex].aumento_interacciones}%</div>
+                        <div className={`h-20 w-20 lg:h-32 lg:w-32 bg-orange-500 rounded-full flex items-center justify-center text-white font-semibold text-sm lg:text-xl`}>{candidatos[selectedIndex].interacciones}</div>
+                        <div className={`h-8 w-8 lg:h-14 lg:w-14 bg-orange-500 rounded-full flex items-center justify-center text-white font-medium text-xs lg:text-md border-2 border-white -mt-6 lg:-mt-10`}><FaLongArrowAltUp className="text-xs lg:text-base" />{candidatos[selectedIndex].aumento_interacciones}%</div>
                     </div>
-                    <div className="flex flex-col items-center gap-2">
-                        <div className="flex gap-2 items-center text-gray-600">
-                            <MdTouchApp />
-                            <span className="text-sm font-medium">Publicaciones</span>
+                    <div className="flex flex-col items-center gap-1 lg:gap-2">
+                        <div className="flex gap-1 lg:gap-2 items-center text-gray-600">
+                            <MdTouchApp className="text-xs lg:text-base" />
+                            <span className="text-xs lg:text-sm font-medium">Publicaciones</span>
                         </div>
-                        <div className={`h-32 w-32 bg-orange-600 rounded-full flex items-center justify-center text-white font-semibold text-xl`}>{candidatos[selectedIndex].publicaciones}</div>
-                        <div className={`h-14 w-14 bg-orange-600 rounded-full flex items-center justify-center text-white font-medium text-md border-2 border-white -mt-10`}><FaLongArrowAltUp className={`${candidatos[selectedIndex].aumento_publicaciones > 0 ? "" : "rotate-180"}`} />{candidatos[selectedIndex].aumento_publicaciones}%</div>
+                        <div className={`h-20 w-20 lg:h-32 lg:w-32 bg-orange-600 rounded-full flex items-center justify-center text-white font-semibold text-sm lg:text-xl`}>{candidatos[selectedIndex].publicaciones}</div>
+                        <div className={`h-8 w-8 lg:h-14 lg:w-14 bg-orange-600 rounded-full flex items-center justify-center text-white font-medium text-xs lg:text-md border-2 border-white -mt-6 lg:-mt-10`}><FaLongArrowAltUp className={`text-xs lg:text-base ${candidatos[selectedIndex].aumento_publicaciones > 0 ? "" : "rotate-180"}`} />{candidatos[selectedIndex].aumento_publicaciones}%</div>
                     </div>
                 </div>
-                <div className="flex flex-col gap-4 px-8">
-                    <h1 className="text-2xl font-semibold text-orange-500">Resumen de Redes Sociales del Candidato</h1>
-                    <div className="flex gap-4">
-                        <span className="w-2/5">Seguidores nuevos</span>
-                        <div className="flex bg-orange-500 w-[35%]"></div>
-                        <span className="font-semibold">{candidatos[selectedIndex].seguidores_nuevos}</span>
+                <div className="flex flex-col gap-2 lg:gap-4 px-2 lg:px-8">
+                    <h1 className="text-lg lg:text-2xl font-semibold text-orange-500">Resumen de Redes Sociales del Candidato</h1>
+                    <div className="flex gap-2 lg:gap-4">
+                        <span className="w-2/5 text-xs lg:text-base">Seguidores nuevos</span>
+                        <div className="flex bg-orange-500 w-[35%] h-3 lg:h-4"></div>
+                        <span className="font-semibold text-xs lg:text-base">{candidatos[selectedIndex].seguidores_nuevos}</span>
                     </div>
-                    <div className="flex gap-4">
-                        <span className="w-2/5">Interacciones</span>
-                        <div className="flex bg-amber-400 w-[30%]"></div>
-                        <span className="font-semibold">{candidatos[selectedIndex].interacciones_nuevas}</span>
+                    <div className="flex gap-2 lg:gap-4">
+                        <span className="w-2/5 text-xs lg:text-base">Interacciones</span>
+                        <div className="flex bg-amber-400 w-[30%] h-3 lg:h-4"></div>
+                        <span className="font-semibold text-xs lg:text-base">{candidatos[selectedIndex].interacciones_nuevas}</span>
                     </div>
-                    <div className="flex gap-4">
-                        <span className="w-2/5">Menciones</span>
-                        <div className="flex bg-gray-600 w-[42%]"></div>
-                        <span className="font-semibold">{candidatos[selectedIndex].menciones_nuevas}</span>
+                    <div className="flex gap-2 lg:gap-4">
+                        <span className="w-2/5 text-xs lg:text-base">Menciones</span>
+                        <div className="flex bg-gray-600 w-[42%] h-3 lg:h-4"></div>
+                        <span className="font-semibold text-xs lg:text-base">{candidatos[selectedIndex].menciones_nuevas}</span>
                     </div>
                 </div>
-                <div className="flex flex-col gap-4 px-8">
-                    <h1 className="text-2xl font-semibold text-orange-500">Resumen de Redes Sociales del Candidato</h1>
-                    <div className="grid grid-cols-3 gap-4">
+                <div className="flex flex-col gap-2 lg:gap-4 px-2 lg:px-8">
+                    <h1 className="text-lg lg:text-2xl font-semibold text-orange-500">Demografía</h1>
+                    <div className="grid grid-cols-3 gap-2 lg:gap-4">
                         <div className="flex items-center justify-center">
-                            <div className={`h-32 w-32 bg-amber-500 rounded-full flex flex-col gap-2 items-center justify-center text-white font-semibold text-sm`}>
+                            <div className={`h-20 w-20 lg:h-32 lg:w-32 bg-amber-500 rounded-full flex flex-col gap-1 lg:gap-2 items-center justify-center text-white font-semibold text-xs lg:text-sm`}>
                                 <span>Edad Promedio</span>
-                                <b className="text-3xl font-semibold">{candidatos[selectedIndex].edad_votantes}</b>
+                                <b className="text-lg lg:text-3xl font-semibold">{candidatos[selectedIndex].edad_votantes}</b>
                             </div>
                         </div>
                         <div className="flex items-center justify-center">
-                            <div className={`h-32 w-32 bg-orange-500 rounded-full flex flex-col gap-2 items-center justify-center text-white font-semibold text-sm`}>
+                            <div className={`h-20 w-20 lg:h-32 lg:w-32 bg-orange-500 rounded-full flex flex-col gap-1 lg:gap-2 items-center justify-center text-white font-semibold text-xs lg:text-sm`}>
                                 <span>Género</span>
-                                <b className="font-semibold">Hombres: {candidatos[selectedIndex].porcentaje_hombres}%</b>
-                                <b className="font-semibold">Mujeres: {100 - candidatos[selectedIndex].porcentaje_hombres}%</b>
-                        </div>
+                                <b className="font-semibold text-xs lg:text-sm">H: {candidatos[selectedIndex].porcentaje_hombres}%</b>
+                                <b className="font-semibold text-xs lg:text-sm">M: {100 - candidatos[selectedIndex].porcentaje_hombres}%</b>
+                            </div>
                         </div>
                         <div className="flex items-center justify-center">
-                            <div className={`h-32 w-32 bg-orange-600 rounded-full flex flex-col gap-2 items-center justify-center text-white font-semibold text-sm`}>
+                            <div className={`h-20 w-20 lg:h-32 lg:w-32 bg-orange-600 rounded-full flex flex-col gap-1 lg:gap-2 items-center justify-center text-white font-semibold text-xs lg:text-sm`}>
                                 <span>Intención de voto</span>
                                 <div className="flex">
-                                    <FaLongArrowAltUp className={`text-3xl ${candidatos[selectedIndex].aumento_intencion > 0 ? "" : "rotate-180"}`} />
-                        </div>
-                                <b className="text-3xl font-semibold">{candidatos[selectedIndex].aumento_intencion}%</b>
+                                    <FaLongArrowAltUp className={`text-lg lg:text-3xl ${candidatos[selectedIndex].aumento_intencion > 0 ? "" : "rotate-180"}`} />
+                                </div>
+                                <b className="text-lg lg:text-3xl font-semibold">{candidatos[selectedIndex].aumento_intencion}%</b>
                             </div>
                         </div>
                     </div>
-                    <div className="flex gap-2">
-                        <h1 className="text-md font-semibold text-orange-500">Redes Sociales más usadas</h1>
+                    <div className="flex gap-1 lg:gap-2">
+                        <h1 className="text-sm lg:text-md font-semibold text-orange-500">Redes Sociales más usadas</h1>
                         {candidatos[selectedIndex].redes_mas_usadas.map((red, index) => (
                             <span key={index} className="text-sm font-medium text-gray-700">{socialMediaIcon(red.toLowerCase())}</span>
                         ))}
                     </div>
-                    <div className="flex flex-col gap-2">
-                        <h1 className="text-md font-semibold text-orange-500">Hashtags / Temas de interés</h1>
-                        <span className="text-sm font-medium text-gray-700">{candidatos[selectedIndex].hashtags.join(', ')}</span>
+                    <div className="flex flex-col gap-1 lg:gap-2">
+                        <h1 className="text-sm lg:text-md font-semibold text-orange-500">Hashtags / Temas de interés</h1>
+                        <span className="text-xs lg:text-sm font-medium text-gray-700">{candidatos[selectedIndex].hashtags.join(', ')}</span>
                     </div>
                 </div>
             </div>
-            <span onClick={handleNextIndex} className="p-3 -ml-5 z-10 text-white bg-gray-300 rounded-full cursor-pointer"><FaChevronRight /></span>
+            <span onClick={handleNextIndex} className="p-2 lg:p-3 -ml-3 lg:-ml-5 z-10 text-white bg-gray-300 rounded-full cursor-pointer text-sm lg:text-base"><FaChevronRight /></span>
         </div>
     );
 }

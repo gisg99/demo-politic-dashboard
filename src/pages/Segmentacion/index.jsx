@@ -68,14 +68,6 @@ function Segmentacion() {
   // Plataformas más usadas
   const plataformasMasUsadas = ['facebook', 'instagram', 'x'];
 
-  // Datos de comportamiento de navegación
-  const comportamientoData = [
-    { label: 'Sitios web más visitados', value: 45, color: '#FFB74D' },
-    { label: 'Búsquedas frecuentes', value: 30, color: '#BDBDBD' },
-    { label: 'Compras online', value: 15, color: '#9E9E9E' },
-    { label: 'Otros', value: 10, color: '#757575' }
-  ];
-
   // Función para obtener colores de las barras de intereses
   const getColor = (index, count) => {
     const residuo = index % 4;
@@ -89,37 +81,41 @@ function Segmentacion() {
 
   return (
     <Layout>
-      <div className='flex flex-col w-full min-h-screen items-center py-4 px-6 mb-4'>
-        {/* Header */}
-        <div className='w-full flex justify-end items-center mb-4'>
-          <h2 className='bg-gray-400 px-3 py-0.5 cursor-pointer text-white font-medium rounded-full hover:bg-tertiary text-xs lg:text-sm'>
+      <div className='flex flex-col w-full min-h-screen items-center py-2 sm:py-4 px-3 sm:px-6 mb-2 sm:mb-4'>
+        {/* Header responsive */}
+        <div className='w-full flex justify-end items-center mb-3 sm:mb-4'>
+          <button className='bg-gray-400 px-3 sm:px-4 py-1 sm:py-0.5 cursor-pointer text-white font-medium rounded-full hover:bg-tertiary transition-colors text-xs sm:text-sm lg:text-sm'>
             Descargar
-          </h2>
+          </button>
         </div>
         
-        <div className='flex flex-col w-full gap-4'> 
-          {/* Primera fila - Demográficos y Ocupación */}
-          <div className='flex gap-3 w-full h-full'>
-            <div className='w-[50%] h-[30rem]'>
+        <div className='flex flex-col w-full gap-3 sm:gap-4'> 
+          {/* Primera fila - Demográficos y Ocupación responsive */}
+          <div className='flex flex-col lg:flex-row gap-3 w-full h-full'>
+            <div className='w-full lg:w-[50%] min-h-[400px] sm:min-h-[500px] lg:h-[30rem]'>
               <Card title="Demográficos generales">
-                <div className='w-full h-[30rem] flex flex-col gap-4 py-2'>
-                  <DonutChart2 
-                    title="Edad"
-                    data={edadData}
-                    type="default"
-                  />
-                  <DonutChart2 
-                    title="Género"
-                    data={generoData}
-                    type="gender"
-                  />
+                <div className='w-full h-full flex flex-col gap-3 sm:gap-4 py-2'>
+                  <div className='flex-1'>
+                    <DonutChart2 
+                      title="Edad"
+                      data={edadData}
+                      type="default"
+                    />
+                  </div>
+                  <div className='flex-1'>
+                    <DonutChart2 
+                      title="Género"
+                      data={generoData}
+                      type="gender"
+                    />
+                  </div>
                 </div>
               </Card>
             </div>
             
-            <div className='w-[50%]'>
+            <div className='w-full lg:w-[50%] min-h-[400px] sm:min-h-[500px] lg:h-[30rem]'>
               <Card title="Ocupación">
-                <div className='w-full h-[30rem] flex flex-col justify-center py-2'>
+                <div className='w-full h-full flex flex-col justify-center py-2'>
                   <CircleChart 
                     title="Sector productivo"
                     data={ocupacionData}
@@ -132,38 +128,42 @@ function Segmentacion() {
             </div>
           </div>
 
-          {/* Segunda fila - Intereses y Nivel Socioeconómico */}
-          <div className='flex gap-3 w-full'>
-            <div className='w-[50%]'>
+          {/* Segunda fila - Intereses y Nivel Socioeconómico responsive */}
+          <div className='flex flex-col lg:flex-row gap-3 w-full'>
+            <div className='w-full lg:w-[50%]'>
               <Card title="Intereses">
-                <div className='w-full h-[15rem] flex flex-col justify-around py-1'>
+                <div className='w-full min-h-[300px] lg:h-[15rem] flex flex-col justify-around py-1 sm:py-3'>
                   {intereses.map((tema, index) => (
-                    <div key={index} className='w-full flex flex-col'>
-                      <div className='flex group gap-2 w-full items-center justify-between px-3'>
-                        <h1 className='text-gray-500 text-lg'>{tema.label}</h1>
-                        <div className='w-[60%] h-3 rounded-xs' style={{ background: getColor(index, tema.count)}}>
-                          <div className='text-gray-400 text-lg font-semibold w-min relative -top-3 -left-13 px-2 rounded-lg group-hover:block'>
+                    <div key={index} className='w-full flex flex-col mb-2 sm:mb-1'>
+                      <div className='flex group gap-1 sm:gap-2 w-full items-center justify-between px-1 sm:px-3'>
+                        <h1 className='text-gray-500 text-sm sm:text-base lg:text-lg flex-shrink-0'>{tema.label}</h1>
+                        <div className='w-[60%] sm:w-[60%] h-2 sm:h-3 rounded-xs' style={{ background: getColor(index, tema.count)}}>
+                          <div className='text-gray-400 text-sm sm:text-base lg:text-lg font-semibold w-min relative -top-2 sm:-top-3 -left-8 sm:-left-13 px-1 sm:px-2 rounded-lg group-hover:block'>
                             {tema.count}%
                           </div>
                         </div>
                       </div>
                     </div>
                   ))}
-                  <h1 className='text-[1.3rem] xl:text-[1.8rem] text-tertiary font-bold mt-3'>
-                    Hashtags Frecuentes
-                  </h1>
-                  <div className="flex flex-wrap gap-1">
-                    {Hashtags.map((tag, index) => (
-                      <span key={index} className="text-[1.3rem] text-gray-700">{tag},</span>
-                    ))}
+                  
+                  {/* Hashtags section responsive */}
+                  <div className='mt-3 sm:mt-4'>
+                    <h1 className='text-sm sm:text-lg lg:text-[1.3rem] xl:text-[1.8rem] text-tertiary font-bold mb-2 sm:mb-3'>
+                      Hashtags Frecuentes
+                    </h1>
+                    <div className="flex flex-wrap gap-1 sm:gap-2">
+                      {Hashtags.map((tag, index) => (
+                        <span key={index} className="text-xs sm:text-sm lg:text-base xl:text-[1.3rem] text-gray-700">{tag}{index < Hashtags.length - 1 ? ',' : ''}</span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </Card>
             </div>
             
-            <div className='w-[50%]'>
+            <div className='w-full lg:w-[50%]'>
               <Card title="Nivel socioeconómico">
-                <div className='w-full h-[15rem] flex flex-col justify-center py-2'>
+                <div className='w-full min-h-[300px] lg:h-[15rem] flex flex-col justify-center py-2'>
                   <CircleChart 
                     title=""
                     data={nivelSocioeconomicoData}
@@ -176,39 +176,22 @@ function Segmentacion() {
             </div>
           </div>
  
-          {/* Tercera fila - Horarios/Plataformas y Comportamiento */}
-          <div className='flex gap-3 w-full'>
-            <div className='w-[50%]'>
+          {/* Tercera fila - Horarios/Plataformas responsive */}
+          <div className='flex flex-col lg:flex-row gap-3 w-full'>
+            <div className='w-full lg:w-[50%]'>
               <Card title="Horarios de mayor actividad">
-                <div className='w-full h-full flex flex-col justify-start items-start py-4'>
-                  <h1 className='text-gray-500 font-semibold text-3xl lg:text-4xl xl:text-5xl mb-2'>
+                <div className='w-full h-full flex flex-col justify-start items-start py-3 sm:py-4'>
+                  <h1 className='text-gray-500 font-semibold text-2xl sm:text-3xl lg:text-4xl xl:text-5xl mb-3 sm:mb-4'>
                     5:00 a 8:00 pm
                   </h1>
                   
-                  {/* Plataformas más usadas */}
-                  <div>
+                  {/* Plataformas más usadas responsive */}
+                  <div className='w-full'>
                     <SocialPlatforms platforms={plataformasMasUsadas} />
                   </div>
                 </div>
               </Card>
             </div>
-            
-            {/* <div className='w-[50%]'>
-              <Card title="Comportamiento de navegación">
-                <div className='w-full h-full flex flex-col justify-center py-2'>
-                  <p className='text-sm text-gray-600 mb-4'>
-                    (Sitios web más visitados)
-                  </p>
-                  <CircleChart 
-                    title=""
-                    data={comportamientoData}
-                    showLegend={true}
-                    legendPosition="right"
-                    size="medium"
-                  />
-                </div>
-              </Card>
-            </div> */}
           </div>
         </div>
       </div>

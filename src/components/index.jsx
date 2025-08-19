@@ -1,13 +1,13 @@
 export * from './Card';
-export * from './AnalisisTab';
+// export * from './AnalisisTab';
 export * from './OpinionTab';
-export * from './ComportamientoTab';
+// export * from './ComportamientoTab';
 export * from './PerfilTab';
 export * from './ElectoralMap';
 export * from './MetricCard';
 export * from './ApprovalChart';
 export * from './LineChart';
-export * from './BarChartRedes';
+// export * from './BarChartRedes';
 export * from './DigitalActivityChart';
 export * from './AvgConnectionTimeChart';
 export * from './DemographicChart';

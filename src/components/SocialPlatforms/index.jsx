@@ -73,15 +73,15 @@ const SocialPlatforms = ({ platforms = [] }) => {
   };
 
   return (
-    <div className="flex flex-col gap-3">
-      <h1 className='text-[1.3rem] xl:text-[1.8rem] text-tertiary font-bold mt-3'>
+    <div className="flex flex-col gap-2 sm:gap-3 p-2 sm:p-0">
+      <h1 className='text-lg sm:text-xl md:text-2xl lg:text-[1.3rem] xl:text-[1.8rem] text-tertiary font-bold mt-2 sm:mt-3'>
         Plataformas más usadas
       </h1>
-      <div className="flex gap-4 items-center">
+      <div className="flex flex-wrap sm:flex-nowrap gap-3 sm:gap-4 items-center justify-start sm:justify-start">
         {platforms.slice(0, 3).map((platform, index) => {
           const config = getPlatformConfig(platform);
           
-          if (!config) return null;
+          if (!config) return null; 
           
           const IconComponent = config.icon;
           
@@ -92,14 +92,14 @@ const SocialPlatforms = ({ platforms = [] }) => {
               title={config.name}
             >
               <div
-                className="w-14 h-14 lg:w-16 lg:h-16 rounded-full flex items-center justify-center shadow-lg"
+                className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-14 lg:h-14 xl:w-16 xl:h-16 rounded-full flex items-center justify-center shadow-lg"
                 style={{ 
                   background: config.bgColor,
                   backgroundColor: config.solidColor || config.bgColor
                 }}
               >
                 <IconComponent 
-                  className="text-white text-2xl lg:text-3xl"
+                  className="text-white text-xl sm:text-2xl md:text-3xl lg:text-2xl xl:text-3xl"
                 />
               </div>
             </div>

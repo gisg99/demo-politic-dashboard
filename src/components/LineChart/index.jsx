@@ -16,11 +16,17 @@ const LineChart = ({
     const resizeObserver = new ResizeObserver((entries) => {
       if (!entries || entries.length === 0) return;
       const { width, height } = entries[0].contentRect;
-      setDimensions({ width, height });
+      
+      // Detectar si es móvil para ajustar dimensiones
+      const isMobile = window.innerWidth < 1024;
+      setDimensions({ 
+        width, 
+        height: isMobile ? Math.min(height, 250) : height 
+      });
     });
 
     if (containerRef.current) {
-      resizeObserver.observe(containerRef.current);
+      resizeObserver.observe(containerRef.current); 
     }
 
     return () => resizeObserver.disconnect();
@@ -52,8 +58,19 @@ const LineChart = ({
     'Negativo': '#ef4444'
   };
 
-  const chartWidth = dimensions.width - margin.left - margin.right;
-  const chartHeight = dimensions.height - margin.top - margin.bottom;
+  // Detectar si es móvil
+  const isMobile = window.innerWidth < 1024;
+
+  // Márgenes responsive
+  const responsiveMargin = {
+    top: isMobile ? 15 : margin.top,
+    right: isMobile ? 20 : margin.right,
+    bottom: isMobile ? 40 : margin.bottom,
+    left: isMobile ? 30 : margin.left
+  };
+
+  const chartWidth = dimensions.width - responsiveMargin.left - responsiveMargin.right;
+  const chartHeight = dimensions.height - responsiveMargin.top - responsiveMargin.bottom;
 
   const allValues = chartData.flatMap(d => series.map(s => d[s])).filter(v => v != null);
   const rawMax = Math.max(...allValues);
@@ -62,7 +79,7 @@ const LineChart = ({
   const yScale = (value) => chartHeight - ((value - 0) / yMax) * chartHeight;
   const xScale = (index) => (index / (chartData.length - 1)) * chartWidth;
 
-  const steps = 6;
+  const steps = isMobile ? 4 : 6; // Menos líneas de grid en móvil
   const stepValue = yMax / steps;
 
   const gridLines = [];
@@ -82,13 +99,13 @@ const LineChart = ({
   };
 
   return (
-    <div ref={containerRef} className={`max-h-[45vh] w-full flex mt-4 mb-6 items-start`}>
+    <div ref={containerRef} className={`max-h-[30vh] lg:max-h-[45vh] w-full flex mt-2 lg:mt-4 mb-2 lg:mb-6 items-start`}>
       <div className="flex flex-col justify-center items-center w-full h-full">
         <svg width={dimensions.width} height={dimensions.height} className="overflow-visible">
           {/* Fondo */}
           <rect
-            x={margin.left}
-            y={margin.top}
+            x={responsiveMargin.left}
+            y={responsiveMargin.top}
             width={chartWidth}
             height={chartHeight}
             fill={backgroundColor}
@@ -98,47 +115,53 @@ const LineChart = ({
           {gridLines.map((line, i) => (
             <g key={i}>
               <line
-                x1={margin.left}
-                y1={margin.top + line.y}
-                x2={margin.left + chartWidth}
-                y2={margin.top + line.y}
+                x1={responsiveMargin.left}
+                y1={responsiveMargin.top + line.y}
+                x2={responsiveMargin.left + chartWidth}
+                y2={responsiveMargin.top + line.y}
                 stroke={gridColor}
                 strokeWidth="1"
               />
               <text
-                x={margin.left - 10}
-                y={margin.top + line.y + 5}
+                x={responsiveMargin.left - 10}
+                y={responsiveMargin.top + line.y + 5}
                 textAnchor="end"
-                fontSize="10"
+                fontSize={isMobile ? "8" : "10"}
                 fill="#6b7280"
               >
-                {line.value}{data[0].week  ? "K" : "%" }
+                {line.value}{data[0] && data[0].week ? "K" : "%" }
               </text>
             </g>
           ))}
 
           {/* Líneas verticales + etiquetas */}
-          {chartData.map((d, i) => (
-            <g key={i}>
-              <line
-                x1={margin.left + xScale(i)}
-                y1={margin.top}
-                x2={margin.left + xScale(i)}
-                y2={margin.top + chartHeight}
-                stroke={gridColor}
-                strokeWidth="1"
-              />
-              <text
-                x={margin.left + xScale(i)}
-                y={dimensions.height - margin.bottom + 20}
-                textAnchor="middle"
-                fontSize="10"
-                fill="#6b7280"
-              >
-                {d[xField]}
-              </text>
-            </g>
-          ))}
+          {chartData.map((d, i) => {
+            // En móvil, mostrar solo algunas etiquetas para evitar saturación
+            const showLabel = isMobile ? i % 2 === 0 : true;
+            return (
+              <g key={i}>
+                <line
+                  x1={responsiveMargin.left + xScale(i)}
+                  y1={responsiveMargin.top}
+                  x2={responsiveMargin.left + xScale(i)}
+                  y2={responsiveMargin.top + chartHeight}
+                  stroke={gridColor}
+                  strokeWidth="1"
+                />
+                {showLabel && (
+                  <text
+                    x={responsiveMargin.left + xScale(i)}
+                    y={dimensions.height - responsiveMargin.bottom + 20}
+                    textAnchor="middle"
+                    fontSize={isMobile ? "8" : "10"}
+                    fill="#6b7280"
+                  >
+                    {d[xField]}
+                  </text>
+                )}
+              </g>
+            );
+          })}
 
           {/* Series y puntos */}
           {series.map((seriesName, seriesIndex) => (
@@ -147,15 +170,15 @@ const LineChart = ({
                 d={createPath(seriesName)}
                 fill="none"
                 stroke={defaultColors[seriesName] || `hsl(${seriesIndex * 60}, 70%, 50%)`}
-                strokeWidth="3"
-                transform={`translate(${margin.left}, ${margin.top})`}
+                strokeWidth={isMobile ? "2" : "3"}
+                transform={`translate(${responsiveMargin.left}, ${responsiveMargin.top})`}
               />
               {chartData.map((d, i) => (
                 <circle
                   key={`${seriesName}-${i}`}
-                  cx={margin.left + xScale(i)}
-                  cy={margin.top + yScale(d[seriesName])}
-                  r="5"
+                  cx={responsiveMargin.left + xScale(i)}
+                  cy={responsiveMargin.top + yScale(d[seriesName])}
+                  r={isMobile ? "3" : "5"}
                   fill={defaultColors[seriesName] || `hsl(${seriesIndex * 60}, 70%, 50%)`}
                   stroke="white"
                   strokeWidth="2"
@@ -165,8 +188,8 @@ const LineChart = ({
                       series: seriesName,
                       value: d[seriesName],
                       label: d[xField],
-                      x: margin.left + xScale(i),
-                      y: margin.top + yScale(d[seriesName])
+                      x: responsiveMargin.left + xScale(i),
+                      y: responsiveMargin.top + yScale(d[seriesName])
                     })
                   }
                   onMouseLeave={() => setHoveredPoint(null)}
@@ -179,19 +202,19 @@ const LineChart = ({
           {hoveredPoint && (
             <g>
               <rect
-                x={hoveredPoint.x - 60}
-                y={hoveredPoint.y - 35}
-                width="120"
-                height="25"
+                x={hoveredPoint.x - (isMobile ? 50 : 60)}
+                y={hoveredPoint.y - (isMobile ? 30 : 35)}
+                width={isMobile ? "100" : "120"}
+                height={isMobile ? "20" : "25"}
                 fill="black"
                 fillOpacity="0.8"
                 rx="4"
               />
               <text
                 x={hoveredPoint.x}
-                y={hoveredPoint.y - 18}
+                y={hoveredPoint.y - (isMobile ? 15 : 18)}
                 textAnchor="middle"
-                fontSize="12"
+                fontSize={isMobile ? "10" : "12"}
                 fill="white"
                 fontWeight="bold"
               >
@@ -202,16 +225,16 @@ const LineChart = ({
         </svg>
 
         {/* Leyenda */}
-        <div className="flex justify-center flex-wrap gap-6">
+        <div className="flex justify-center flex-wrap gap-2 lg:gap-6">
           {series.map((seriesName, i) => (
-            <div key={seriesName} className="flex items-center space-x-2">
+            <div key={seriesName} className="flex items-center space-x-1 lg:space-x-2">
               <div
-                className="w-6 h-3 rounded-full"
+                className="w-4 h-2 lg:w-6 lg:h-3 rounded-full"
                 style={{
                   backgroundColor: defaultColors[seriesName] || `hsl(${i * 60}, 70%, 50%)`
                 }}
               ></div>
-              <span className="text-sm text-gray-700 font-medium">{seriesName}</span>
+              <span className="text-xs lg:text-sm text-gray-700 font-medium">{seriesName}</span>
             </div>
           ))}
         </div>

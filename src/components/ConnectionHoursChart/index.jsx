@@ -85,6 +85,9 @@ const ConnectionHoursChart = ({
     return `${hour}:00`;
   });
   
+  // Detectar si es móvil
+  const isMobile = window.innerWidth < 1024;
+  
   // Configuración de datos para Chart.js
   const chartData = {
     labels: labels,
@@ -112,16 +115,16 @@ const ConnectionHoursChart = ({
         position: 'top',
         labels: {
           font: {
-            size: 11
+            size: isMobile ? 9 : 11
           },
           color: '#6B7280'
         }
       },
       title: {
-        display: !!title,
+        display: !!title && !isMobile, // Ocultar título en móvil
         text: title,
         font: {
-          size: 14,
+          size: isMobile ? 12 : 14,
           weight: '600'
         },
         color: '#374151',
@@ -134,12 +137,12 @@ const ConnectionHoursChart = ({
         enabled: true,
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
         titleFont: {
-          size: 12
+          size: isMobile ? 10 : 12
         },
         bodyFont: {
-          size: 11
+          size: isMobile ? 9 : 11
         },
-        padding: 10,
+        padding: isMobile ? 8 : 10,
         displayColors: false,
         callbacks: {
           title: function(context) {
@@ -160,16 +163,18 @@ const ConnectionHoursChart = ({
         },
         ticks: {
           font: {
-            size: 9
+            size: isMobile ? 8 : 9
           },
           color: '#6B7280',
-          maxRotation: 45,
-          minRotation: 0,
+          maxRotation: isMobile ? 90 : 45,
+          minRotation: isMobile ? 90 : 0,
           autoSkip: true,
-          maxTicksLimit: 24,
+          maxTicksLimit: isMobile ? 12 : 24,
           callback: function(value, index) {
-            // Mostrar solo horas pares para evitar saturación
-            return index % 2 === 0 ? this.getLabelForValue(value) : '';
+            // En móvil mostrar cada 2 horas, en desktop cada hora par
+            return isMobile 
+              ? index % 2 === 0 ? this.getLabelForValue(value) : ''
+              : index % 2 === 0 ? this.getLabelForValue(value) : '';
           }
         }
       },
@@ -182,19 +187,21 @@ const ConnectionHoursChart = ({
         },
         ticks: {
           font: {
-            size: 10
+            size: isMobile ? 8 : 10
           },
           color: '#6B7280',
           padding: 5,
           callback: function(value) {
-            return value.toLocaleString();
+            return isMobile 
+              ? value >= 1000 ? (value / 1000).toFixed(0) + 'K' : value
+              : value.toLocaleString();
           }
         },
         title: {
-          display: true,
+          display: !isMobile, // Ocultar título del eje Y en móvil
           text: 'Número de conexiones',
           font: {
-            size: 11
+            size: isMobile ? 9 : 11
           },
           color: '#6B7280'
         }
@@ -206,10 +213,10 @@ const ConnectionHoursChart = ({
     },
     layout: {
       padding: {
-        left: 10,
-        right: 10,
+        left: isMobile ? 5 : 10,
+        right: isMobile ? 5 : 10,
         top: 0,
-        bottom: 10
+        bottom: isMobile ? 5 : 10
       }
     }
   };
@@ -228,10 +235,13 @@ const ConnectionHoursChart = ({
   
   const stats = getStats();
   
+  // Altura responsive
+  const responsiveHeight = isMobile ? '200px' : height;
+  
   return (
     <div className="w-full h-full flex flex-col">
       {/* Gráfico de Chart.js */}
-      <div style={{ height }} className="w-full">
+      <div style={{ height: responsiveHeight }} className="w-full">
         <Bar data={chartData} options={options} />
       </div>
     </div>

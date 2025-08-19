@@ -32,9 +32,12 @@ const HeatmapLayer = ({ points = [] }) => {
       // por si el contenedor cambió de tamaño al mostrarse
       setTimeout(() => map.invalidateSize(), 0);
 
+      // Detectar si es móvil para ajustar configuración del heatmap
+      const isMobile = window.innerWidth < 1024;
+
       heatLayer = L.heatLayer(safePoints, {
-        radius: 25,
-        blur: 15,
+        radius: isMobile ? 20 : 25, // Radio más pequeño en móvil
+        blur: isMobile ? 10 : 15,   // Menos blur en móvil
         maxZoom: 17,
       }).addTo(map);
     });
@@ -53,22 +56,27 @@ const HeatmapLayer = ({ points = [] }) => {
 };
 
 const HeatmapComponent = ({ data = [] }) => {
+  // Detectar si es móvil
+  const isMobile = window.innerWidth < 1024;
+
   return (
-    <div className="w-full h-[86svh] xl:h-[54svh] rounded-lg overflow-hidden shadow-lg">
+    <div className={`w-full ${isMobile ? 'h-[40vh]' : 'h-[86svh] xl:h-[54svh]'} rounded-lg overflow-hidden shadow-lg`}>
       <MapContainer
         center={[20.6748, -103.344]}
-        zoom={12}
-        scrollWheelZoom
+        zoom={isMobile ? 11 : 12} // Menos zoom en móvil
+        scrollWheelZoom={!isMobile} // Deshabilitar scroll zoom en móvil
         className="w-full h-full z-0"
+        zoomControl={!isMobile} // Ocultar controles de zoom en móvil
+        attributionControl={false} // Ocultar atribución en móvil
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          attribution={!isMobile ? '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors' : ''}
         />
         <HeatmapLayer points={data} />
       </MapContainer>
     </div>
   );
-};
-
+}; 
+ 
 export { HeatmapComponent };

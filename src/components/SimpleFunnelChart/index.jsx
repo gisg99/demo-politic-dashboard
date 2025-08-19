@@ -301,7 +301,7 @@ const NIVEL_SOCIOECONOMICO_COLORS = {
   'C': '#FFD4A3',
   'C-': '#FDB975',
   'D': '#FB923C',
-  'D+': '#FB923C',
+  'D+': '#FB923C', 
   'D/E': '#F97316',
   'E': '#EA580C'
 };

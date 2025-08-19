@@ -12,10 +12,10 @@ const centerTextPlugin = {
     if (!chartArea) return;
     const { width, height } = chartArea;
     const value = opts?.value ?? 0;
-
-    // Escala más refinada del font-size para diferentes tamaños de desktop
-    const baseSize = Math.min(width, height) * 0.28;
-    const size = Math.max(10, Math.min(40, Math.floor(baseSize)));
+ 
+    // Escala más refinada del font-size para responsive
+    const baseSize = Math.min(width, height) * 0.35; // Incrementado para móvil
+    const size = Math.max(8, Math.min(24, Math.floor(baseSize))); // Rango ajustado
 
     ctx.save();
     ctx.font = `600 ${size}px Inter, system-ui, -apple-system, Segoe UI, Roboto`;
@@ -40,18 +40,20 @@ function PercentRings({
   cutout = '72%',
   className = ''
 }) {
-  // Determinar el layout basado en la cantidad de items
+  // Determinar el layout basado en la cantidad de items - OPTIMIZADO PARA MÓVIL
   const getGridClasses = () => {
     const itemCount = items.length;
     
     if (itemCount <= 2) {
-      return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2';
+      return 'grid-cols-1 sm:grid-cols-2';
     } else if (itemCount === 3) {
-      return 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3';
+      return 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3';
     } else if (itemCount === 4) {
-      return 'grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4';
+      return 'grid-cols-2 sm:grid-cols-2 md:grid-cols-4';
+    } else if (itemCount <= 6) {
+      return 'grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6';
     } else {
-      return 'grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6';
+      return 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6';
     }
   };
 
@@ -61,11 +63,11 @@ function PercentRings({
         // Grid responsiva y centrada con espaciado adaptativo
         'grid place-items-center',
         getGridClasses(),
-        // Espaciado responsivo más granular para desktop
-        'gap-3 sm:gap-4 md:gap-5 lg:gap-6 xl:gap-7 2xl:gap-8',
+        // Espaciado responsivo optimizado para móvil
+        'gap-4 sm:gap-4 md:gap-5 lg:gap-6',
         'mx-auto w-full',
         // Padding interno para mejor distribución
-        'p-2 md:p-3 lg:p-4',
+        'p-3 sm:p-4 md:p-4 lg:p-4',
         className
       ].join(' ')}
     >
@@ -80,7 +82,7 @@ function PercentRings({
             backgroundColor: [color, trackColor],
             borderWidth: 0,
             hoverOffset: 0,
-            borderRadius: safeVal > 0 ? 8 : 0
+            borderRadius: safeVal > 0 ? 6 : 0 // Reducido para móvil
           }]
         };
 
@@ -98,14 +100,14 @@ function PercentRings({
         };
 
         return (
-          <div key={idx} className="flex flex-col items-center justify-center min-w-0">
-            {/* Tamaños optimizados basados en lg:w-20 lg:h-20 como referencia */}
-            <div className="relative w-20 h-20 sm:w-20 sm:h-20 md:w-20 md:h-20 lg:w-20 lg:h-20 xl:w-20 xl:h-20 2xl:w-20 2xl:h-20">
+          <div key={idx} className="flex flex-col items-center justify-center min-w-0 w-full">
+            {/* Tamaños optimizados para móvil primero */}
+            <div className="relative w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 lg:w-20 lg:h-20">
               <Doughnut data={data} options={options} plugins={[centerTextPlugin]} />
             </div>
 
-            {/* Etiqueta con mejor tipografía responsiva */}
-            <span className="mt-2 md:mt-3 lg:mt-4 text-xs sm:text-sm md:text-sm lg:text-base xl:text-base 2xl:text-lg font-medium tracking-wide text-slate-600 uppercase text-center leading-tight max-w-full break-words">
+            {/* Etiqueta con mejor tipografía responsive para móvil */}
+            <span className="mt-2 sm:mt-2 md:mt-3 text-xs sm:text-xs md:text-sm lg:text-base font-medium tracking-wide text-slate-600 uppercase text-center leading-tight max-w-full break-words px-1">
               {it.label}
             </span>
           </div>

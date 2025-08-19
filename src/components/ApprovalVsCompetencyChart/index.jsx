@@ -93,6 +93,9 @@ const ApprovalVsCompetencyChart = ({
       chartInstance.current.destroy();
     }
 
+    // Detectar si es móvil
+    const isMobile = window.innerWidth < 1024;
+
     const options = {
       responsive: true,
       maintainAspectRatio: false,
@@ -104,13 +107,13 @@ const ApprovalVsCompetencyChart = ({
             usePointStyle: true,
             pointStyle: 'circle',
             font: {
-              size: 14,
+              size: isMobile ? 10 : 14,
               weight: '600'
             },
             color: '#374151',
-            padding: 25,
-            boxWidth: 12,
-            boxHeight: 12
+            padding: isMobile ? 10 : 25,
+            boxWidth: isMobile ? 8 : 12,
+            boxHeight: isMobile ? 8 : 12
           }
         },
         tooltip: {
@@ -122,9 +125,9 @@ const ApprovalVsCompetencyChart = ({
           borderWidth: 1,
           cornerRadius: 8,
           displayColors: true,
-          titleFont: { size: 14, weight: 'bold' },
-          bodyFont: { size: 13 },
-          padding: 12,
+          titleFont: { size: isMobile ? 12 : 14, weight: 'bold' },
+          bodyFont: { size: isMobile ? 11 : 13 },
+          padding: isMobile ? 8 : 12,
           callbacks: {
             title: function(context) {
               return context[0].label;
@@ -146,7 +149,7 @@ const ApprovalVsCompetencyChart = ({
           },
           ticks: {
             color: '#6B7280',
-            font: { size: 12, weight: '500' },
+            font: { size: isMobile ? 10 : 12, weight: '500' },
             callback: function(value) {
               return value + '%';
             },
@@ -159,7 +162,7 @@ const ApprovalVsCompetencyChart = ({
           },
           ticks: {
             color: '#6B7280',
-            font: { size: 12, weight: '500' }
+            font: { size: isMobile ? 10 : 12, weight: '500' }
           },
         }
       },
@@ -170,7 +173,12 @@ const ApprovalVsCompetencyChart = ({
       elements: {
         point: {
           hoverBackgroundColor: 'white',
-          hoverBorderWidth: 3
+          hoverBorderWidth: 3,
+          radius: isMobile ? 3 : 5,
+          hoverRadius: isMobile ? 6 : 8
+        },
+        line: {
+          borderWidth: isMobile ? 2 : 3
         }
       }
     };
@@ -192,10 +200,13 @@ const ApprovalVsCompetencyChart = ({
     };
   }, []);
 
+  // Altura responsive
+  const responsiveHeight = window.innerWidth < 1024 ? "300px" : height;
+
   return (
-    <div className="p-6 w-full" style={{ width }}>      
+    <div className="p-2 lg:p-6 w-full" style={{ width }}>      
       {/* Contenedor del gráfico */}
-      <div className="relative" style={{ height }}>
+      <div className="relative" style={{ height: responsiveHeight }}>
         <canvas ref={chartRef}></canvas>
       </div>
     </div>

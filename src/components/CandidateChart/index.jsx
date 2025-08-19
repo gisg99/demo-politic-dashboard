@@ -35,6 +35,9 @@ const CandidateChart = ({ dataCandidatos = [] }) => {
       chartInstanceRef.current.destroy();
     }
 
+    // Detectar si es móvil
+    const isMobile = window.innerWidth < 1024;
+
     // Crear nueva gráfica
     chartInstanceRef.current = new Chart.Chart(ctx, {
       type: 'bar',
@@ -56,6 +59,15 @@ const CandidateChart = ({ dataCandidatos = [] }) => {
             display: false
           },
           tooltip: {
+            backgroundColor: 'rgba(17, 24, 39, 0.95)',
+            titleColor: 'white',
+            bodyColor: 'white',
+            borderColor: '#374151',
+            borderWidth: 1,
+            cornerRadius: 8,
+            titleFont: { size: isMobile ? 12 : 14, weight: 'bold' },
+            bodyFont: { size: isMobile ? 11 : 13 },
+            padding: isMobile ? 8 : 12,
             callbacks: {
               label: function(context) {
                 return `${context.parsed.x}%`;
@@ -83,11 +95,11 @@ const CandidateChart = ({ dataCandidatos = [] }) => {
             },
             ticks: {
               font: {
-                size: 14,
+                size: isMobile ? 10 : 14,
                 weight: '500'
               },
               color: '#4A5568',
-              padding: 15
+              padding: isMobile ? 8 : 15
             },
             border: {
               display: false
@@ -96,7 +108,7 @@ const CandidateChart = ({ dataCandidatos = [] }) => {
         },
         layout: {
           padding: {
-            right: 60 // Espacio para mostrar los porcentajes
+            right: isMobile ? 30 : 60 // Menos espacio en móvil para porcentajes
           }
         },
         elements: {
@@ -116,14 +128,14 @@ const CandidateChart = ({ dataCandidatos = [] }) => {
             const bar = meta.data[index];
             const value = dataset.data[index];
             
-            // Configurar el estilo del texto
+            // Configurar el estilo del texto responsive
             ctx.fillStyle = '#4A5568';
-            ctx.font = 'bold 14px Arial';
+            ctx.font = isMobile ? 'bold 10px Arial' : 'bold 14px Arial';
             ctx.textAlign = 'left';
             ctx.textBaseline = 'middle';
             
             // Posicionar el texto al final de la barra
-            const x = bar.x + 10;
+            const x = bar.x + (isMobile ? 5 : 10);
             const y = bar.y;
             
             ctx.fillText(`${value}%`, x, y);
@@ -141,8 +153,8 @@ const CandidateChart = ({ dataCandidatos = [] }) => {
   }, [candidatos]);
 
   return (
-    <div className="w-full p-6 rounded-lg">
-      <div className="h-80">
+    <div className="w-full p-2 lg:p-6 rounded-lg">
+      <div className="h-48 lg:h-80">
         <canvas ref={chartRef}></canvas>
       </div>
     </div>

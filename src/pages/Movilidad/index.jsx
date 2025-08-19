@@ -1,7 +1,6 @@
 import React from 'react'
 import { Layout, Card, HeatmapComponent, ConnectionHoursChart, DeviceChart, DonutChart2 } from '../../components';
 
-
 function Movilidad() {
 
   const heatmapData = [
@@ -21,6 +20,7 @@ function Movilidad() {
       2180, 2450, 2280, 2120, 1980, 2150, 2320, 2480,
       2550, 2420, 2380, 2250, 2100, 1850, 1420, 980
     ];
+    
     // Datos por defecto (como en tu imagen)
     const defaultData = [
       { label: 'Mobile', value: 97, color: '#f59e0b' },
@@ -29,45 +29,62 @@ function Movilidad() {
 
   return (
     <Layout>
-      <div className='flex flex-col w-full h-full items-center gap-4 py-4 px-6 mb-40'>
+      <div className='flex flex-col w-full h-full items-center gap-3 sm:gap-4 py-2 sm:py-4 px-3 sm:px-6 mb-20 sm:mb-40'>
+        {/* Header responsive */}
         <div className='w-full flex justify-end items-center'>
-         <h2 className='relative  bg-[#acb8bf] px-3 py-0.5 cursor-pointer text-white font-medium rounded-full hover:bg-tertiary'>Descargar</h2>
+          <button className='bg-[#acb8bf] px-3 sm:px-4 py-1 sm:py-0.5 cursor-pointer text-white font-medium rounded-full hover:bg-tertiary transition-colors text-sm sm:text-base'>
+            Descargar
+          </button>
         </div>
+        
+        {/* Mapa de calor - Full width responsive */}
         <div className='flex gap-2 w-full'>
-          <div className='w-[100%]'>
+          <div className='w-full'>
             <Card title='Mapa de calor'>
-              <div className='flex flex-col w-full'>
+              <div className='flex flex-col w-full gap-2 sm:gap-3'>
                 <div className='w-full flex'>
-                  <h1 className='text-gray-500'>Zonas de Permanencia y Concentración</h1>
+                  <h1 className='text-gray-500 text-sm sm:text-base'>Zonas de Permanencia y Concentración</h1>
                 </div>
-                <HeatmapComponent data={heatmapData} />
+                <div className='w-full h-64 sm:h-80 md:h-96 lg:h-[400px]'>
+                  <HeatmapComponent data={heatmapData} />
+                </div>
               </div>
             </Card>
           </div>
         </div>
-        <div className='flex gap-4 w-full'>
-          <div className='w-[50%]'>
-            <Card title=' Horarios de Conexión más Frecuentes'>
-              <ConnectionHoursChart 
-                data={datosConexiones}
-                title="Horarios de Conexión más Frecuentes"
-                backgroundColor="rgba(255, 159, 64, 0.8)"
-                height="300px"
-                showStats={true}
-              />
+        
+        {/* Segunda fila - Charts responsive */}
+        <div className='flex flex-col lg:flex-row gap-3 sm:gap-4 w-full'>
+          {/* Horarios de conexión */}
+          <div className='w-full lg:w-[50%]'>
+            <Card title='Horarios de Conexión más Frecuentes'>
+              <div className='w-full h-64 sm:h-80 md:h-96 lg:h-[300px]'>
+                <ConnectionHoursChart 
+                  data={datosConexiones}
+                  title="Horarios de Conexión más Frecuentes"
+                  backgroundColor="rgba(255, 159, 64, 0.8)"
+                  height="100%"
+                  showStats={true}
+                />
+              </div>
             </Card>
           </div>
-          <div className='w-[50%]'>
+          
+          {/* Tipo de dispositivo */}
+          <div className='w-full lg:w-[50%]'>
             <Card title='Tipo de Dispositivo'>
-              <div className='flex justify-center items-center w-full h-full'>
-                <div className='flex w-[50%]'>
+              <div className='flex flex-col sm:flex-row justify-center items-center w-full h-full gap-4 sm:gap-0 py-4'>
+                {/* Device Chart responsive */}
+                <div className='flex w-full sm:w-[50%] justify-center min-h-[200px] sm:min-h-[250px]'>
                   <DeviceChart 
                     data={defaultData}
-                    height={250}
+                    height={200}
                     maxValue={100}
                   />
                 </div>
-                <div className='flex w-[50%]'>
+                
+                {/* Donut Chart responsive */}
+                <div className='flex w-full sm:w-[50%] justify-center min-h-[200px] sm:min-h-[250px]'>
                   <DonutChart2 
                     data={[
                       { label: 'iPhone', value: 15, color: '#fbbf24' },     // amarillo/naranja claro
@@ -87,4 +104,3 @@ function Movilidad() {
 }
 
 export default Movilidad
- 

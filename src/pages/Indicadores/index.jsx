@@ -29,36 +29,97 @@ function Indicadores() {
 
   return (
     <Layout>
-      <div className='flex flex-col w-full min-h-screen items-center py-4 px-6 mb-4'>
-        {/* Header */}
-        <div className='w-full flex justify-end items-center mb-4'>
-          <h2 className='bg-gray-400 px-3 py-0.5 cursor-pointer text-white font-medium rounded-full hover:bg-tertiary text-xs lg:text-sm'>
+      <div className='flex flex-col w-full min-h-screen items-center py-2 sm:py-4 px-3 sm:px-6 mb-2 sm:mb-4'>
+        {/* Header responsive */}
+        <div className='w-full flex justify-end items-center mb-3 sm:mb-4'>
+          <button className='bg-gray-400 px-3 sm:px-4 py-1 sm:py-0.5 cursor-pointer text-white font-medium rounded-full hover:bg-tertiary transition-colors text-xs sm:text-sm lg:text-sm'>
             Descargar
-          </h2>
+          </button>
         </div>
 
-        {/* Tabs */}
-        <div className='w-full flex flex-wrap justify-around items-center gap-2'>
-          {tabs.map(tab => (
-            <button
-              key={tab.value}
-              onClick={() => setActiveTab(tab.value)}
-              className={`text-sm px-4 py-1 rounded-full font-medium ${
-                activeTab === tab.value
-                  ? 'bg-tertiary text-white'
-                  : 'bg-white text-gray-700 hover:bg-gray-300'
-              }`}
+        {/* Tabs responsive */}
+        <div className='w-full mb-6 sm:mb-8 md:mb-10'>
+          {/* Tabs para móvil - Dropdown */}
+          <div className='block sm:hidden'>
+            <select 
+              value={activeTab}
+              onChange={(e) => setActiveTab(e.target.value)}
+              className='w-full p-3 border border-gray-300 rounded-lg bg-white text-gray-700 font-medium text-sm'
             >
-              {tab.label}
-            </button>
-          ))}
+              {tabs.map(tab => (
+                <option key={tab.value} value={tab.value}>
+                  {tab.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Tabs para tablet y desktop - Horizontal scrollable */}
+          <div className='hidden sm:block'>
+            <div className='w-full overflow-x-auto'>
+              <div className='flex justify-center sm:justify-start lg:justify-center items-center gap-1 sm:gap-2 md:gap-3 min-w-max px-2'>
+                {tabs.map(tab => (
+                  <button
+                    key={tab.value}
+                    onClick={() => setActiveTab(tab.value)}
+                    className={`text-xs sm:text-sm md:text-base px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full font-medium transition-all duration-200 whitespace-nowrap flex-shrink-0 ${
+                      activeTab === tab.value
+                        ? 'bg-tertiary text-white shadow-md transform scale-105'
+                        : 'bg-white text-gray-700 hover:bg-gray-200 hover:scale-105'
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Contenido del tab activo */}
-        <div className='w-full mt-10'>
-          {renderContent()}
+        {/* Contenido del tab activo responsive */}
+        <div className='w-full flex-1'>
+          <div className='animate-fadeIn'>
+            {renderContent()}
+          </div>
         </div>
       </div>
+
+      {/* CSS para animación */}
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out;
+        }
+
+        /* Scrollbar personalizado para los tabs */
+        .overflow-x-auto::-webkit-scrollbar {
+          height: 4px;
+        }
+        
+        .overflow-x-auto::-webkit-scrollbar-track {
+          background: #f1f1f1;
+          border-radius: 2px;
+        }
+        
+        .overflow-x-auto::-webkit-scrollbar-thumb {
+          background: #c1c1c1;
+          border-radius: 2px;
+        }
+        
+        .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+          background: #a1a1a1;
+        }
+      `}</style>
     </Layout>
   )
 }

@@ -105,20 +105,23 @@ const districtData = [
 const ElectoralMap = () => {
   // Función para obtener el tamaño del marcador basado en el porcentaje
   const getMarkerSize = (porcentaje) => {
-    return Math.max(8, porcentaje * 0.3); // Tamaño mínimo 8, máximo basado en porcentaje
+    const isMobile = window.innerWidth < 1024;
+    const baseSize = isMobile ? 6 : 8; // Más pequeño en móvil
+    const multiplier = isMobile ? 0.2 : 0.3; // Menos variación en móvil
+    return Math.max(baseSize, porcentaje * multiplier);
   };
+
+  // Detectar si es móvil para ajustar zoom
+  const isMobile = window.innerWidth < 1024;
 
   return (
     <div className="w-full h-full">
-      {/* Header - Solo Leyenda */}
-      
-
       {/* Mapa */}
-      <div className="h-5/6 rounded-lg overflow-hidden ">
+      <div className="h-4/5 lg:h-5/6 rounded-lg overflow-hidden">
         <MapContainer
           center={[20.7214, -103.3844]} // Centro de Zapopan
-          zoom={12}
-          style={{ height: '50%', width: '100%', minHeight: '150px' }}
+          zoom={isMobile ? 11 : 12} // Menos zoom en móvil
+          style={{ height: '100%', width: '100%', minHeight: isMobile ? '120px' : '150px' }}
           className="z-0"
         >
           <TileLayer
@@ -133,7 +136,7 @@ const ElectoralMap = () => {
               radius={getMarkerSize(district.porcentaje)}
               fillColor={district.color}
               color="white"
-              weight={2}
+              weight={isMobile ? 1 : 2} // Borde más delgado en móvil
               opacity={1}
               fillOpacity={0.8}
               eventHandlers={{
@@ -145,19 +148,12 @@ const ElectoralMap = () => {
                 }
               }}
             >
-              <Popup closeButton={false} className="custom-popup" maxWidth={100} minWidth={10}>
+              <Popup closeButton={false} className="custom-popup" maxWidth={isMobile ? 80 : 100} minWidth={isMobile ? 60 : 10}>
                 <div className="text-center flex flex-col gap-0">
                   <h3 className="font-medium text-xs text-gray-800 gap-0">
                     {district.name}
                   </h3>
-                  {/* <div className="flex items-center justify-center">
-                    <div 
-                      className="w-1.5 h-1.5 rounded-full"
-                      style={{ backgroundColor: district.color }}
-                    ></div>
-                    <span className="font-medium text-xs">{district.partidoGanador}</span>
-                  </div> */}
-                  <h1 className="text-md font-bold text-gray-700 ">
+                  <h1 className="text-sm lg:text-md font-bold text-gray-700">
                     {district.porcentaje}%
                   </h1>
                 </div>
@@ -166,24 +162,25 @@ const ElectoralMap = () => {
           ))}
         </MapContainer>
       </div>
-      <div className="p-4">
-        {/* Leyenda */}
-        <div className="flex flex-wrap justify-center gap-4 text-sm">
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-full bg-red-800"></div>
-            <span className='text-[0.6rem]'>MORENA</span>
+      
+      {/* Leyenda */}
+      <div className="p-2 lg:p-4">
+        <div className="flex flex-wrap justify-center gap-2 lg:gap-4 text-sm">
+          <div className="flex items-center gap-1 lg:gap-2">
+            <div className="w-3 h-3 lg:w-4 lg:h-4 rounded-full bg-red-800"></div>
+            <span className='text-xs lg:text-sm'>MORENA</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-full bg-orange-500"></div>
-            <span className='text-[0.6rem]'>MC</span>
+          <div className="flex items-center gap-1 lg:gap-2">
+            <div className="w-3 h-3 lg:w-4 lg:h-4 rounded-full bg-orange-500"></div>
+            <span className='text-xs lg:text-sm'>MC</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-full bg-blue-500"></div>
-            <span className='text-[0.6rem]'>PAN</span>
+          <div className="flex items-center gap-1 lg:gap-2">
+            <div className="w-3 h-3 lg:w-4 lg:h-4 rounded-full bg-blue-500"></div>
+            <span className='text-xs lg:text-sm'>PAN</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-full bg-green-700"></div>
-            <span className='text-[0.6rem]'>PRI</span>
+          <div className="flex items-center gap-1 lg:gap-2">
+            <div className="w-3 h-3 lg:w-4 lg:h-4 rounded-full bg-green-700"></div>
+            <span className='text-xs lg:text-sm'>PRI</span>
           </div>
         </div>
       </div>
