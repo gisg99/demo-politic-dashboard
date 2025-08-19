@@ -78,11 +78,12 @@ const Sidebar = ({ isOpen, onToggle }) => {
         h-full lg:h-auto
         w-72 sm:w-80 lg:w-auto
         bg-[#d6d6d6] border-r border-gray-300
-        z-50 lg:z-auto
+        z-[999]
         transition-transform duration-300 ease-in-out
         lg:px-2 px-4 sm:px-6
         pt-20 lg:pt-0
         overflow-y-auto lg:overflow-visible
+        
       `}>
         {/* Navegación */}
         <nav className="flex flex-col p-2 w-full h-full justify-start">
