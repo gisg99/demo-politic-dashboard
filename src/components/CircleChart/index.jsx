@@ -20,19 +20,19 @@ const CircleChart = ({
   // Detectar si es móvil
   const isMobile = window.innerWidth < 1024;
 
-  // Tamaños predefinidos con responsive
+  // Tamaños predefinidos con responsive - más pequeños para móvil para que quepan al lado
   const sizes = {
     small: { 
-      width: isMobile ? 80 : 120, 
-      height: isMobile ? 80 : 120 
+      width: isMobile ? 70 : 120, 
+      height: isMobile ? 70 : 120 
     },
     medium: { 
-      width: isMobile ? 100 : 160, 
-      height: isMobile ? 100 : 160 
+      width: isMobile ? 90 : 160, 
+      height: isMobile ? 90 : 160 
     },
     large: { 
-      width: isMobile ? 120 : 200, 
-      height: isMobile ? 120 : 200 
+      width: isMobile ? 110 : 200, 
+      height: isMobile ? 110 : 200 
     }
   };
 
@@ -61,9 +61,9 @@ const CircleChart = ({
         borderColor: '#374151',
         borderWidth: 1,
         cornerRadius: 8,
-        titleFont: { size: isMobile ? 12 : 14, weight: 'bold' },
-        bodyFont: { size: isMobile ? 11 : 13 },
-        padding: isMobile ? 8 : 12,
+        titleFont: { size: isMobile ? 10 : 14, weight: 'bold' },
+        bodyFont: { size: isMobile ? 9 : 13 },
+        padding: isMobile ? 6 : 12,
         callbacks: {
           label: function(context) {
             const label = context.label || '';
@@ -88,23 +88,23 @@ const CircleChart = ({
 
   // Renderizar el contenido de la leyenda
   const renderLegend = () => (
-    <div className="flex flex-col justify-center gap-1 lg:gap-3">
+    <div className="flex flex-col justify-center gap-1 sm:gap-1 lg:gap-3">
       {dataWithPercentages.map((item, index) => (
-        <div key={index} className="flex items-center gap-1 lg:gap-2">
+        <div key={index} className="flex items-center gap-1 sm:gap-1 lg:gap-2">
           {/* Icono de persona con color */}
           <BsPersonFill 
-            className="text-sm lg:text-xl"
+            className="text-xs sm:text-sm lg:text-xl flex-shrink-0"
             style={{ color: item.color }}
           />
           {/* Porcentaje */}
           <span 
-            className="font-bold text-sm lg:text-lg"
+            className="font-bold text-xs sm:text-sm lg:text-lg flex-shrink-0"
             style={{ color: item.color }}
           >
             {item.percentage}%
           </span>
           {/* Label */}
-          <span className="text-gray-600 text-xs lg:text-sm font-medium">
+          <span className="text-gray-600 text-xs sm:text-xs lg:text-sm font-medium">
             {item.label}
           </span>
         </div>
@@ -115,14 +115,19 @@ const CircleChart = ({
   return (
     <div className="flex flex-col items-center w-full h-full p-2 lg:p-4">
       {/* Contenedor principal */}
-      <div className={`flex items-center gap-2 lg:gap-6 ${
-        isMobile ? 'flex-col' : (legendPosition === 'right' ? 'flex-row-reverse' : '')
+      <div className={`flex items-center gap-3 sm:gap-2 lg:gap-6 ${
+        legendPosition === 'right' ? 'flex-row-reverse' : ''
       }`}>
         {/* Leyenda con iconos */}
-        {showLegend && renderLegend()}
+        {showLegend && (
+          <div className="flex-1">
+            {renderLegend()}
+          </div>
+        )}
 
         {/* Gráfico Circular */}
         <div 
+          className="flex-shrink-0"
           style={{ 
             width: `${currentSize.width}px`, 
             height: `${currentSize.height}px` 

@@ -40,33 +40,35 @@ function PercentRings({
   cutout = '72%',
   className = ''
 }) {
-  // Determinar el layout basado en la cantidad de items - OPTIMIZADO PARA MÓVIL
-  const getGridClasses = () => {
+  // Determinar el layout basado en la cantidad de items
+  const getLayoutClasses = () => {
     const itemCount = items.length;
     
+    // Para móvil siempre flex, para desktop grid
     if (itemCount <= 2) {
-      return 'grid-cols-1 sm:grid-cols-2';
+      return 'flex flex-wrap justify-center sm:grid sm:grid-cols-2';
     } else if (itemCount === 3) {
-      return 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3';
+      return 'flex flex-wrap justify-center sm:grid sm:grid-cols-2 md:grid-cols-3';
     } else if (itemCount === 4) {
-      return 'grid-cols-2 sm:grid-cols-2 md:grid-cols-4';
+      return 'flex flex-wrap justify-center sm:grid sm:grid-cols-2 md:grid-cols-4';
     } else if (itemCount <= 6) {
-      return 'grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6';
+      return 'flex flex-wrap justify-center sm:grid sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6';
     } else {
-      return 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6';
+      return 'flex flex-wrap justify-center sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6';
     }
   };
 
   return (
     <div
       className={[
-        // Grid responsiva y centrada con espaciado adaptativo
-        'grid place-items-center',
-        getGridClasses(),
-        // Espaciado responsivo optimizado para móvil
+        // Layout responsivo: flex en móvil, grid en desktop
+        getLayoutClasses(),
+        // place-items-center solo para grid (desktop)
+        'sm:place-items-center',
+        // Espaciado responsivo
         'gap-4 sm:gap-4 md:gap-5 lg:gap-6',
         'mx-auto w-full',
-        // Padding interno para mejor distribución
+        // Padding interno
         'p-3 sm:p-4 md:p-4 lg:p-4',
         className
       ].join(' ')}
@@ -82,7 +84,7 @@ function PercentRings({
             backgroundColor: [color, trackColor],
             borderWidth: 0,
             hoverOffset: 0,
-            borderRadius: safeVal > 0 ? 6 : 0 // Reducido para móvil
+            borderRadius: safeVal > 0 ? 6 : 0
           }]
         };
 
@@ -100,7 +102,7 @@ function PercentRings({
         };
 
         return (
-          <div key={idx} className="flex flex-col items-center justify-center min-w-0 w-full">
+          <div key={idx} className="flex flex-col items-center justify-center min-w-0 w-auto">
             {/* Tamaños optimizados para móvil primero */}
             <div className="relative w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 lg:w-20 lg:h-20">
               <Doughnut data={data} options={options} plugins={[centerTextPlugin]} />

@@ -77,69 +77,77 @@ function Redes() {
           </h2>
         </div>
 
-        {/* Contenedor principal */}
+        {/* Contenedor principal - Reorganizado para móvil */}
         <div className='flex flex-col gap-3 md:gap-4 w-full'>
           
-          {/* Primera fila - Layout principal */}
+          {/* MÓVIL: Layout en columna única, DESKTOP: Layout complejo */}
+          
+          {/* Layout principal - 4 cards + Ranking a la derecha */}
           <div className='flex flex-col xl:flex-row gap-3 md:gap-4'>
             
-            {/* Columna izquierda - Gráficos principales */}
-            <div className='w-full xl:w-[70%] flex flex-col gap-3 md:gap-4'>
-              
-              {/* Primera subfila */}
-              <div className='flex flex-col lg:flex-row gap-3 md:gap-4'>
-                <div className='w-full lg:w-1/2'>
+            {/* Grid de 4 cards principales - 2x2 en desktop, columna única en móvil */}
+            <div className='w-full xl:w-[70%]'>
+              <div className='grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4'>
+                
+                {/* Card 1: Menciones por Partido y Candidato */}
+                <div className='w-full'>
                   <Card title='Menciones por Partido y Candidato'>
                     <PoliticalMentionsChart/>
                   </Card>
                 </div>
-                <div className='w-full lg:w-1/2'>
+
+                {/* Card 2: Aprobación VS Competencia */}
+                <div className='w-full'>
                   <Card title='Aprobación VS Competencia'>
                     <ApprovalVsCompetencyChart/>
                   </Card>
                 </div>
-              </div>
-              
-              {/* Segunda subfila */}
-              <div className='flex flex-col lg:flex-row gap-3 md:gap-4'>
-                <div className='w-full lg:w-1/2'>
+
+                {/* Card 3: Análisis de Sentimiento */}
+                <div className='w-full'>
                   <Card title='Análisis de Sentimiento en Tiempo Real'>
                     <EmojiDonutChart title="Sentimiento" data={emojiData} size="xs" />
                   </Card>
                 </div>
-                <div className='w-full lg:w-1/2'>
+
+                {/* Card 4: Porcentaje de Aprobación + Temas Frecuentes */}
+                <div className='w-full'>
                   <Card title='Porcentaje de Aprobación'>
-                    <div className='flex flex-col'>
-                      <PercentRings items={sentiment} />
-                      <h1 className='text-center text-tertiary font-bold text-xl md:text-2xl xl:text-3xl mt-2'>
-                        Temas Frecuentes
-                      </h1>
-                      <div className='w-full h-full flex flex-col justify-around py-1'>
-                        {temas.map((tema, index) => (
-                          <div key={index} className='w-full flex flex-col'>
-                            <div className='flex group gap-2 w-full items-center justify-between px-3'>
-                              <h1 className='text-gray-500 text-lg'>{tema.label}</h1>
-                              <div className='w-[50%] h-3 rounded-xs' style={{ background: getColor(index, tema.count)}}>
-                                <div className='text-gray-400 text-lg font-semibold w-min relative -top-3 -left-13 px-2 rounded-lg group-hover:block'>
-                                  {tema.count}%
+                    <div className='w-full flex flex-col'>
+                      <div className='flex justify-center'>
+                        <PercentRings items={sentiment} />
+                      </div>
+                      <div className='mt-4'>
+                        <h1 className='text-center text-tertiary font-bold text-lg md:text-xl xl:text-2xl mb-3'>
+                          Temas Frecuentes
+                        </h1>
+                        <div className='w-full h-full flex flex-col justify-around py-2 gap-2'>
+                          {temas.map((tema, index) => (
+                            <div key={index} className='w-full flex flex-col'>
+                              <div className='flex group gap-2 w-full items-center justify-between px-1'>
+                                <h1 className='text-gray-500 text-sm md:text-lg min-w-[80px]'>{tema.label}</h1>
+                                <div className='flex-1 h-3 rounded-xs mx-2' style={{ background: getColor(index, tema.count)}}>
+                                  <div className='text-gray-400 text-sm md:text-lg font-semibold w-min relative -top-5 right-0 px-2 rounded-lg group-hover:block'>
+                                    {tema.count}%
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </Card>
                 </div>
               </div>
             </div>
-            
-            {/* Columna derecha - Ranking y Partidos */}
+
+            {/* Ranking Digital de Candidatos + Partidos - Columna derecha */}
             <div className='w-full xl:w-[30%]'>
               <Card title='Ranking Digital de Candidatos'>
                 <div className='flex justify-start w-full flex-col'>
                   <CandidateChart dataCandidatos={dataCandidatos} />
-                  <h1 className='text-center text-tertiary font-bold text-xl md:text-2xl xl:text-3xl my-2 md:my-4'>
+                  <h1 className='text-center text-tertiary font-bold text-lg md:text-xl xl:text-2xl my-3'>
                     Partidos
                   </h1>
                   <div className='w-full h-full flex flex-col justify-center py-2'>
@@ -155,50 +163,51 @@ function Redes() {
               </Card>
             </div>
           </div>
-          
-          {/* Segunda fila - Gráficos adicionales */}
-          <div className='flex flex-col lg:flex-row w-full gap-3 md:gap-4'>
-            <div className='w-full lg:w-1/2'>
-              <Card title=' Horarios de Conexión más Frecuentes'>
-                <ConnectionHoursChart 
-                  data={datosConexiones}
-                  title="Horarios de Conexión más Frecuentes"
-                  backgroundColor="rgba(255, 159, 64, 0.8)"
-                  height="300px"
-                  showStats={true}
-                />
-              </Card>
-            </div>
-            <div className='w-full lg:w-1/2'>
-              <Card title='Alertas por Menciones Negativas o Picos Atípicos'>
-                <div className='flex flex-col w-full items-center justify-end pb-8 h-full text-gray-600 gap-4'>
-                  <div className='flex'>
-                    {/* Iconos - Fuego y Flecha */}
-                    <div className='flex items-center gap-3'>
-                      {/* Ícono de fuego */}
-                      <VscFlame className='text-7xl md:text-7xl text-tertiary' />
-                      {/* Flecha hacia arriba */}
-                      <ImArrowUp className='text-3xl md:text-4xl text-tertiary' />
-                    </div>
 
+          {/* Card 7: Horarios de Conexión */}
+          <div className='w-full'>
+            <Card title='Horarios de Conexión más Frecuentes'>
+              <ConnectionHoursChart 
+                data={datosConexiones}
+                title="Horarios de Conexión más Frecuentes"
+                backgroundColor="rgba(255, 159, 64, 0.8)"
+                height="250px"
+                showStats={true}
+              />
+            </Card>
+          </div>
+
+          {/* Card 8: Alertas - Rediseñada para móvil */}
+          <div className='w-full'>
+            <Card title='Alertas por Menciones Negativas o Picos Atípicos'>
+              <div className='flex flex-col w-full p-4'>
+                {/* Sección superior con íconos y porcentaje */}
+                <div className='flex flex-col items-center justify-center text-center mb-6'>
+                  <div className='flex items-center justify-center gap-3 mb-3'>
+                    {/* Iconos - Fuego y Flecha */}
+                    <VscFlame className='text-4xl md:text-5xl text-tertiary' />
+                    <ImArrowUp className='text-2xl md:text-3xl text-tertiary' />
                     {/* Porcentaje grande */}
-                    <div className='text-5xl md:text-6xl lg:text-7xl font-bold text-gray-500'>
+                    <div className='text-4xl md:text-5xl font-bold text-gray-500'>
                       15%
                     </div>
                   </div>
                   
                   {/* Texto descriptivo */}
-                  <div className='text-start'>
-                    <p className='text-sm md:text-base lg:text-lg font-semibold text-gray-600 leading-tight'>
-                      Menciones negativas<br/>
-                      crecientes en redes sociales
+                  <div className='text-center'>
+                    <p className='text-sm md:text-base font-semibold text-gray-600 leading-tight'>
+                      Menciones negativas crecientes<br/>
+                      en redes sociales
                     </p>
                   </div>
                 </div>
-                <div className='flex flex-col w-full h-full p-4 md:p-6 lg:p-8 text-left gap-1'>
+
+                {/* Información de plataformas y menciones en dos columnas */}
+                <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 w-full'>
+                  
                   {/* Sección Plataforma */}
-                  <div className='flex flex-col gap-2'>
-                    <h3 className='text-xs md:text-xs lg:text-xl font-bold text-tertiary'>
+                  <div className='flex flex-col'>
+                    <h3 className='text-sm md:text-base font-bold text-tertiary mb-3'>
                       Plataforma
                     </h3>
                     
@@ -206,41 +215,41 @@ function Redes() {
                     <div className='flex flex-col gap-3'>
                       {/* X (Twitter) */}
                       <div className='flex items-center gap-3'>
-                        <div className='w-4 h-4 md:w-7 md:h-7 bg-black rounded-full flex items-center justify-center'>
-                          <span className='text-white font-bold text-lg md:text-xl'>X</span>
+                        <div className='w-6 h-6 bg-black rounded-full flex items-center justify-center'>
+                          <span className='text-white font-bold text-xs'>X</span>
                         </div>
-                        <span className='text-gray-700 text-base md:text-base font-medium'>X</span>
+                        <span className='text-gray-700 text-sm md:text-base font-medium'>X</span>
                       </div>
                       
                       {/* Facebook */}
                       <div className='flex items-center gap-3'>
-                        <div className='w-4 h-4 md:w-7 md:h-7 bg-blue-600 rounded-full flex items-center justify-center'>
-                          <span className='text-white font-bold text-sm md:text-2xl'>f</span>
+                        <div className='w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center'>
+                          <span className='text-white font-bold text-sm'>f</span>
                         </div>
-                        <span className='text-gray-600 text-base md:text-base font-medium'>Facebook</span>
+                        <span className='text-gray-600 text-sm md:text-base font-medium'>Facebook</span>
                       </div>
                     </div>
                   </div>
                   
                   {/* Sección Menciones */}
-                  <div className='flex flex-col gap-1'>
-                    <h3 className='text-xs md:text-xs lg:text-xl font-bold text-tertiary'>
+                  <div className='flex flex-col'>
+                    <h3 className='text-sm md:text-base font-bold text-tertiary mb-3'>
                       Menciones
                     </h3>
                     
                     {/* Lista de hashtags */}
-                    <div className='flex flex-col gap-1'>
-                      <span className='text-gray-600 text-base md:text-lg font-medium'>
+                    <div className='flex flex-col gap-2'>
+                      <span className='text-gray-600 text-sm md:text-base font-medium'>
                         #Mentiras
                       </span>
-                      <span className='text-gray-600 text-base md:text-lg font-medium'>
+                      <span className='text-gray-600 text-sm md:text-base font-medium'>
                         #Corrupcion
                       </span>
                     </div>
                   </div>
                 </div>
-              </Card>
-            </div>
+              </div>
+            </Card>
           </div>
         </div>
       </div>
