@@ -31,8 +31,11 @@ function Geolocalizacion() {
             <Card title='Mapa de calor'>
                 <div className='flex flex-col items-center w-full gap-3 sm:gap-4 pt-2 sm:pt-4'>
                   {/* Contenedor del mapa responsive */}
-                  <div className='w-full h-64 sm:h-80 md:h-96 lg:h-[500px]'>
-                    <HeatmapComponent data={heatmapData} />
+                  <div className='w-full h-48 sm:h-64 md:h-80 lg:h-96 xl:h-[500px]'>
+                    <HeatmapComponent 
+                      data={heatmapData} 
+                      useContainerHeight={true}
+                    />
                   </div>
                   
                   {/* Leyenda responsive */}

@@ -49,7 +49,7 @@ function Alertas() {
         {/* Header con leyenda de prioridades */}
         <div className='w-full flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0'>
           {/* Leyenda de prioridades - Responsive */}
-          <div className='flex flex-col sm:flex-row gap-3 sm:gap-6 md:gap-8 w-full sm:w-auto'>
+          <div className='flex flex-row gap-3 sm:gap-6 md:gap-8 w-full sm:w-auto'>
             <div className='flex gap-2 sm:gap-4 items-center'>
               <BiSolidBellRing className='text-white text-2xl sm:text-3xl bg-amber-500 p-1 sm:p-1.5 rounded-full flex-shrink-0'/>
               <p className='text-sm sm:text-base'>Prioridad Alta</p>

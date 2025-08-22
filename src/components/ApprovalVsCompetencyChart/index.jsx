@@ -201,16 +201,16 @@ const ApprovalVsCompetencyChart = ({
   }, []);
 
   // Altura responsive
-  const responsiveHeight = window.innerWidth < 1024 ? "300px" : height;
+  const responsiveHeight = window.innerWidth < 1024 ? "300px" : "350px";
 
   return (
-    <div className="p-2 lg:p-6 w-full" style={{ width }}>      
-      {/* Contenedor del gráfico */}
-      <div className="relative" style={{ height: responsiveHeight }}>
-        <canvas ref={chartRef}></canvas>
-      </div>
+  <div className="p-2 lg:p-6 w-full" style={{ width }}>      
+    {/* Contenedor del gráfico */}
+    <div className="relative" style={{ height: responsiveHeight }}>
+      <canvas ref={chartRef}></canvas>
     </div>
-  );
+  </div>
+);
 };
 
 export { ApprovalVsCompetencyChart };
