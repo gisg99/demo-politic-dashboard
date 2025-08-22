@@ -18,7 +18,7 @@ const SimpleFunnelChart = ({
   maintainColorOrder = true
 }) => {
   const containerRef = useRef(null);
-  const [dimensions, setDimensions] = useState({ width: 120, height: 100 });
+  const [dimensions, setDimensions] = useState({ width: 180, height: 150 });
   
   // Colores predefinidos para el embudo (de arriba a abajo)
   const funnelColors = [
@@ -43,13 +43,13 @@ const SimpleFunnelChart = ({
         let chartWidth, chartHeight;
         
         if (screenWidth < 640) {
-          // Mobile
-          chartWidth = Math.min(containerWidth * 0.4, 80);
-          chartHeight = Math.min(containerHeight * 0.8, 60);
+          // Mobile - Más grande
+          chartWidth = Math.min(containerWidth * 0.6, 140);
+          chartHeight = Math.min(containerHeight * 0.9, 120);
         } else if (screenWidth < 768) {
           // Small tablets
-          chartWidth = Math.min(containerWidth * 0.4, 90);
-          chartHeight = Math.min(containerHeight * 0.8, 70);
+          chartWidth = Math.min(containerWidth * 0.5, 120);
+          chartHeight = Math.min(containerHeight * 0.85, 100);
         } else if (screenWidth < 1024) {
           // Tablets
           chartWidth = Math.min(containerWidth * 0.4, 110);
@@ -73,8 +73,8 @@ const SimpleFunnelChart = ({
         }
         
         setDimensions({ 
-          width: Math.max(chartWidth, 60), 
-          height: Math.max(chartHeight, 50) 
+          width: Math.max(chartWidth, 100), 
+          height: Math.max(chartHeight, 80) 
         });
       }
     };
@@ -115,7 +115,7 @@ const SimpleFunnelChart = ({
     if (active && payload && payload[0]) {
       const data = payload[0].payload;
       return (
-        <div className="bg-gray-800 text-white px-1.5 py-1 rounded shadow-lg text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs">
+        <div className="bg-gray-800 text-white px-2 py-1.5 rounded shadow-lg text-xs sm:text-sm">
           <p className="font-semibold">{data.name}</p>
           <p>Valor: {data.value}</p>
           <p>{data.percentage}%</p>
@@ -130,18 +130,19 @@ const SimpleFunnelChart = ({
     const maxValue = Math.max(...processedData.map(d => d.value));
     const screenWidth = window.innerWidth;
     
-    let minWidth = 20;
-    let maxWidth = 60;
+    let minWidth = 30;
+    let maxWidth = 80;
     
     if (screenWidth < 640) {
-      minWidth = 15;
-      maxWidth = 40;
+      // Mobile - Barras más anchas
+      minWidth = 40;
+      maxWidth = 100;
     } else if (screenWidth < 768) {
-      minWidth = 18;
-      maxWidth = 45;
+      minWidth = 35;
+      maxWidth = 85;
     } else if (screenWidth < 1024) {
-      minWidth = 22;
-      maxWidth = 55;
+      minWidth = 30;
+      maxWidth = 75;
     } else if (screenWidth < 1280) {
       minWidth = 25;
       maxWidth = 65;
@@ -160,18 +161,18 @@ const SimpleFunnelChart = ({
   };
 
   return (
-    <div ref={containerRef} className="w-full h-full flex flex-col p-1">
+    <div ref={containerRef} className="w-full h-full flex flex-col p-2 sm:p-1">
       {/* Título opcional responsive */}
       {title && (
-        <h3 className="text-orange-500 font-semibold text-[9px] sm:text-[10px] md:text-xs lg:text-sm xl:text-base 2xl:text-lg mb-1 lg:mb-2">
+        <h3 className="text-orange-500 font-semibold text-sm sm:text-xs md:text-xs lg:text-sm xl:text-base 2xl:text-lg mb-2 lg:mb-2">
           {title}
         </h3>
       )}
       
       {/* Contenedor principal ultra responsive */}
-      <div className="flex items-center gap-0.5 sm:gap-1 md:gap-1.5 lg:gap-2 xl:gap-3 w-full h-full">
+      <div className="flex items-center gap-2 sm:gap-1 md:gap-1.5 lg:gap-2 xl:gap-3 w-full h-full">
         {/* Gráfico de embudo responsive */}
-        <div className="w-[35%] sm:w-[38%] md:w-[40%] lg:w-[42%] xl:w-[45%] flex justify-center items-center">
+        <div className="w-[45%] sm:w-[38%] md:w-[40%] lg:w-[42%] xl:w-[45%] flex justify-center items-center">
           <FunnelChart 
             width={dimensions.width} 
             height={dimensions.height}
@@ -192,32 +193,32 @@ const SimpleFunnelChart = ({
         </div>
         
         {/* Leyenda ultra responsive */}
-        <div className="w-[65%] sm:w-[62%] md:w-[60%] lg:w-[58%] xl:w-[55%] flex flex-col justify-center space-y-[2px] sm:space-y-[3px] md:space-y-1 lg:space-y-1.5 xl:space-y-2">
+        <div className="w-[55%] sm:w-[62%] md:w-[60%] lg:w-[58%] xl:w-[55%] flex flex-col justify-center space-y-1 sm:space-y-[3px] md:space-y-1 lg:space-y-1.5 xl:space-y-2">
           {chartData.map((item, index) => {
             const barWidth = getBarWidth(item.value);
             
             return (
               <div 
                 key={index} 
-                className="flex items-center gap-0.5 sm:gap-1 md:gap-1.5 lg:gap-2 group cursor-pointer hover:translate-x-0.5 transition-all duration-200"
+                className="flex items-center gap-1 sm:gap-1 md:gap-1.5 lg:gap-2 group cursor-pointer hover:translate-x-0.5 transition-all duration-200"
               >
                 {/* Barra de color ultra responsive */}
                 <div 
-                  className="h-1.5 sm:h-2 md:h-2.5 lg:h-3 xl:h-3.5 2xl:h-4 rounded-sm transition-all duration-200 group-hover:brightness-110 flex-shrink-0"
+                  className="h-3 sm:h-2 md:h-2.5 lg:h-3 xl:h-3.5 2xl:h-4 rounded-sm transition-all duration-200 group-hover:brightness-110 flex-shrink-0"
                   style={{ 
                     backgroundColor: item.fill,
                     width: `${barWidth}px`,
-                    minWidth: '15px'
+                    minWidth: '25px'
                   }}
                 />
                 
                 {/* Label y porcentaje ultra responsive */}
-                <div className="flex items-center gap-0.5 sm:gap-1 lg:gap-1.5 min-w-0">
-                  <span className="text-[8px] sm:text-[9px] md:text-[10px] lg:text-[11px] xl:text-xs 2xl:text-sm font-medium text-gray-700 whitespace-nowrap truncate">
+                <div className="flex items-center gap-1 sm:gap-0.5 lg:gap-1.5 min-w-0">
+                  <span className="text-sm sm:text-[9px] md:text-[10px] lg:text-[11px] xl:text-xs 2xl:text-sm font-medium text-gray-700 whitespace-nowrap truncate">
                     {item.name}
                   </span>
                   {showPercentage && (
-                    <span className="text-[8px] sm:text-[9px] md:text-[10px] lg:text-[11px] xl:text-xs 2xl:text-sm font-bold text-gray-600 flex-shrink-0">
+                    <span className="text-sm sm:text-[9px] md:text-[10px] lg:text-[11px] xl:text-xs 2xl:text-sm font-bold text-gray-600 flex-shrink-0">
                       ({item.percentage}%)
                     </span>
                   )}
@@ -231,7 +232,7 @@ const SimpleFunnelChart = ({
   );
 };
 
-// Versión alternativa: Solo barras (más minimalista y compacta)
+// Resto del código permanece igual...
 const MinimalFunnelChart = ({ 
   data = [], 
   title = '',
@@ -294,7 +295,6 @@ const MinimalFunnelChart = ({
   );
 };
 
-// Colores exportables
 const NIVEL_SOCIOECONOMICO_COLORS = {
   'A/B': '#C4C4C4',
   'C+': '#8B8B8B',

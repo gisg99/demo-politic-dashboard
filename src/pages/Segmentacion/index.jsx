@@ -89,20 +89,20 @@ function Segmentacion() {
           </button>
         </div>
         
-        <div className='flex flex-col w-full gap-3 sm:gap-4'> 
-          {/* Primera fila - Demográficos y Ocupación responsive */}
-          <div className='flex flex-col lg:flex-row gap-3 w-full h-full'>
-            <div className='w-full lg:w-[50%] min-h-[400px] sm:min-h-[500px] lg:h-[30rem]'>
+        <div className='flex flex-col w-full gap-3 sm:gap-4 lg:gap-6'> 
+          {/* Primera fila - Demográficos y Ocupación */}
+          <div className='flex flex-col lg:flex-row gap-3 lg:gap-6 w-full'>
+            <div className='w-full lg:w-1/2 lg:flex-shrink-0'>
               <Card title="Demográficos generales">
-                <div className='w-full h-full flex flex-col gap-3 sm:gap-4 py-2'>
-                  <div className='flex-1'>
+                <div className='w-full flex flex-col gap-3 sm:gap-4 py-2 min-h-[390px] sm:min-h-[500px] lg:min-h-[480px]'>
+                  <div className='flex-1 min-h-[180px] lg:min-h-[200px]'>
                     <DonutChart2 
                       title="Edad"
                       data={edadData}
                       type="default"
                     />
                   </div>
-                  <div className='flex-1'>
+                  <div className='flex-1 min-h-[180px] lg:min-h-[200px]'>
                     <DonutChart2 
                       title="Género"
                       data={generoData}
@@ -113,9 +113,9 @@ function Segmentacion() {
               </Card>
             </div>
             
-            <div className='w-full lg:w-[50%] min-h-[400px] sm:min-h-[500px] lg:h-[30rem]'>
+            <div className='w-full lg:w-1/2 lg:flex-shrink-0'>
               <Card title="Ocupación">
-                <div className='w-full h-full flex flex-col justify-center py-2'>
+                <div className='w-full flex flex-col justify-center py-2 min-h-[400px] sm:min-h-[500px] lg:min-h-[480px]'>
                   <CircleChart 
                     title="Sector productivo"
                     data={ocupacionData}
@@ -128,26 +128,28 @@ function Segmentacion() {
             </div>
           </div>
 
-          {/* Segunda fila - Intereses y Nivel Socioeconómico responsive */}
-          <div className='flex flex-col lg:flex-row gap-3 w-full'>
-            <div className='w-full lg:w-[50%]'>
+          {/* Segunda fila - Intereses y Nivel Socioeconómico */}
+          <div className='flex flex-col lg:flex-row gap-3 lg:gap-6 w-full'>
+            <div className='w-full lg:w-1/2 lg:flex-shrink-0'>
               <Card title="Intereses">
-                <div className='w-full min-h-[300px] lg:h-[15rem] flex flex-col justify-around py-1 sm:py-3'>
-                  {intereses.map((tema, index) => (
-                    <div key={index} className='w-full flex flex-col mb-2 sm:mb-1'>
-                      <div className='flex group gap-1 sm:gap-2 w-full items-center justify-between px-1 sm:px-3'>
-                        <h1 className='text-gray-500 text-sm sm:text-base lg:text-lg flex-shrink-0'>{tema.label}</h1>
-                        <div className='w-[60%] sm:w-[60%] h-2 sm:h-3 rounded-xs' style={{ background: getColor(index, tema.count)}}>
-                          <div className='text-gray-400 text-sm sm:text-base lg:text-lg font-semibold w-min relative -top-2 sm:-top-3 -left-8 sm:-left-13 px-1 sm:px-2 rounded-lg group-hover:block'>
-                            {tema.count}%
+                <div className='w-full flex flex-col justify-start py-1 sm:py-3 min-h-[300px] lg:min-h-[400px]'>
+                  <div className='flex flex-col gap-2 lg:gap-3 mb-4'>
+                    {intereses.map((tema, index) => (
+                      <div key={index} className='w-full flex flex-col'>
+                        <div className='flex group gap-1 sm:gap-2 w-full items-center justify-between px-1 sm:px-3'>
+                          <h1 className='text-gray-500 text-sm sm:text-base lg:text-lg flex-shrink-0'>{tema.label}</h1>
+                          <div className='w-[60%] sm:w-[60%] h-2 sm:h-3 rounded-xs' style={{ background: getColor(index, tema.count)}}>
+                            <div className='text-gray-400 text-sm sm:text-base lg:text-lg font-semibold w-min relative -top-2 sm:-top-3 -left-8 sm:-left-13 px-1 sm:px-2 rounded-lg group-hover:block'>
+                              {tema.count}%
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                   
-                  {/* Hashtags section responsive */}
-                  <div className='mt-3 sm:mt-4'>
+                  {/* Hashtags section */}
+                  <div className='mt-auto'>
                     <h1 className='text-sm sm:text-lg lg:text-[1.3rem] xl:text-[1.8rem] text-tertiary font-bold mb-2 sm:mb-3'>
                       Hashtags Frecuentes
                     </h1>
@@ -161,9 +163,9 @@ function Segmentacion() {
               </Card>
             </div>
             
-            <div className='w-full lg:w-[50%]'>
+            <div className='w-full lg:w-1/2 lg:flex-shrink-0'>
               <Card title="Nivel socioeconómico">
-                <div className='w-full min-h-[300px] lg:h-[15rem] flex flex-col justify-center py-2'>
+                <div className='w-full flex flex-col justify-center py-2 min-h-[300px] lg:min-h-[400px]'>
                   <CircleChart 
                     title=""
                     data={nivelSocioeconomicoData}
@@ -176,21 +178,26 @@ function Segmentacion() {
             </div>
           </div>
  
-          {/* Tercera fila - Horarios/Plataformas responsive */}
-          <div className='flex flex-col lg:flex-row gap-3 w-full'>
-            <div className='w-full lg:w-[50%]'>
+          {/* Tercera fila - Horarios/Plataformas */}
+          <div className='flex flex-col lg:flex-row gap-3 lg:gap-6 w-full'>
+            <div className='w-full lg:w-1/2 lg:flex-shrink-0'>
               <Card title="Horarios de mayor actividad">
-                <div className='w-full h-full flex flex-col justify-start items-start py-3 sm:py-4'>
+                <div className='w-full flex flex-col justify-start items-start py-3 sm:py-4 min-h-[200px] lg:min-h-[250px]'>
                   <h1 className='text-gray-500 font-semibold text-2xl sm:text-3xl lg:text-4xl xl:text-5xl mb-3 sm:mb-4'>
                     5:00 a 8:00 pm
                   </h1>
                   
-                  {/* Plataformas más usadas responsive */}
-                  <div className='w-full'>
+                  {/* Plataformas más usadas */}
+                  <div className='w-full mt-auto'>
                     <SocialPlatforms platforms={plataformasMasUsadas} />
                   </div>
                 </div>
               </Card>
+            </div>
+            
+            {/* Card vacía para mantener la estructura en desktop */}
+            <div className='hidden lg:block w-full lg:w-1/2 lg:flex-shrink-0'>
+              {/* Espacio reservado para futuro contenido */}
             </div>
           </div>
         </div>

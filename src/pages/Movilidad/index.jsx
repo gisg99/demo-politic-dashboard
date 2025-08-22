@@ -38,7 +38,7 @@ function Movilidad() {
         </div>
         
         {/* Mapa de calor - Full width responsive */}
-        <div className='flex gap-2 w-full'>
+        <div className='flex gap-2 w-full'> 
           <div className='w-full'>
             <Card title='Mapa de calor'>
               <div className='flex flex-col w-full gap-2 sm:gap-3'>
@@ -46,7 +46,10 @@ function Movilidad() {
                   <h1 className='text-gray-500 text-sm sm:text-base'>Zonas de Permanencia y Concentración</h1>
                 </div>
                 <div className='w-full h-64 sm:h-80 md:h-96 lg:h-[400px]'>
-                  <HeatmapComponent data={heatmapData} />
+                  <HeatmapComponent 
+                    data={heatmapData} 
+                    useContainerHeight={true}  // Esto hace que use h-full
+                  />
                 </div>
               </div>
             </Card>

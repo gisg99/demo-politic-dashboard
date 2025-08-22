@@ -109,24 +109,28 @@ function Redes() {
                 </div>
                 <div className='w-full lg:w-1/2'>
                   <Card title='Porcentaje de Aprobación'>
-                    <div className='flex flex-col'>
-                      <PercentRings items={sentiment} />
-                      <h1 className='text-center text-tertiary font-bold text-xl md:text-2xl xl:text-3xl mt-2'>
-                        Temas Frecuentes
-                      </h1>
-                      <div className='w-full h-full flex flex-col justify-around py-1'>
-                        {temas.map((tema, index) => (
-                          <div key={index} className='w-full flex flex-col'>
-                            <div className='flex group gap-2 w-full items-center justify-between px-3'>
-                              <h1 className='text-gray-500 text-lg'>{tema.label}</h1>
-                              <div className='w-[50%] h-3 rounded-xs' style={{ background: getColor(index, tema.count)}}>
-                                <div className='text-gray-400 text-lg font-semibold w-min relative -top-3 -left-13 px-2 rounded-lg group-hover:block'>
-                                  {tema.count}%
+                    <div className='w-full flex flex-col'>
+                      <div className='flex'>
+                        <PercentRings items={sentiment} />
+                      </div>
+                      <div>
+                        <h1 className='text-center text-tertiary font-bold text-xl md:text-2xl xl:text-3xl mt-2'>
+                          Temas Frecuentes
+                        </h1>
+                        <div className='w-full h-full flex flex-col justify-around py-1'>
+                          {temas.map((tema, index) => (
+                            <div key={index} className='w-full flex flex-col'>
+                              <div className='flex group gap-2 w-full items-center justify-between px-3'>
+                                <h1 className='text-gray-500 text-lg'>{tema.label}</h1>
+                                <div className='w-[50%] h-3 rounded-xs' style={{ background: getColor(index, tema.count)}}>
+                                  <div className='text-gray-400 text-lg font-semibold w-min relative -top-3 -left-13 px-2 rounded-lg group-hover:block'>
+                                    {tema.count}%
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </Card>
