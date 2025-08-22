@@ -92,7 +92,10 @@ const DefaultTab = ({ tab }) => {
                 <div className='w-full lg:w-[60%]'>
                     <Card title='Publicación más popular de esta semana'>
                         <div className="flex flex-col gap-2 lg:gap-4 w-full">
-                            <div className="w-full h-48 lg:h-[350px] bg-gray-200 rounded-xl"></div>
+                            {/* <div className="w-full h-48 lg:h-[350px] bg-gray-200 rounded-xl"></div>
+                             */}
+                                <iframe src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2FPabloLemusN%2Fvideos%2F734024359605612%2F&show_text=false&width=560&t=0" width="560" height="314" frameborder="0"></iframe>
+
                             <div className="grid grid-cols-2 lg:flex lg:justify-around gap-2 lg:gap-4 w-full">
                                 <div className="flex flex-col gap-1 lg:gap-2 items-center">
                                     {socialMediaIcon(tab.best_post_social_media)}
