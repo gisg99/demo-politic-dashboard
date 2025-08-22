@@ -10,6 +10,7 @@ import Redes from './pages/Redes';
 import Configuracion from './pages/Configuracion';
 import Segmentacion from './pages/Segmentacion';
 import './App.css';
+import { InformacionProvider } from './utils/InformacionContext';
 
 const AppRoutes = () => { 
 
@@ -31,9 +32,11 @@ function App() {
 
 
   return (
-    <BrowserRouter>
-        <AppRoutes />
-    </BrowserRouter>
+    <InformacionProvider>
+      <BrowserRouter>
+          <AppRoutes />
+      </BrowserRouter>
+    </InformacionProvider>
   )
 }
 
