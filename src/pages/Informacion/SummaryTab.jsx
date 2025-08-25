@@ -107,7 +107,7 @@ const SummaryTab = () => {
                     </div>
                 </Card>
                 <Card title='Aceptación MC vs Morena'>
-                    <div className="flex flex-col lg:flex-row gap-4 lg:gap-8 h-full w-full">
+                    <div className="flex flex-row lg:flex-row gap-4 lg:gap-8 h-full w-full">
                         <div className='flex flex-col gap-2 lg:gap-2 h-full w-full text-gray-800'>
                             {mcVsMorena.map(partido => (
                                 <div key={partido.nombre} className='flex items-center gap-2 lg:gap-4 w-full'>
