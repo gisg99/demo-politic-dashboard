@@ -6,6 +6,7 @@ const InformacionContext = createContext();
 const InformacionProvider = ({ children }) => {
     const [weeklyReportCandidato, setWeeklyReportCandidato] = useState([]);
     const [weeklyReportPartido, setWeeklyReportPartido] = useState([]);
+    const [weeksNumbers, setWeeksNumbers] = useState([]);
 
     const fetchWeeklyReportCandidato = async (week) => {
         try{
@@ -31,13 +32,26 @@ const InformacionProvider = ({ children }) => {
         }
     }
 
+    const fetchWeeksNumbers = async (week) => {
+        try{
+            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v2/prueba/analytics/semanas`);
+            console.log(response);
+            if(response.status === 200) {
+                setWeeksNumbers(response.data);
+            }
+        } catch (error) {
+            console.error("Error fetching weekly report:", error);
+        }
+    }
+
     useEffect(() => {
         fetchWeeklyReportCandidato(1);
         fetchWeeklyReportPartido(1);
+        fetchWeeksNumbers();
     }, []);
 
     return (
-        <InformacionContext.Provider value={{ weeklyReportCandidato, weeklyReportPartido, fetchWeeklyReportCandidato, fetchWeeklyReportPartido }}>
+        <InformacionContext.Provider value={{ weeklyReportCandidato, weeklyReportPartido, fetchWeeklyReportCandidato, fetchWeeklyReportPartido, weeksNumbers }}>
             {children}
         </InformacionContext.Provider>
     )

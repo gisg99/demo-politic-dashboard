@@ -7,7 +7,7 @@ import { partidosData } from "./partidosData";
 import { InformacionContext } from '../../utils/InformacionContext';
 
 function Informacion() {
-  const { weeklyReportPartido } = useContext(InformacionContext);
+  const { weeklyReportPartido, weeksNumbers } = useContext(InformacionContext);
   const [ selectedTab, setSelectedTab ] = useState('resumen');
   
   return (
@@ -17,12 +17,12 @@ function Informacion() {
           <select className='text-sm p-1 text-white bg-gray-400 rounded-full'>
             <option value="semana-1">Selecciona una semana...</option>
             {
-              weeklyReportPartido.map((week) => (
-                <option key={index} value={index}>Semana {index + 1}</option>
+              weeksNumbers.map((week) => (
+                <option key={week} value={week}>Semana {week}</option>
               ))
             }
           </select>
-          <h2 className='relative bg-[#acb8bf] px-2 lg:px-3 py-0.5 cursor-pointer text-white font-medium rounded-full hover:bg-tertiary text-xs lg:text-base'>Descargar</h2>
+          <h2 onClick={() => console.log(weeklyReportPartido )} className='relative bg-[#acb8bf] px-2 lg:px-3 py-0.5 cursor-pointer text-white font-medium rounded-full hover:bg-tertiary text-xs lg:text-base'>Descargar</h2>
         </div>
         
         {/* Tabs navegación - Mejorado para móvil */}
