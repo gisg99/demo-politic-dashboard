@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Card } from "../../components";
 import { HeatmapComponent } from "../../components";
 import { LineChart2 } from "../../components/LineChart2";
@@ -6,6 +6,7 @@ import { FaChevronLeft, FaChevronRight, FaXTwitter, FaUsers } from "react-icons/
 import { FaFacebookF, FaInstagram, FaTiktok, FaWhatsapp, FaYoutube, FaGoogle, FaMapMarkedAlt, FaLongArrowAltUp } from 'react-icons/fa';
 
 const DefaultTab = ({ tab }) => {
+    const [selectedWeek, setSelectedWeek] = useState(0);
     const platformsConfig = {
         facebook: {
             icon: FaFacebookF,
@@ -62,7 +63,7 @@ const DefaultTab = ({ tab }) => {
 
     useEffect(() => {
         console.log(tab);
-    }, [tab])
+    }, [tab]);
 
     const socialMediaIcon = (platform) => {
         const config = platformsConfig[platform];
