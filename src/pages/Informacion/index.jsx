@@ -12,8 +12,16 @@ function Informacion() {
   return (
     <Layout>
       <div className='flex flex-col w-full h-full items-center py-2 lg:py-4 px-2 lg:px-6 mb-4 lg:mb-10 gap-2 lg:gap-4'>
-        <div className='w-full flex justify-end items-center'>
-        <h2 className='relative bg-[#acb8bf] px-2 lg:px-3 py-0.5 cursor-pointer text-white font-medium rounded-full hover:bg-tertiary text-xs lg:text-base'>Descargar</h2>
+        <div className='w-full flex justify-between items-center'>
+          <select className='text-sm p-1 text-white bg-gray-400 rounded-full'>
+            <option value="semana-1">Selecciona una semana...</option>
+            {
+              weeklyReportPartido.map((week) => (
+                <option key={index} value={index}>Semana {index + 1}</option>
+              ))
+            }
+          </select>
+          <h2 className='relative bg-[#acb8bf] px-2 lg:px-3 py-0.5 cursor-pointer text-white font-medium rounded-full hover:bg-tertiary text-xs lg:text-base'>Descargar</h2>
         </div>
         <div className='w-full flex justify-between gap-1 lg:gap-0'>
           <span onClick={() => setSelectedTab('resumen')} className={`uppercase py-1 px-1 lg:px-2 rounded-full text-xs font-medium hover:bg-gray-300 cursor-pointer ${selectedTab === 'resumen' ? 'bg-tertiary hover:bg-tertiary text-white' : ' bg-white'}`}>resumen</span>
