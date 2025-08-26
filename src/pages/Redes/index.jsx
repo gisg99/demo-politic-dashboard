@@ -138,19 +138,24 @@ function Redes() {
               </div>
             </div>
 
+            {/* Ranking Digital de Candidatos + Partidos - Columna derecha */}
             <div className='w-full xl:w-[30%]'>
               <Card title='Ranking Digital de Candidatos'>
-                <CandidateChart dataCandidatos={dataCandidatos} />
-                <h1 className='text-center text-tertiary font-bold text-lg md:text-xl xl:text-2xl my-3'>
-                  Partidos
-                </h1>
-                <CircleChart 
-                  title=""
-                  data={partidosData}
-                  showLegend={true}
-                  legendPosition="right"
-                  size="medium"
-                />
+                <div className='flex justify-start w-full flex-col'>
+                  <CandidateChart dataCandidatos={dataCandidatos} />
+                  <h1 className='text-center text-tertiary font-bold text-lg md:text-xl xl:text-2xl my-3'>
+                    Partidos
+                  </h1>
+                  <div className='w-full h-full flex flex-col justify-center py-2'>
+                    <CircleChart 
+                      title=""
+                      data={partidosData}
+                      showLegend={true}
+                      legendPosition="right"
+                      size="medium"
+                    />
+                  </div>
+                </div>
               </Card>
             </div>
           </div>

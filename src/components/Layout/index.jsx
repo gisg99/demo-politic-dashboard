@@ -74,7 +74,7 @@ const Layout = ({ children }) => {
               </div>
             </div>
           </div>
-          <div className={`${filterActive ? 'h-76 sm:h-36 lg:h-32' : 'h-0'} overflow-hidden transition-all duration-300`}>
+          <div className={`${filterActive ? 'h-[315px] sm:h-32 md:h-36' : 'h-0'} overflow-hidden transition-all duration-300`}>
             <FiltrosComponent/>
           </div>
         </header>
