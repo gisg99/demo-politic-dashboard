@@ -131,7 +131,7 @@ const Comparator = ({ start }) => {
                             <span className="text-xs lg:text-sm font-medium">Comunidad</span>
                         </div>
                         <div className={`h-20 w-20 lg:h-32 lg:w-32 bg-amber-500 rounded-full flex items-center justify-center text-white font-semibold text-sm lg:text-xl`}>{weeklyReportCandidato[selectedIndex].num_seguidores}</div>
-                        <div className={`h-8 w-8 lg:h-14 lg:w-14 bg-amber-500 rounded-full flex items-center justify-center text-white font-medium text-xs lg:text-md border-2 border-white -mt-6 lg:-mt-10`}><FaLongArrowAltUp className="text-xs lg:text-base" />{weeklyReportCandidato[selectedIndex].aumento_comunidad ? 1 : 0}%</div>
+                        <div className={`h-8 w-8 lg:h-14 lg:w-14 bg-amber-500 rounded-full flex items-center justify-center text-white font-medium text-xs lg:text-md border-2 border-white -mt-6 lg:-mt-10`}><FaLongArrowAltUp className={`text-xs lg:text-base ${weeklyReportCandidato[selectedIndex].aumento_seguidores > 0 ? "" : "rotate-180"}`} />{weeklyReportCandidato[selectedIndex].aumento_seguidores.toFixed(2)}%</div>
                     </div>
                     <div className="flex flex-col items-center gap-1 lg:gap-2">
                         <div className="flex gap-1 lg:gap-2 items-center text-gray-600">
@@ -139,7 +139,7 @@ const Comparator = ({ start }) => {
                             <span className="text-xs lg:text-sm font-medium">Interacciones</span>
                         </div>
                         <div className={`h-20 w-20 lg:h-32 lg:w-32 bg-orange-500 rounded-full flex items-center justify-center text-white font-semibold text-sm lg:text-xl`}>{weeklyReportCandidato[selectedIndex].num_interacciones}</div>
-                        <div className={`h-8 w-8 lg:h-14 lg:w-14 bg-orange-500 rounded-full flex items-center justify-center text-white font-medium text-xs lg:text-md border-2 border-white -mt-6 lg:-mt-10`}><FaLongArrowAltUp className="text-xs lg:text-base" />{weeklyReportCandidato[selectedIndex].aumento_interacciones ? 1 : 0}%</div>
+                        <div className={`h-8 w-8 lg:h-14 lg:w-14 bg-orange-500 rounded-full flex items-center justify-center text-white font-medium text-xs lg:text-md border-2 border-white -mt-6 lg:-mt-10`}><FaLongArrowAltUp className={`text-xs lg:text-base ${weeklyReportCandidato[selectedIndex].aumento_interacciones > 0 ? "" : "rotate-180"}`} />{weeklyReportCandidato[selectedIndex].aumento_interacciones.toFixed(2)}%</div>
                     </div>
                     <div className="flex flex-col items-center gap-1 lg:gap-2">
                         <div className="flex gap-1 lg:gap-2 items-center text-gray-600">
@@ -147,7 +147,7 @@ const Comparator = ({ start }) => {
                             <span className="text-xs lg:text-sm font-medium">Publicaciones</span>
                         </div>
                         <div className={`h-20 w-20 lg:h-32 lg:w-32 bg-orange-600 rounded-full flex items-center justify-center text-white font-semibold text-sm lg:text-xl`}>{weeklyReportCandidato[selectedIndex].num_publicaciones}</div>
-                        <div className={`h-8 w-8 lg:h-14 lg:w-14 bg-orange-600 rounded-full flex items-center justify-center text-white font-medium text-xs lg:text-md border-2 border-white -mt-6 lg:-mt-10`}><FaLongArrowAltUp className={`text-xs lg:text-base ${weeklyReportCandidato[selectedIndex].aumento_publicaciones > 0 ? "" : "rotate-180"}`} />{weeklyReportCandidato[selectedIndex].aumento_publicaciones ? 1 : 0}%</div>
+                        <div className={`h-8 w-8 lg:h-14 lg:w-14 bg-orange-600 rounded-full flex items-center justify-center text-white font-medium text-xs lg:text-md border-2 border-white -mt-6 lg:-mt-10`}><FaLongArrowAltUp className={`text-xs lg:text-base ${weeklyReportCandidato[selectedIndex].aumento_publicaciones > 0 ? "" : "rotate-180"}`} />{weeklyReportCandidato[selectedIndex].aumento_publicaciones.toFixed(2)}%</div>
                     </div>
                 </div>
                 <div className="flex flex-col gap-2 lg:gap-4 px-2 lg:px-8">
@@ -170,27 +170,27 @@ const Comparator = ({ start }) => {
                 </div>
                 <div className="flex flex-col gap-2 lg:gap-4 px-2 lg:px-8">
                     <h1 className="text-lg lg:text-2xl font-semibold text-orange-500">Demografía</h1>
-                    <div className="grid grid-cols-3 gap-2 lg:gap-4">
+                    <div className="grid grid-cols-3 gap-2 lg:gap-2">
                         <div className="flex items-center justify-center">
-                            <div className={`h-20 w-20 lg:h-32 lg:w-32 bg-amber-500 rounded-full flex flex-col gap-1 lg:gap-2 items-center justify-center text-white font-semibold text-xs lg:text-sm`}>
+                            <div className={`w-full aspect-square lg:h-32 lg:w-32 bg-amber-500 rounded-full flex flex-col gap-1 lg:gap-2 items-center justify-center text-white font-semibold text-xs lg:text-sm`}>
                                 <span>Edad Promedio</span>
                                 <b className="text-lg lg:text-3xl font-semibold">{weeklyReportCandidato[selectedIndex].edad_promedio_seguidores}</b>
                             </div>
                         </div>
                         <div className="flex items-center justify-center">
-                            <div className={`h-20 w-20 lg:h-32 lg:w-32 bg-orange-500 rounded-full flex flex-col gap-1 lg:gap-2 items-center justify-center text-white font-semibold text-xs lg:text-sm`}>
+                            <div className={`w-full aspect-square lg:h-32 lg:w-32 bg-orange-500 rounded-full flex flex-col gap-1 lg:gap-2 items-center justify-center text-white font-semibold text-xs lg:text-sm`}>
                                 <span>Género</span>
                                 <b className="font-semibold text-xs lg:text-sm">H: {weeklyReportCandidato[selectedIndex].porcentaje_genero_hombres}%</b>
                                 <b className="font-semibold text-xs lg:text-sm">M: {100 - weeklyReportCandidato[selectedIndex].porcentaje_genero_hombres}%</b>
                             </div>
                         </div>
                         <div className="flex items-center justify-center">
-                            <div className={`h-20 w-20 lg:h-32 lg:w-32 bg-orange-600 rounded-full flex flex-col gap-1 lg:gap-2 items-center justify-center text-white font-semibold text-xs lg:text-sm`}>
-                                <span>Intención de voto</span>
+                            <div className={`w-full aspect-square lg:h-32 lg:w-32 bg-orange-600 rounded-full flex flex-col gap-1 lg:gap-2 items-center justify-center text-white font-semibold text-xs lg:text-sm`}>
+                                <span className="text-xs">Intención de voto</span>
+                                <b className="text-lg lg:text-2xl font-semibold">{weeklyReportCandidato[selectedIndex].porcentaje_intencion_voto}%</b>
                                 <div className="flex">
-                                    <FaLongArrowAltUp className={`text-lg lg:text-3xl ${weeklyReportCandidato[selectedIndex].porcentaje_intencion_voto > 0 ? "" : "rotate-180"}`} />
+                                    <FaLongArrowAltUp className={`text-lg lg:text-3xl ${weeklyReportCandidato[selectedIndex].aumento_intencion_voto > 0 ? "" : "rotate-180"}`} />
                                 </div>
-                                <b className="text-lg lg:text-3xl font-semibold">{weeklyReportCandidato[selectedIndex].porcentaje_intencion_voto ? 1 : 0}%</b>
                             </div>
                         </div>
                     </div>

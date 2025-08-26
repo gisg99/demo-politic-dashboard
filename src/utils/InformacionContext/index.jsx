@@ -45,8 +45,8 @@ const InformacionProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        fetchWeeklyReportCandidato(1);
-        fetchWeeklyReportPartido(1);
+        fetchWeeklyReportCandidato(3);
+        fetchWeeklyReportPartido(3);
         fetchWeeksNumbers();
     }, []);
 

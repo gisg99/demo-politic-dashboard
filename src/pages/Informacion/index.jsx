@@ -7,7 +7,7 @@ import { partidosData } from "./partidosData";
 import { InformacionContext } from '../../utils/InformacionContext';
 
 function Informacion() {
-  const { weeklyReportPartido, weeksNumbers } = useContext(InformacionContext);
+  const { weeklyReportPartido, weeklyReportCandidato, weeksNumbers } = useContext(InformacionContext);
   const [ selectedTab, setSelectedTab ] = useState('resumen');
   
   return (
@@ -22,7 +22,7 @@ function Informacion() {
               ))
             }
           </select>
-          <h2 onClick={() => console.log(weeklyReportPartido )} className='relative bg-[#acb8bf] px-2 lg:px-3 py-0.5 cursor-pointer text-white font-medium rounded-full hover:bg-tertiary text-xs lg:text-base'>Descargar</h2>
+          <h2 onClick={() => console.log(weeklyReportCandidato )} className='relative bg-[#acb8bf] px-2 lg:px-3 py-0.5 cursor-pointer text-white font-medium rounded-full hover:bg-tertiary text-xs lg:text-base'>Descargar</h2>
         </div>
         
         {/* Tabs navegación - Mejorado para móvil */}
