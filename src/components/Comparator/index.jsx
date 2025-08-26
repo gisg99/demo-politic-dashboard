@@ -9,12 +9,13 @@ import { InformacionContext } from "../../utils/InformacionContext";
 const Comparator = ({ start }) => {
     const [selectedIndex, setSelectedIndex] = React.useState(start);
     const { weeklyReportCandidato } = useContext(InformacionContext);
+    
     const platformsConfig = {
         facebook: {
             icon: FaFacebookF,
             bgColor: '#1877F2',
             name: 'Facebook'
-        },
+        }, 
         instagram: {
             icon: FaInstagram,
             bgColor: 'linear-gradient(45deg, #833AB4, #FD1D1D, #FCB045)',

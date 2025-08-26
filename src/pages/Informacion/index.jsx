@@ -9,6 +9,7 @@ import { InformacionContext } from '../../utils/InformacionContext';
 function Informacion() {
   const { weeklyReportPartido, weeklyReportCandidato, weeksNumbers, selectedWeek, setSelectedWeek } = useContext(InformacionContext);
   const [ selectedTab, setSelectedTab ] = useState('resumen');
+  const partidos = weeklyReportPartido.length > 0 ? weeklyReportPartido.map(item => item.iniciales.toLowerCase()) : [];
   
   return (
     <Layout>
@@ -40,7 +41,7 @@ function Informacion() {
               resumen
             </span>
             
-            {Object.keys(partidosData).map(tab => (
+            {partidos.map(tab => (
               <span 
                 key={tab} 
                 onClick={() => setSelectedTab(tab)} 

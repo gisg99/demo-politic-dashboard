@@ -1,10 +1,14 @@
-import React from "react";
+import React, {useContext} from "react";
 import { Card, HeatmapComponent } from "../../components";
 import { GeoJSONMap } from "../../components/GeoJSONMap";
 import { LineChart2 } from "../../components/LineChart2";
+import { InformacionContext } from "../../utils/InformacionContext";
 import { ImArrowUp, ImArrowDown } from "react-icons/im";
 
 const SummaryTab = () => {
+    const { weeklyReportGeneral, setWeeklyReportGeneral } = useContext(InformacionContext);
+    console.log("Weekly Report General:", weeklyReportGeneral);
+
     const heatmapData = [
         [20.6748, -103.344, "100"],
         [20.6782, -103.340, "85"],
@@ -14,7 +18,7 @@ const SummaryTab = () => {
         [20.6699, -103.346, "60"],
         [20.6760, -103.349, "50"],
         [20.6752, -103.341, "45"],
-        [20.6730, -103.343, "30"]
+        [20.6730, -103.343, "30"] 
     ];
 
     const intention = [
