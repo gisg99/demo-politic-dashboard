@@ -14,15 +14,15 @@ function Informacion() {
   return (
     <Layout>
       <div className='flex flex-col w-full h-full items-center py-2 lg:py-4 px-2 lg:px-6 mb-4 lg:mb-10 gap-2 lg:gap-4'>
-        <div className='w-full flex justify-between items-center'>
-          <select onChange={(e) => setSelectedWeek(e.target.value)} className='text-sm p-1 text-white bg-gray-400 rounded-full'>
+        <div className='w-full flex justify-end items-center'>
+          {/* <select onChange={(e) => setSelectedWeek(e.target.value)} className='text-sm p-1 text-white bg-gray-400 rounded-full'>
             <option value="semana-1">Selecciona una semana...</option>
             {
               weeksNumbers.map((week) => (
                 <option key={week} value={week}>Semana {week}</option> 
               ))
             }
-          </select>
+          </select> */}
           <h2 onClick={() => console.log(selectedWeek )} className='relative bg-[#acb8bf] px-2 lg:px-3 py-0.5 cursor-pointer text-white font-medium rounded-full hover:bg-tertiary text-xs lg:text-base'>Descargar</h2>
         </div>
         
