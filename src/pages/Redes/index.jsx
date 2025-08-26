@@ -1,10 +1,44 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Layout, Card, EmojiDonutChart, PoliticalMentionsChart, ApprovalVsCompetencyChart, CandidateChart, CircleChart, PercentRings, ConnectionHoursChart } from '../../components';
+import { FaTwitter, FaFacebookF, FaInstagram, FaTiktok } from "react-icons/fa";
 import { FaAngry, FaSmile } from 'react-icons/fa' 
 import { VscFlame } from "react-icons/vsc";
-import { ImArrowUp, ImArrowDown  } from "react-icons/im";
+import { ImArrowUp } from "react-icons/im";
+import { InformacionContext } from '../../utils/InformacionContext';
 
 function Redes() {
+  const { weeklyReportGeneral } = useContext(InformacionContext);
+  const general = weeklyReportGeneral?.[0] ?? null;
+
+  // Felicidad vs Enojo
+  const felicidad = Number(general?.porcentaje_felicidad) || 0;
+  const enojo = Math.max(0, Math.min(100, 100 - felicidad));
+
+  const emojiData = [
+    { label: 'Enojado', value: enojo, color: '#FF9F40', emoji: <FaAngry color='#FF9F40' /> },
+    { label: 'Feliz', value: felicidad, color: '#FFD93D', emoji: <FaSmile color='#FFD93D'/> }
+  ];
+
+  const sentiment = [
+    { label: 'A FAVOR',   value: Number(Number(general?.aprobacion_a_favor).toFixed(0))   || 0, color: '#FFA869' },
+    { label: 'EN CONTRA', value: Number(Number(general?.aprobacion_en_contra).toFixed(0)) || 0, color: '#FF7D5A' },
+    { label: 'NEUTRAL',   value: Number(Number(general?.aprobacion_neutral).toFixed(0))   || 0, color: '#FFC978' },
+  ];
+
+  // Temas frecuentes dinámicos
+  const temas = general?.temas_frecuentes?.map((t, index) => ({
+    label: t.tema,
+    count: t.menciones,
+    color: ['#FF6B4D', '#FFB74D', '#FFD54F', '#FFAB91'][index % 4] // paleta rotativa
+  })) || [];
+
+  const platformIcons = {
+    twitter: <FaTwitter className="text-blue-400 w-4 h-4 md:w-6 md:h-6" />,
+    x: <FaTwitter className="text-black w-4 h-4 md:w-6 md:h-6" />, // opcional si usas "x"
+    facebook: <FaFacebookF className="text-blue-600 w-4 h-4 md:w-6 md:h-6" />,
+    instagram: <FaInstagram className="text-pink-500 w-4 h-4 md:w-6 md:h-6" />,
+    tiktok: <FaTiktok className="text-black w-4 h-4 md:w-6 md:h-6" />,
+  };
 
   const dataCandidatos = [
     { nombre: 'Candidato A', porcentaje: 30, color: '#FF6B6B' },
@@ -13,43 +47,13 @@ function Redes() {
     { nombre: 'Candidato D', porcentaje: 15, color: '#FF8C42' },
     { nombre: 'Candidato E', porcentaje: 15, color: '#FF7F50' },
     { nombre: 'Candidato F', porcentaje: 20, color: '#FF9F40' }
-  ]
+  ];
 
   const partidosData = [
     { label: 'MC', value: 45, color: '#FFB74D' },
     { label: 'MR', value: 30, color: '#BDBDBD' },
     { label: 'PN', value: 15, color: '#9E9E9E' },
     { label: 'PRI', value: 10, color: '#757575' }
-  ]
-  
-  const emojiData = [
-    {
-      label: 'Enojado',
-      value: 20,
-      color: '#FF9F40',
-      emoji: <FaAngry color='#FF9F40' />
-    },
-    {
-      label: 'Feliz',
-      value: 80,
-      color: '#FFD93D',
-      emoji: <FaSmile color='#FFD93D'/>
-    }
-  ]
-
-  const sentiment = [
-    { label: 'A FAVOR',   value: 58, color: '#FFA869' },
-    { label: 'EN CONTRA', value: 28, color: '#FF7D5A' },
-    { label: 'NEUTRAL',   value: 14, color: '#FFC978' },
-  ];
-
-  
-  // Datos de intereses
-  const temas = [
-    {label: 'Corrupción', count: 90, color: '#FF6B4D'},
-    {label: 'Medio amb.', count: 70, color: '#FFB74D'},
-    {label: 'Transporte', count: 80, color: '#FFD54F'},
-    {label: 'Op. Laboral', count: 60, color: '#FFAB91'},
   ];
 
   const getColor = (index, count) => {
@@ -61,11 +65,12 @@ function Redes() {
       default: return `linear-gradient(90deg,rgb(255, 145, 77) 0%,rgb(255, 145, 77) ${count}%, rgb(255, 145, 77, .15) ${count}%, rgb(255, 145, 77, .15) 100%)`;
     }
   }
-    const datosConexiones = [
-      850, 520, 380, 290, 220, 340, 680, 1580,
-      2180, 2450, 2280, 2120, 1980, 2150, 2320, 2480,
-      2550, 2420, 2380, 2250, 2100, 1850, 1420, 980
-    ];
+
+  const datosConexiones = [
+    850, 520, 380, 290, 220, 340, 680, 1580,
+    2180, 2450, 2280, 2120, 1980, 2150, 2320, 2480,
+    2550, 2420, 2380, 2250, 2100, 1850, 1420, 980
+  ];
 
   return (
     <Layout>
@@ -77,40 +82,29 @@ function Redes() {
           </h2>
         </div>
 
-        {/* Contenedor principal - Reorganizado para móvil */}
         <div className='flex flex-col gap-3 md:gap-4 w-full'>
-          
-          {/* MÓVIL: Layout en columna única, DESKTOP: Layout complejo */}
-          
-          {/* Layout principal - 4 cards + Ranking a la derecha */}
           <div className='flex flex-col xl:flex-row gap-3 md:gap-4'>
-            
-            {/* Grid de 4 cards principales - 2x2 con altura uniforme */}
             <div className='w-full xl:w-[70%]'>
-              <div className='grid grid-cols-1 lg:grid-cols-2 grid-rows-1 lg:grid-rows-2 gap-3 md:gap-4 h-auto'>
+              <div className='grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4 h-auto'>
                 
-                {/* Card 1: Menciones por Partido y Candidato */}
                 <div className='h-full'>
                   <Card title='Menciones por Partido y Candidato'>
                     <PoliticalMentionsChart/>
                   </Card>
                 </div>
 
-                {/* Card 2: Aprobación VS Competencia */}
                 <div className='h-full'>
                   <Card title='Aprobación VS Competencia'>
                     <ApprovalVsCompetencyChart/>
                   </Card>
                 </div>
 
-                {/* Card 3: Análisis de Sentimiento */}
                 <div className='h-full'>
                   <Card title='Análisis de Sentimiento en Tiempo Real'>
                     <EmojiDonutChart title="Sentimiento" data={emojiData} size="xs" />
                   </Card>
                 </div> 
 
-                {/* Card 4: Porcentaje de Aprobación + Temas Frecuentes */}
                 <div className='h-full'>
                   <Card title='Porcentaje de Aprobación'>
                     <div className='w-full flex flex-col h-full'>
@@ -124,13 +118,13 @@ function Redes() {
                         <div className='w-full h-full flex flex-col gap-4 py-0 my-0'>
                           {temas.map((tema, index) => (
                             <div key={index} className='w-full flex flex-col'>
-                              <div className='flex group gap-1 sm:gap-1 w-full items-center justify-between px-1'>
-                                <h1 className='text-gray-500 text-xs sm:text-sm md:text-base lg:text-sm xl:text-base min-w-[60px] sm:min-w-[70px] md:min-w-[80px]'>
+                              <div className='flex group gap-1 w-full items-center justify-between px-1'>
+                                <h1 className='text-gray-500 text-xs sm:text-sm md:text-base lg:text-sm xl:text-base'>
                                   {tema.label}
                                 </h1>
                                 <div className='flex-1 h-2 sm:h-2.5 md:h-3 rounded-xs mx-1 sm:mx-2' style={{ background: getColor(index, tema.count)}}>
                                   <div className='text-gray-400 text-xs sm:text-sm md:text-base lg:text-sm xl:text-base font-semibold w-min relative -top-3 sm:-top-4 md:-top-5 right-0 px-1 sm:px-2 rounded-lg group-hover:block'>
-                                    {tema.count}%
+                                    {tema.count}
                                   </div>
                                 </div>
                               </div>
@@ -144,24 +138,19 @@ function Redes() {
               </div>
             </div>
 
-            {/* Ranking Digital de Candidatos + Partidos - Columna derecha */}
             <div className='w-full xl:w-[30%]'>
               <Card title='Ranking Digital de Candidatos'>
-                <div className='flex justify-start w-full flex-col'>
-                  <CandidateChart dataCandidatos={dataCandidatos} />
-                  <h1 className='text-center text-tertiary font-bold text-lg md:text-xl xl:text-2xl my-3'>
-                    Partidos
-                  </h1>
-                  <div className='w-full h-full flex flex-col justify-center py-2'>
-                    <CircleChart 
-                      title=""
-                      data={partidosData}
-                      showLegend={true}
-                      legendPosition="right"
-                      size="medium"
-                    />
-                  </div>
-                </div>
+                <CandidateChart dataCandidatos={dataCandidatos} />
+                <h1 className='text-center text-tertiary font-bold text-lg md:text-xl xl:text-2xl my-3'>
+                  Partidos
+                </h1>
+                <CircleChart 
+                  title=""
+                  data={partidosData}
+                  showLegend={true}
+                  legendPosition="right"
+                  size="medium"
+                />
               </Card>
             </div>
           </div>
@@ -200,52 +189,57 @@ function Redes() {
                   {/* Texto descriptivo */}
                   <div className='text-start'>
                     <p className='text-sm md:text-base lg:text-lg font-semibold text-gray-600 leading-tight'>
-                      Menciones negativas<br/>
-                      crecientes en redes sociales
+                      Mencion mas frecuente: <br/> {general?.mencion_mas_frecuente || 'N/A'}
                     </p>
                   </div>
                 </div>
                 <div className='flex flex-col w-full h-full p-4 md:p-6 lg:p-8 text-left gap-1'>
-                  {/* Sección Plataforma */}
                   <div className='flex flex-col gap-2'>
                     <h3 className='text-xs md:text-xs lg:text-xl font-bold text-tertiary'>
                       Plataforma
                     </h3>
                     
-                    {/* Lista de plataformas */}
+                    {/* Lista de plataformas dinámicas */}
                     <div className='flex flex-col gap-3'>
-                      {/* X (Twitter) */}
-                      <div className='flex items-center gap-3'>
-                        <div className='w-4 h-4 md:w-7 md:h-7 bg-black rounded-full flex items-center justify-center'>
-                          <span className='text-white font-bold text-lg md:text-xl'>X</span>
-                        </div>
-                        <span className='text-gray-700 text-base md:text-base font-medium'>X</span>
-                      </div>
-                      
-                      {/* Facebook */}
-                      <div className='flex items-center gap-3'>
-                        <div className='w-4 h-4 md:w-7 md:h-7 bg-blue-600 rounded-full flex items-center justify-center'>
-                          <span className='text-white font-bold text-sm md:text-2xl'>f</span>
-                        </div>
-                        <span className='text-gray-600 text-base md:text-base font-medium'>Facebook</span>
-                      </div>
+                      {general?.plataformas_mas_usadas
+                        ?.split(",")
+                        .map((plataforma, idx) => {
+                          const key = plataforma.trim().toLowerCase();
+                          return (
+                            <div key={idx} className="flex items-center gap-3">
+                              <div className="flex items-center justify-center">
+                                {platformIcons[key] || (
+                                  <div className="w-4 h-4 md:w-7 md:h-7 bg-gray-300 rounded-full flex items-center justify-center">
+                                    <span className="text-white font-bold text-xs md:text-sm">
+                                      {plataforma[0].toUpperCase()}
+                                    </span>
+                                  </div>
+                                )}
+                              </div>
+                              <span className="text-gray-700 text-base md:text-base font-medium capitalize">
+                                {plataforma}
+                              </span>
+                            </div>
+                          );
+                        })}
                     </div>
                   </div>
                   
                   {/* Sección Menciones */}
-                  <div className='flex flex-col gap-1'>
-                    <h3 className='text-xs md:text-xs lg:text-xl font-bold text-tertiary'>
-                      Menciones
-                    </h3>
-                    
+                  <div className='flex flex-col gap-1'>          
                     {/* Lista de hashtags */}
                     <div className='flex flex-col gap-1'>
-                      <span className='text-gray-600 text-base md:text-lg font-medium'>
-                        #Mentiras
-                      </span>
-                      <span className='text-gray-600 text-base md:text-lg font-medium'>
-                        #Corrupcion
-                      </span>
+                       {/* <span className='text-gray-600 text-base md:text-lg font-medium'>Negativos: </span>
+                      {general?.hashtags_negativos?.split(",").map((tag, idx) => (
+                        <span key={idx} className="text-gray-600 text-base md:text-lg font-medium">
+                          #{tag.trim()}
+                        </span>
+                      ))} */}
+                      {general?.hashtags_mas_usados?.split(",").map((tag, idx) => (
+                        <span key={idx} className="text-gray-600 text-base md:text-lg font-medium">
+                          #{tag.trim()}
+                        </span>
+                      ))}
                     </div>
                   </div>
                 </div>
