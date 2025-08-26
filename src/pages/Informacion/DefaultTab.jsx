@@ -134,7 +134,7 @@ const DefaultTab = ({ tab }) => {
                         <div className="flex flex-col gap-2 lg:gap-2 w-full">
                             {/* Info del candidato */}
                             <div className="flex gap-2 items-center">
-                                <div className="w-8 h-8 lg:w-8 lg:h-8 bg-gray-300 rounded-full flex-shrink-0"></div>
+                                <div className="w-10 h-10 lg:w-12 lg:h-12 bg-center bg-no-repeat bg-contain rounded-full flex-shrink-0" style={{ backgroundImage: `url(${tab.candidato_destacado_picture})` }}></div>
                                 <span className="text-sm lg:text-base font-medium">{tab.candidato_destacado_nombre}</span>
                             </div>
                             
