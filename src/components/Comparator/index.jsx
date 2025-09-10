@@ -106,7 +106,7 @@ const Comparator = ({ start }) => {
     return (
         <div className="h-full w-full flex items-center">
             <span onClick={handlePrevIndex} className="p-2 lg:p-3 -mr-3 lg:-mr-5 z-10 text-white bg-gray-300 rounded-full cursor-pointer text-sm lg:text-base"><FaChevronLeft /></span>
-            <div className={`flex flex-col gap-2 lg:gap-4 w-full min-h-[50vh] lg:min-h-[70svh] bg-gray-100 p-2 lg:p-4 border-2 border-${weeklyReportCandidato[selectedIndex].color_partido} rounded-xl lg:rounded-2xl`} style={{ borderColor: weeklyReportCandidato[selectedIndex].color_partido }}>
+            <div className={`flex flex-col gap-2 lg:gap-4 w-full min-h-[50vh] lg:min-h-[70svh] bg-gray-100 p-2 lg:p-4 border-2 border-${weeklyReportCandidato[selectedIndex].color_partido || "gray-300"} rounded-xl lg:rounded-2xl`} style={{ borderColor: weeklyReportCandidato[selectedIndex].color_partido }}>
                 <div className="flex gap-2 lg:gap-4 h-full">
                     <div className="flex justify-end items-end h-16 w-16 lg:h-24 lg:w-24 rounded-full border-2 border-gray-300 bg-contain bg-center bg-no-repeat" style={{ backgroundImage: `url(${weeklyReportCandidato[selectedIndex].picture})` }}>
                         <div className="h-6 w-6 lg:h-10 lg:w-10 rounded-full border-2 border-gray-300 bg-contain bg-center z-10" style={{ backgroundImage: `url(${weeklyReportCandidato[selectedIndex].partido_logo})` }}></div>

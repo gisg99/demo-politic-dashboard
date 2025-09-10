@@ -1,8 +1,8 @@
 import {React, useState }from 'react'
 import { Card, DonutChart2, ElectoralMap, SimpleFunnelChart, HeatmapComponent } from '../../components'
 
-function Salud() {
-
+function Salud({data}) {
+    console.log(data);
     const heatmapData = [
     [20.6748, -103.344, "100"],
     [20.6782, -103.340, "85"],
@@ -16,12 +16,12 @@ function Salud() {
     ];
 
     const intereses = [
-        { label: 'Hospitales', count: 30 },
-        { label: 'Equipo Hospitalario', count: 60 },
-        { label: 'Medicamentos', count: 75 },
-        { label: 'Atención Urgencias', count: 90 },
-        { label: 'Atención Médica Gral.', count: 80 },
-        { label: 'Bancos de Sangre', count: 50 }
+        { label: 'Hospitales', count: parseFloat(data[0].promedio)*20 },
+        { label: 'Equipo Hospitalario', count: parseFloat(data[1].promedio)*20 },
+        { label: 'Medicamentos', count: parseFloat(data[2].promedio)*20 },
+        { label: 'Atención Urgencias', count: parseFloat(data[3].promedio)*20 },
+        { label: 'Atención Médica Gral.', count: parseFloat(data[4].promedio)*20 },
+        { label: 'Bancos de Sangre', count: parseFloat(data[5].promedio)*20 }
     ];
 
     const nivelSocioeconomicoData = [

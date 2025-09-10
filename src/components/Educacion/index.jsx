@@ -1,7 +1,7 @@
 import {React, useState }from 'react'
 import { Card, DonutChart2, ElectoralMap, SimpleFunnelChart, HeatmapComponent } from '../../components'
 
-function Educacion() {
+function Educacion({data}) {
 
     const heatmapData = [
     [20.6748, -103.344, "100"],
@@ -16,12 +16,12 @@ function Educacion() {
     ];
 
     const intereses = [
-        { label: 'Acceso a la Educación', count: 60 },
-        { label: 'Calidad Educativa', count: 85 },
-        { label: 'Formación Docente', count: 35 },
-        { label: 'Acceso a Tecnología', count: 80 },
-        { label: 'Apoyo a Alumnos', count: 45 },
-        { label: 'Educación Inclusiva', count: 90 }
+        { label: 'Acceso a la Educación', count: parseFloat(data[0].promedio)*20 },
+        { label: 'Calidad Educativa',  count: parseFloat(data[1].promedio)*20  },
+        { label: 'Formación Docente',  count: parseFloat(data[2].promedio)*20  },
+        { label: 'Acceso a Tecnología',  count: parseFloat(data[3].promedio)*20  },
+        { label: 'Apoyo a Alumnos',  count: parseFloat(data[4].promedio)*20  },
+        { label: 'Educación Inclusiva',  count: parseFloat(data[5].promedio)*20  }
     ];
 
     const nivelSocioeconomicoData = [

@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Layout, General, Salud, Seguridad, Educacion, Transporte, Economia, MedioAmbiente } from '../../components'
+import { InformacionContext } from '../../utils/InformacionContext'
 
 const tabs = [
   { label: 'GENERAL', value: 'general' },
@@ -12,17 +13,19 @@ const tabs = [
 ]
 
 function Indicadores() {
-  const [activeTab, setActiveTab] = useState('general')
+  const [activeTab, setActiveTab] = useState('general');
+  const {percepcion} = useContext(InformacionContext);
+  console.log(percepcion);
 
   const renderContent = () => {
     switch (activeTab) {
-      case 'general': return <General />
-      case 'salud': return <Salud />
-      case 'seguridad': return <Seguridad />
-      case 'educacion': return <Educacion />
-      case 'transporte': return <Transporte />
-      case 'economia': return <Economia />
-      case 'medioambiente': return <MedioAmbiente />
+      case 'general': return <General data={percepcion.filter(p => p.tema === "General")} />
+      case 'salud': return <Salud data={percepcion.filter(p => p.tema === "Salud")} />
+      case 'seguridad': return <Seguridad data={percepcion.filter(p => p.tema === "Seguridad")}/>
+      case 'educacion': return <Educacion data={percepcion.filter(p => p.tema === "Educacion")}/>
+      case 'transporte': return <Transporte data={percepcion.filter(p => p.tema === "Transporte")}/>
+      case 'economia': return <Economia data={percepcion.filter(p => p.tema === "Economia")}/>
+      case 'medioambiente': return <MedioAmbiente data={percepcion.filter(p => p.tema === "Medio Ambiente")}/>
       default: return null
     }
   }

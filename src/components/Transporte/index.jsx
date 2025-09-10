@@ -1,7 +1,7 @@
 import {React, useState }from 'react'
 import { Card, DonutChart2, ElectoralMap, SimpleFunnelChart, HeatmapComponent } from '../../components'
 
-function Transporte() {
+function Transporte({data}) {
 
     const heatmapData = [
     [20.6748, -103.344, "100"],
@@ -16,12 +16,12 @@ function Transporte() {
     ];
 
     const intereses = [
-        { label: 'Sostenibilidad', count: 70 },
-        { label: 'Movilidad Compartida', count: 80 },
-        { label: 'Innovación Tecno.', count: 65 },
-        { label: 'Infraestructura', count: 90 },
-        { label: 'Seguridad', count: 85 },
-        { label: 'Conectividad', count: 70 }
+        { label: 'Sostenibilidad',  count: parseFloat(data[0].promedio)*20  },
+        { label: 'Movilidad Compartida',  count: parseFloat(data[1].promedio)*20  },
+        { label: 'Innovación Tecno.',  count: parseFloat(data[2].promedio)*20  },
+        { label: 'Infraestructura',  count: parseFloat(data[3].promedio)*20  },
+        { label: 'Seguridad',  count: parseFloat(data[4].promedio)*20  },
+        { label: 'Conectividad',  count: parseFloat(data[5].promedio)*20  }
     ];
 
     const nivelSocioeconomicoData = [

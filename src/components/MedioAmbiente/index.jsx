@@ -1,7 +1,7 @@
 import {React, useState }from 'react'
 import { Card, DonutChart2, ElectoralMap, SimpleFunnelChart, HeatmapComponent } from '../../components'
 
-function MedioAmbiente() {
+function MedioAmbiente({data}) {
 
     const heatmapData = [
     [20.6748, -103.344, "100"],
@@ -16,12 +16,12 @@ function MedioAmbiente() {
     ];
 
     const intereses = [
-        { label: 'Calidad del Aire', count: 70 },
-        { label: 'Calidad del Agua', count: 85 },
-        { label: 'Desarrollo Sostenible', count: 95 },
-        { label: 'Educación Ambiental', count: 50 },
-        { label: 'Impacto Ambiental', count: 75 },
-        { label: 'Gestión de Residuos', count: 90 }
+        { label: 'Calidad del Aire',  count: parseFloat(data[0].promedio)*20 },
+        { label: 'Calidad del Agua',  count: parseFloat(data[1].promedio)*20 },
+        { label: 'Desarrollo Sostenible',  count: parseFloat(data[2].promedio)*20 },
+        { label: 'Educación Ambiental',  count: parseFloat(data[3].promedio)*20 },
+        { label: 'Impacto Ambiental',  count: parseFloat(data[4].promedio)*20 },
+        { label: 'Gestión de Residuos',  count: parseFloat(data[5].promedio)*20 }
     ];
 
     const nivelSocioeconomicoData = [
