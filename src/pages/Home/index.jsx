@@ -1,20 +1,23 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Card, Layout, DonutChart, VerticalBar } from '../../components';
 import { VscFlame } from "react-icons/vsc";
 import { IoLogoWechat } from "react-icons/io5";
 import { ImArrowUp, ImArrowDown  } from "react-icons/im";
 import { HiBellAlert } from "react-icons/hi2";
 import { HomeProvider } from '../../utils/HomeContext';
+import { InformacionContext } from '../../utils/InformacionContext';
 
 function Home() {
+  const { percepcion } = useContext(InformacionContext);
+  console.log(percepcion);
 
   let percepcionTransporte = '';
   let lipsTransporte = null;
   let percepcionSalud = '';
   let lipsSalud = null;
   
-  const transporte = { label: 'Transporte', count: 63 }
-  const salud = { label: 'Salud', count: 52 }
+  const transporte = { label: 'Transporte',  count: parseFloat(percepcion.filter(p => p.tema === "General")[3].promedio)*20 }
+  const salud = { label: 'Salud', count: parseFloat(percepcion.filter(p => p.tema === "General")[0].promedio)*20 }
   const aceptacion = { semana1: '50', semana2: '70' }
   const alertas = [ 
   { label: 'Actividad inusual de competencia en zona' },

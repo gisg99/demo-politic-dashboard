@@ -15,7 +15,7 @@ const tabs = [
 function Indicadores() {
   const [activeTab, setActiveTab] = useState('general');
   const {percepcion} = useContext(InformacionContext);
-  console.log(percepcion);
+  // console.log(percepcion);
 
   const renderContent = () => {
     switch (activeTab) {
