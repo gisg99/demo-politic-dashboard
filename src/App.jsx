@@ -12,6 +12,7 @@ import Segmentacion from './pages/Segmentacion';
 import './App.css';
 import { InformacionProvider } from './utils/InformacionContext';
 import { MovilidadProvider } from './utils/MovilidadContext';
+import { RedesProvider } from "./utils/RedesContext";
 
 const AppRoutes = () => { 
 
@@ -33,13 +34,15 @@ function App() {
 
 
   return (
-    <MovilidadProvider>
-      <InformacionProvider>
-        <BrowserRouter>
-            <AppRoutes />
-        </BrowserRouter>
-      </InformacionProvider>
-    </MovilidadProvider>
+    <RedesProvider>
+      <MovilidadProvider>
+        <InformacionProvider>
+          <BrowserRouter>
+              <AppRoutes />
+          </BrowserRouter>
+        </InformacionProvider>
+      </MovilidadProvider>
+    </RedesProvider>
   )
 }
 

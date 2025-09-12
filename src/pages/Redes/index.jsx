@@ -4,14 +4,17 @@ import { FaTwitter, FaFacebookF, FaInstagram, FaTiktok } from "react-icons/fa";
 import { FaAngry, FaSmile } from 'react-icons/fa' 
 import { VscFlame } from "react-icons/vsc";
 import { ImArrowUp } from "react-icons/im";
-import { InformacionContext } from '../../utils/InformacionContext';
+import { RedesContext } from '../../utils/RedesContext';
 
 function Redes() {
-  const { weeklyReportGeneral } = useContext(InformacionContext);
+  const { weeklyReportGeneral, selectedWeek, loading, error } = useContext(RedesContext);
   const general = weeklyReportGeneral?.[0] ?? null;
 
-  // Felicidad vs Enojo
-  const felicidad = Number(general?.porcentaje_felicidad) || 0;
+  // --------- Normalizaciones DIRECTAS desde tu API ---------
+  // Felicidad vs Enojo (tu API trae sentimiento.felicidad)
+  const felicidad = Number(
+    general?.porcentaje_felicidad ?? general?.sentimiento?.felicidad ?? 0
+  ) || 0;
   const enojo = Math.max(0, Math.min(100, 100 - felicidad));
 
   const emojiData = [
@@ -19,22 +22,29 @@ function Redes() {
     { label: 'Feliz', value: felicidad, color: '#FFD93D', emoji: <FaSmile color='#FFD93D'/> }
   ];
 
+  // Aprobaciones (tu API trae aprobacion_* con { actual: "54.00" })
+  const aprobFavor   = Number(general?.aprobacion_a_favor?.actual   ?? general?.aprobacion_a_favor   ?? 0) || 0;
+  const aprobContra  = Number(general?.aprobacion_en_contra?.actual ?? general?.aprobacion_en_contra ?? 0) || 0;
+  const aprobNeutral = Number(general?.aprobacion_neutral?.actual   ?? general?.aprobacion_neutral   ?? 0) || 0;
+
   const sentiment = [
-    { label: 'A FAVOR',   value: Number(Number(general?.aprobacion_a_favor).toFixed(0))   || 0, color: '#FFA869' },
-    { label: 'EN CONTRA', value: Number(Number(general?.aprobacion_en_contra).toFixed(0)) || 0, color: '#FF7D5A' },
-    { label: 'NEUTRAL',   value: Number(Number(general?.aprobacion_neutral).toFixed(0))   || 0, color: '#FFC978' },
+    { label: 'A FAVOR',   value: Math.round(aprobFavor),   color: '#FFA869' },
+    { label: 'EN CONTRA', value: Math.round(aprobContra),  color: '#FF7D5A' },
+    { label: 'NEUTRAL',   value: Math.round(aprobNeutral), color: '#FFC978' },
   ];
 
-  // Temas frecuentes dinámicos
-  const temas = general?.temas_frecuentes?.map((t, index) => ({
-    label: t.tema,
-    count: t.menciones,
-    color: ['#FF6B4D', '#FFB74D', '#FFD54F', '#FFAB91'][index % 4] // paleta rotativa
-  })) || [];
+  // Temas frecuentes (tu API trae [{ tema, menciones }])
+  const temas = Array.isArray(general?.temas_frecuentes)
+    ? general.temas_frecuentes.map((t, index) => ({
+        label: t.tema,
+        count: Number(t.menciones) || 0,
+        color: ['#FF6B4D', '#FFB74D', '#FFD54F', '#FFAB91'][index % 4]
+      }))
+    : [];
 
   const platformIcons = {
     twitter: <FaTwitter className="text-blue-400 w-4 h-4 md:w-6 md:h-6" />,
-    x: <FaTwitter className="text-black w-4 h-4 md:w-6 md:h-6" />, // opcional si usas "x"
+    x: <FaTwitter className="text-black w-4 h-4 md:w-6 md:h-6" />, // por si usas "x"
     facebook: <FaFacebookF className="text-blue-600 w-4 h-4 md:w-6 md:h-6" />,
     instagram: <FaInstagram className="text-pink-500 w-4 h-4 md:w-6 md:h-6" />,
     tiktok: <FaTiktok className="text-black w-4 h-4 md:w-6 md:h-6" />,
@@ -58,7 +68,7 @@ function Redes() {
 
   const getColor = (index, count) => {
     const residuo = index % 4;
-    switch(residuo){
+    switch (residuo) {
       case 0: return `linear-gradient(90deg,rgb(255, 109, 77) 0%,rgb(255, 109, 77) ${count}%, rgb(255, 109, 77, .15) ${count}%, rgb(255, 109, 77, .15) 100%)`;
       case 1: return `linear-gradient(90deg,rgb(255, 189, 89) 0%,rgb(255, 189, 89) ${count}%, rgb(255, 189, 89, .15) ${count}%, rgb(255, 189, 89, .15) 100%)`;
       case 2: return `linear-gradient(90deg,rgb(255, 222, 89) 0%,rgb(255, 222, 89) ${count}%, rgb(255, 222, 89, .15) ${count}%, rgb(255, 222, 89, .15) 100%)`;
@@ -71,6 +81,10 @@ function Redes() {
     2180, 2450, 2280, 2120, 1980, 2150, 2320, 2480,
     2550, 2420, 2380, 2250, 2100, 1850, 1420, 980
   ];
+
+  if (loading) return <Layout><div className="p-6 text-gray-600">Cargando semana {selectedWeek}…</div></Layout>;
+  if (error)   return <Layout><div className="p-6 text-red-500">{error}</div></Layout>;
+  if (!general) return <Layout><div className="p-6 text-gray-600">Sin datos</div></Layout>;
 
   return (
     <Layout>
@@ -122,7 +136,10 @@ function Redes() {
                                 <h1 className='text-gray-500 text-xs sm:text-sm md:text-base lg:text-sm xl:text-base'>
                                   {tema.label}
                                 </h1>
-                                <div className='flex-1 h-2 sm:h-2.5 md:h-3 rounded-xs mx-1 sm:mx-2' style={{ background: getColor(index, tema.count)}}>
+                                <div
+                                  className='flex-1 h-2 sm:h-2.5 md:h-3 rounded-xs mx-1 sm:mx-2'
+                                  style={{ background: getColor(index, tema.count) }}
+                                >
                                   <div className='text-gray-400 text-xs sm:text-sm md:text-base lg:text-sm xl:text-base font-semibold w-min relative -top-3 sm:-top-4 md:-top-5 right-0 px-1 sm:px-2 rounded-lg group-hover:block'>
                                     {tema.count}
                                   </div>
@@ -130,6 +147,9 @@ function Redes() {
                               </div>
                             </div>
                           ))}
+                          {temas.length === 0 && (
+                            <div className="text-center text-gray-500 text-sm">Sin temas</div>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -185,7 +205,7 @@ function Redes() {
                       <ImArrowUp className='text-3xl md:text-4xl text-tertiary' />
                     </div>
 
-                    {/* Porcentaje grande */}
+                    {/* Porcentaje grande (ejemplo estático) */}
                     <div className='text-5xl md:text-6xl lg:text-7xl font-bold text-gray-500'>
                       15%
                     </div>
@@ -232,19 +252,16 @@ function Redes() {
                   
                   {/* Sección Menciones */}
                   <div className='flex flex-col gap-1'>          
-                    {/* Lista de hashtags */}
+                    {/* Lista de hashtags (usamos los "positivos" como más usados) */}
                     <div className='flex flex-col gap-1'>
-                       {/* <span className='text-gray-600 text-base md:text-lg font-medium'>Negativos: </span>
-                      {general?.hashtags_negativos?.split(",").map((tag, idx) => (
-                        <span key={idx} className="text-gray-600 text-base md:text-lg font-medium">
-                          #{tag.trim()}
-                        </span>
-                      ))} */}
-                      {general?.hashtags_mas_usados?.split(",").map((tag, idx) => (
-                        <span key={idx} className="text-gray-600 text-base md:text-lg font-medium">
-                          #{tag.trim()}
-                        </span>
-                      ))}
+                      {(general?.hashtags_mas_usados ?? general?.hashtags_positivos ?? "")
+                        .split(",")
+                        .filter(Boolean)
+                        .map((tag, idx) => (
+                          <span key={idx} className="text-gray-600 text-base md:text-lg font-medium">
+                            #{tag.trim()}
+                          </span>
+                        ))}
                     </div>
                   </div>
                 </div>
