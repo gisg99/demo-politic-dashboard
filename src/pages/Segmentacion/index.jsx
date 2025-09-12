@@ -1,31 +1,54 @@
-import React from 'react'
+// src/pages/Segmentacion/index.jsx
+import React, { useContext, useMemo } from 'react'
 import { Card, Layout, DonutChart2, CircleChart, SocialPlatforms } from '../../components';
+import { RedesContext } from '../../utils/RedesContext';
 
 function Segmentacion() {
+  const { weeklyReportGeneral, loading, error, selectedWeek } = useContext(RedesContext);
+  const general = weeklyReportGeneral?.[0] ?? null;
+
+  // ===== Hashtags frecuentes desde el back =====
+  const hashtags = useMemo(() => {
+    const raw = (general?.hashtags_mas_usados ?? general?.hashtags_positivos ?? '')
+      .split(',')
+      .map(s => s.trim())
+      .filter(Boolean);
+    // formatea con "#"
+    return raw.map(tag => tag.startsWith('#') ? tag : `#${tag}`);
+  }, [general]);
+
+  // ===== Plataformas más usadas desde el back =====
+  const plataformasMasUsadas = useMemo(() => {
+    const list = (general?.plataformas_mas_usadas ?? '')
+      .split(',')
+      .map(p => p.trim().toLowerCase())
+      .filter(Boolean);
+    // normaliza "twitter" a "x" si tu SocialPlatforms lo espera así
+    return list.map(p => (p === 'twitter' ? 'x' : p));
+  }, [general]);
+
+  // --- (lo demás de tu componente se queda igual) ---
+
   // Datos para el gráfico de Edad con porcentajes
   const edadDataRaw = [
-    { label: '18-25', value: 12, color: '#E0E0E0' },      // Gris muy claro
-    { label: '26-34', value: 18, color: '#BDBDBD' },      // Gris claro
-    { label: '34-44', value: 25, color: '#FFC107' },      // Amarillo
-    { label: '45-54', value: 20, color: '#FFB74D' },      // Naranja claro
-    { label: '55-64', value: 15, color: '#FF9800' },      // Naranja
-    { label: '65+', value: 10, color: '#FF6B35' }         // Naranja oscuro
+    { label: '18-25', value: 12, color: '#E0E0E0' },
+    { label: '26-34', value: 18, color: '#BDBDBD' },
+    { label: '34-44', value: 25, color: '#FFC107' },
+    { label: '45-54', value: 20, color: '#FFB74D' },
+    { label: '55-64', value: 15, color: '#FF9800' },
+    { label: '65+', value: 10, color: '#FF6B35' }
   ];
-
-  // Calcular el total y agregar porcentajes a las etiquetas
   const totalEdad = edadDataRaw.reduce((sum, item) => sum + item.value, 0);
   const edadData = edadDataRaw.map(item => ({
     ...item,
     label: `${item.label} (${Math.round((item.value / totalEdad) * 100)}%)`
   }));
 
-  // Datos para el gráfico de Género
   const generoData = [
-    { label: 'Masculino', value: 64.6, color: '#FFB74D' },   // Naranja claro
-    { label: 'Femenino', value: 35.4, color: '#FF8A65' }     // Naranja medio
+    { label: 'Masculino', value: 64.6, color: '#FFB74D' },
+    { label: 'Femenino', value: 35.4, color: '#FF8A65' }
   ];
 
-  // Datos para Ocupación
   const ocupacionData = [
     { label: 'Agropecuario', value: 5, color: '#9E9E9E' },
     { label: 'Artesano', value: 8, color: '#757575' },
@@ -39,36 +62,20 @@ function Segmentacion() {
     { label: 'Servicios', value: 18, color: '#FF7043' },
     { label: 'Protección Ciudadana', value: 6, color: '#FF5722' }
   ];
-  
-  // Datos de intereses
+
   const intereses = [
     {label: 'Educación', count: 90, color: '#FF6B4D'},
     {label: 'Deportes', count: 70, color: '#FFB74D'},
     {label: 'M. Ambiente', count: 80, color: '#FFD54F'},
     {label: 'Cultura', count: 60, color: '#FFAB91'},
   ];
-  
-  // Hashtags frecuentes
-  const Hashtags = [
-    "#seguridadciudadana",
-    "#saludpublica", 
-    "#climagdl",
-    "#noticiasgdl",
-    "#movimientociudadano",
-    "#educacion"
-  ];
 
-  // Datos para Nivel Socioeconómico
   const nivelSocioeconomicoData = [
-    { label: 'C', value: 25, color: '#38b6ff' },     // Azul
-    { label: 'C+', value: 48, color: '#ffbd59' },    // Naranja
-    { label: 'D+', value: 27, color: '#1800ad' }     // Azul oscuro
+    { label: 'C', value: 25, color: '#38b6ff' },
+    { label: 'C+', value: 48, color: '#ffbd59' },
+    { label: 'D+', value: 27, color: '#1800ad' }
   ];
 
-  // Plataformas más usadas
-  const plataformasMasUsadas = ['facebook', 'instagram', 'x'];
-
-  // Función para obtener colores de las barras de intereses
   const getColor = (index, count) => {
     const residuo = index % 4;
     switch(residuo){
@@ -79,10 +86,26 @@ function Segmentacion() {
     }
   }
 
+  if (loading) {
+    return (
+      <Layout>
+        <div className="p-4 text-gray-600">Cargando datos de semana {selectedWeek}…</div>
+      </Layout>
+    );
+  }
+
+  if (error) {
+    return (
+      <Layout>
+        <div className="p-4 text-red-500">No se pudieron cargar los datos: {error}</div>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <div className='flex flex-col w-full min-h-screen items-center py-2 sm:py-4 px-3 sm:px-6 mb-2 sm:mb-4'>
-        {/* Header responsive */}
+        {/* Header */}
         <div className='w-full flex justify-end items-center mb-3 sm:mb-4'>
           <button className='bg-gray-400 px-3 sm:px-4 py-1 sm:py-0.5 cursor-pointer text-white font-medium rounded-full hover:bg-tertiary transition-colors text-xs sm:text-sm lg:text-sm'>
             Descargar
@@ -96,18 +119,10 @@ function Segmentacion() {
               <Card title="Demográficos generales">
                 <div className='w-full flex flex-col gap-3 sm:gap-4 py-2 min-h-[390px] sm:min-h-[500px] lg:min-h-[480px]'>
                   <div className='flex-1 min-h-[180px] lg:min-h-[200px]'>
-                    <DonutChart2 
-                      title="Edad"
-                      data={edadData}
-                      type="default"
-                    />
+                    <DonutChart2 title="Edad" data={edadData} type="default" />
                   </div>
                   <div className='flex-1 min-h-[180px] lg:min-h-[200px]'>
-                    <DonutChart2 
-                      title="Género"
-                      data={generoData}
-                      type="gender"
-                    />
+                    <DonutChart2 title="Género" data={generoData} type="gender" />
                   </div>
                 </div>
               </Card>
@@ -148,15 +163,21 @@ function Segmentacion() {
                     ))}
                   </div>
                   
-                  {/* Hashtags section */}
+                  {/* Hashtags desde RedesContext */}
                   <div className='mt-auto'>
                     <h1 className='text-sm sm:text-lg lg:text-[1.3rem] xl:text-[1.8rem] text-tertiary font-bold mb-2 sm:mb-3'>
                       Hashtags Frecuentes
                     </h1>
                     <div className="flex flex-wrap gap-1 sm:gap-2">
-                      {Hashtags.map((tag, index) => (
-                        <span key={index} className="text-xs sm:text-sm lg:text-base xl:text-[1.3rem] text-gray-700">{tag}{index < Hashtags.length - 1 ? ',' : ''}</span>
-                      ))}
+                      {hashtags.length > 0 ? (
+                        hashtags.map((tag, index) => (
+                          <span key={index} className="text-xs sm:text-sm lg:text-base xl:text-[1.3rem] text-gray-700">
+                            {tag}{index < hashtags.length - 1 ? ',' : ''}
+                          </span>
+                        ))
+                      ) : (
+                        <span className="text-gray-400 text-sm">Sin datos</span>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -165,7 +186,7 @@ function Segmentacion() {
             
             <div className='w-full lg:w-1/2 lg:flex-shrink-0'>
               <Card title="Nivel socioeconómico">
-                <div className='w-full flex flex-col justify-center py-2 min-h-[300px] lg:min-h-[400px]'>
+                <div className='w-full flex flex-col justify-center py-2 min-h=[300px] lg:min-h-[400px]'>
                   <CircleChart 
                     title=""
                     data={nivelSocioeconomicoData}
@@ -187,18 +208,19 @@ function Segmentacion() {
                     5:00 a 8:00 pm
                   </h1>
                   
-                  {/* Plataformas más usadas */}
+                  {/* Plataformas más usadas desde RedesContext */}
                   <div className='w-full mt-auto'>
-                    <SocialPlatforms platforms={plataformasMasUsadas} />
+                    {plataformasMasUsadas.length > 0 ? (
+                      <SocialPlatforms platforms={plataformasMasUsadas} />
+                    ) : (
+                      <div className="text-gray-400 text-sm">Sin datos</div>
+                    )}
                   </div>
                 </div>
               </Card>
             </div>
             
-            {/* Card vacía para mantener la estructura en desktop */}
-            <div className='hidden lg:block w-full lg:w-1/2 lg:flex-shrink-0'>
-              {/* Espacio reservado para futuro contenido */}
-            </div>
+            <div className='hidden lg:block w-full lg:w-1/2 lg:flex-shrink-0'>{/* reservado */}</div>
           </div>
         </div>
       </div>
