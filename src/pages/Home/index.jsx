@@ -6,10 +6,15 @@ import { ImArrowUp, ImArrowDown  } from "react-icons/im";
 import { HiBellAlert } from "react-icons/hi2";
 import { HomeProvider } from '../../utils/HomeContext';
 import { InformacionContext } from '../../utils/InformacionContext';
+import { RedesContext } from '../../utils/RedesContext'; // ⬅️ IMPORTANTE
 
 function Home() {
   const { percepcion } = useContext(InformacionContext);
-  // console.log(percepcion);
+
+  // ⬇️ Traemos la info de Redes (semana seleccionada, loading, y el general[0])
+  const { weeklyReportGeneral, selectedWeek, loading: loadingRedes, error: errorRedes } = useContext(RedesContext);
+  const general = weeklyReportGeneral?.[0] ?? null;
+  const mencionMasFrecuente = general?.mencion_mas_frecuente ?? 'N/A';
 
   let percepcionTransporte = '';
   let lipsTransporte = null;
@@ -46,85 +51,40 @@ function Home() {
     const porcentajeCambio = s1 === 0 ? 0 : (diferencia / s1) * 100;
 
     let tipoCambio;
-    if (diferencia > 0) {
-      tipoCambio = 'incremento';
-    } else if (diferencia < 0) {
-      tipoCambio = 'decremento';
-    } else {
-      tipoCambio = 'sin cambio';
-    }
+    if (diferencia > 0) tipoCambio = 'incremento';
+    else if (diferencia < 0) tipoCambio = 'decremento';
+    else tipoCambio = 'sin cambio';
 
-    return {
-      tipoCambio,
-      porcentaje: Math.abs(porcentajeCambio).toFixed(2) // en positivo
-    };
+    return { tipoCambio, porcentaje: Math.abs(porcentajeCambio).toFixed(2) };
   }
   const resultado = compararSemanas(aceptacion);
 
-  // Seria
+  // Caritas
   const SeriaSvg = () => (
     <svg className='text-gray-400 lg:mb-4 w-20 sm:w-24 lg:w-32 xl:w-32 h-10 sm:h-12 lg:h-16 xl:h-20' viewBox="0 5 40 20">
-      <path
-        d="M 10 20 L 30 20"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        fill="none"
-      />
+      <path d="M 10 20 L 30 20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
     </svg>
   );
-
-  // Feliz
   const TristeSvg = () => (
     <svg className='text-gray-400 lg:mb-4 w-20 sm:w-24 lg:w-32 xl:w-32 h-10 sm:h-12 lg:h-16 xl:h-20' viewBox="0 5 40 20">
-      <path
-        d="M 10 25 Q 20 15 30 25"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        fill="none"
-      />
+      <path d="M 10 25 Q 20 15 30 25" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
     </svg>
   );
-  // console.log('Semana1:', aceptacion.semana1);
-  // console.log('Semana2:', aceptacion.semana2);
-
-  // Triste
   const FelizSvg = () => (
     <svg className='text-gray-400 lg:mb-4 w-20 sm:w-24 lg:w-32 xl:w-32 h-10 sm:h-12 lg:h-16 xl:h-20' viewBox="0 5 40 20">
-      <path
-        d="M 10 15 Q 20 25 30 15"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        fill="none"
-      />
+      <path d="M 10 15 Q 20 25 30 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
     </svg>
   );
 
   // Evaluar percepción de transporte
-  if (transporte.count > 50) {
-    percepcionTransporte = 'Percepción positiva';
-    lipsTransporte = <FelizSvg />;
-  } else if (transporte.count > 30) {
-    percepcionTransporte = 'Percepción media';
-    lipsTransporte = <SeriaSvg />;
-  } else {
-    percepcionTransporte = 'Percepción negativa';
-    lipsTransporte = <TristeSvg />;
-  }
+  if (transporte.count > 50) { percepcionTransporte = 'Percepción positiva'; lipsTransporte = <FelizSvg />; }
+  else if (transporte.count > 30) { percepcionTransporte = 'Percepción media'; lipsTransporte = <SeriaSvg />; }
+  else { percepcionTransporte = 'Percepción negativa'; lipsTransporte = <TristeSvg />; }
 
   // Evaluar percepción de salud
-  if (salud.count > 50) {
-    percepcionSalud = 'Percepción positiva';
-    lipsSalud = <FelizSvg />;
-  } else if (salud.count > 30) {
-    percepcionSalud = 'Percepción media';
-    lipsSalud = <SeriaSvg />;
-  } else {
-    percepcionSalud = 'Percepción negativa';
-    lipsSalud = <TristeSvg />;
-  }
+  if (salud.count > 50) { percepcionSalud = 'Percepción positiva'; lipsSalud = <FelizSvg />; }
+  else if (salud.count > 30) { percepcionSalud = 'Percepción media'; lipsSalud = <SeriaSvg />; }
+  else { percepcionSalud = 'Percepción negativa'; lipsSalud = <TristeSvg />; }
 
   return (
     <HomeProvider>
@@ -140,7 +100,7 @@ function Home() {
           
           <div className='flex flex-col w-full'> 
             <div className='flex flex-col w-full h-full gap-2 lg:gap-3'>
-              {/* Primera fila - Stack en móvil, lado a lado en desktop */}
+              {/* Primera fila */}
               <div className='flex flex-col sm:flex-row gap-2 w-full'>
                 <div className='w-full sm:w-[50%]'>
                   <Card title={transporte.label}>
@@ -193,7 +153,7 @@ function Home() {
                 </div>
               </div>
               
-              {/* Segunda fila - Stack en móvil, proporción diferente en desktop */}
+              {/* Segunda fila */}
               <div className='flex flex-col lg:flex-row gap-2 w-full'>
                 <div className='w-full lg:w-[70%]'>
                   <Card title='Zonas criticas'>
@@ -223,15 +183,26 @@ function Home() {
                   <Card title='Mención más frecuente'>
                     <div className='flex flex-col justify-center items-center w-full h-full py-2 lg:py-0'>
                       <IoLogoWechat className='text-gray-400 w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24' />
-                      <h1 className='text-gray-400 font-semibold text-base sm:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl mt-2'>
-                        Corrupción
-                      </h1>
+                      {/* ⬇️ Aquí conectamos con el RedesContext */}
+                      {loadingRedes ? (
+                        <h1 className='text-gray-400 font-semibold text-sm sm:text-base lg:text-lg xl:text-xl mt-2'>
+                          Cargando ...
+                        </h1>
+                      ) : errorRedes ? (
+                        <h1 className='text-red-500 font-semibold text-sm sm:text-base lg:text-lg xl:text-xl mt-2'>
+                          Error al cargar
+                        </h1>
+                      ) : (
+                        <h1 className='text-gray-400 font-semibold text-base sm:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl mt-2'>
+                          {mencionMasFrecuente}
+                        </h1>
+                      )}
                     </div>
                   </Card>
                 </div>
               </div>
               
-              {/* Tercera fila - Stack en móvil */}
+              {/* Tercera fila */}
               <div className='flex flex-col md:flex-row gap-2 w-full'>
                 <div className='w-full md:w-[60%]'>
                   <Card title='Nivel de aceptación PL'>
