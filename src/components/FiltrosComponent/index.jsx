@@ -1,14 +1,22 @@
+// src/components/FiltrosComponent/index.jsx
 import React, { useRef, useContext } from 'react';
 import { Formik } from 'formik';
 import { FaCalendarAlt, FaClock } from 'react-icons/fa';
+
+// 👇 weeksNumbers sigue viniendo de InformacionContext
 import { InformacionContext } from '../../utils/InformacionContext';
+// 👇 EL CONTROL DE SEMANA PARA REDES VIENE DE RedesContext
+import { RedesContext } from '../../utils/RedesContext';
 
 const FiltrosComponent = () => {
-  // 👇 Tomamos semanas y el estado global de semana desde el Context
-  const { weeksNumbers, selectedWeek, setSelectedWeek } = useContext(InformacionContext);
+  // Semanas disponibles
+  const { weeksNumbers } = useContext(InformacionContext);
+
+  // Semana seleccionada global para REDES
+  const { selectedWeek, setSelectedWeek } = useContext(RedesContext);
 
   const initialValues = {
-    // 🔗 sincronizamos el valor inicial con el Context (si no hay, queda '')
+    // sincroniza con la semana global de REDES
     semana: selectedWeek ?? '',
     fechaInicio: '',
     fechaFin: '',
@@ -21,37 +29,28 @@ const FiltrosComponent = () => {
   };
 
   const handleSubmit = (values) => {
-    // console.log('Filtros aplicados:', values);
+    // Aquí puedes disparar otros filtros si quieres
+    // Por ahora, solo controlamos la semana vía setSelectedWeek
   };
 
   const handleReset = (resetForm) => {
     resetForm();
-    // console.log('Filtros limpiados');
   };
 
   const openDatePicker = (inputRef) => {
-    if (inputRef.current) {
-      inputRef.current.showPicker();
-    }
+    if (inputRef.current) inputRef.current.showPicker();
   };
 
   return (
     <div className="px-2 lg:px-4 py-1 lg:py-3 w-full max-h-full overflow-y-auto">
       <style>
         {`
-          .date-input::-webkit-calendar-picker-indicator {
-            display: none;
-          }
-          .date-input::-webkit-inner-spin-button {
-            display: none;
-          }
-          .date-input::-webkit-outer-spin-button {
-            display: none;
-          }
+          .date-input::-webkit-calendar-picker-indicator { display: none; }
+          .date-input::-webkit-inner-spin-button { display: none; }
+          .date-input::-webkit-outer-spin-button { display: none; }
         `}
       </style>
 
-      {/* enableReinitialize para que si cambia la semana global, el form refleje el valor */}
       <Formik initialValues={initialValues} onSubmit={handleSubmit} enableReinitialize>
         {({ values, setFieldValue, resetForm }) => {
           const fechaInicioRef = useRef(null);
@@ -59,10 +58,10 @@ const FiltrosComponent = () => {
 
           return (
             <div>
-              {/* Grid responsivo ultra compacto para móvil */}
+              {/* Grid de filtros */}
               <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:flex lg:flex-wrap gap-1.5 sm:gap-1 lg:gap-2 mb-2 sm:mb-1 lg:mb-3">
 
-                {/* === Semana (NUEVO) === */}
+                {/* === Semana === */}
                 <div className="w-full lg:w-24 xl:w-28">
                   <label className="block text-xs sm:text-[9px] lg:text-xs text-gray-600 mb-1 sm:mb-0.5 font-medium leading-tight">
                     Semana
@@ -74,13 +73,15 @@ const FiltrosComponent = () => {
                       onChange={(e) => {
                         const v = e.target.value;
                         setFieldValue('semana', v);
-                        // 🔗 Actualizamos la semana global SIN tocar Informacion/index
-                        if (v !== '') setSelectedWeek(Number(v));
+                        if (v !== '') {
+                          // ✅ Esto dispara el useEffect del RedesContext y hace el fetch
+                          setSelectedWeek(Number(v));
+                        }
                       }}
                       className="w-full pl-3 sm:pl-2 lg:pl-3 pr-2 sm:pr-1 lg:pr-2 py-1.5 sm:py-0.5 lg:py-1 border border-gray-300 rounded-full bg-white text-xs sm:text-[9px] lg:text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 appearance-none text-tertiary"
                     >
                       <option value="">Seleccionar</option>
-                      {weeksNumbers?.map((week) => (
+                      {Array.isArray(weeksNumbers) && weeksNumbers.map((week) => (
                         <option key={week} value={week}>
                           Semana {week}
                         </option>
@@ -101,10 +102,7 @@ const FiltrosComponent = () => {
                     >
                       <FaCalendarAlt className="text-tertiary w-3 h-3 sm:w-2 sm:h-2 lg:w-2.5 lg:h-2.5" />
                     </div>
-                    <div
-                      className="cursor-pointer"
-                      onClick={() => openDatePicker(fechaInicioRef)}
-                    >
+                    <div className="cursor-pointer" onClick={() => openDatePicker(fechaInicioRef)}>
                       <input
                         ref={fechaInicioRef}
                         type="date"
@@ -129,10 +127,7 @@ const FiltrosComponent = () => {
                     >
                       <FaCalendarAlt className="text-tertiary w-3 h-3 sm:w-2 sm:h-2 lg:w-2.5 lg:h-2.5" />
                     </div>
-                    <div
-                      className="cursor-pointer"
-                      onClick={() => openDatePicker(fechaFinRef)}
-                    >
+                    <div className="cursor-pointer" onClick={() => openDatePicker(fechaFinRef)}>
                       <input
                         ref={fechaFinRef}
                         type="date"
@@ -278,7 +273,7 @@ const FiltrosComponent = () => {
 
               </div>
 
-              {/* Botones más compactos para móvil */}
+              {/* Botones */}
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-1 lg:gap-2 justify-center sm:justify-start mt-2 sm:mt-1 lg:mt-0">
                 <button
                   type="button"
