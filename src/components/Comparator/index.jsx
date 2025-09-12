@@ -100,7 +100,7 @@ const Comparator = ({ start }) => {
 
     useEffect(() => {
         if(weeklyReportCandidato === null) return;
-        console.log(weeklyReportCandidato);
+        // console.log(weeklyReportCandidato);
     }, [weeklyReportCandidato]);
 
     return (

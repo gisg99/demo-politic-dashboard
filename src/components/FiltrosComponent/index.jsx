@@ -21,12 +21,12 @@ const FiltrosComponent = () => {
   };
 
   const handleSubmit = (values) => {
-    console.log('Filtros aplicados:', values);
+    // console.log('Filtros aplicados:', values);
   };
 
   const handleReset = (resetForm) => {
     resetForm();
-    console.log('Filtros limpiados');
+    // console.log('Filtros limpiados');
   };
 
   const openDatePicker = (inputRef) => {

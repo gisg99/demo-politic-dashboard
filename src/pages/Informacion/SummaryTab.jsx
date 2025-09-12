@@ -7,7 +7,7 @@ import { ImArrowUp, ImArrowDown } from "react-icons/im";
 
 const SummaryTab = () => {
     const { weeklyReportGeneral, setWeeklyReportGeneral } = useContext(InformacionContext);
-    console.log("Weekly Report General:", weeklyReportGeneral);
+    // console.log("Weekly Report General:", weeklyReportGeneral);
 
     const heatmapData = [
         [20.6748, -103.344, "100"],

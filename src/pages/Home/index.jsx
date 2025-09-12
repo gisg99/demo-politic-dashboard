@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import { Card, Layout, DonutChart, VerticalBar } from '../../components';
 import { VscFlame } from "react-icons/vsc";
 import { IoLogoWechat } from "react-icons/io5";
@@ -9,26 +9,41 @@ import { InformacionContext } from '../../utils/InformacionContext';
 
 function Home() {
   const { percepcion } = useContext(InformacionContext);
-  console.log(percepcion);
+  // console.log(percepcion);
 
   let percepcionTransporte = '';
   let lipsTransporte = null;
   let percepcionSalud = '';
   let lipsSalud = null;
-  
-  const transporte = { label: 'Transporte',  count: parseFloat(percepcion.filter(p => p.tema === "General")[3].promedio)*20 }
-  const salud = { label: 'Salud', count: parseFloat(percepcion.filter(p => p.tema === "General")[0].promedio)*20 }
+
+  // Filtra percepciones de "General" de forma segura
+  const generales = useMemo(
+    () => (percepcion ?? []).filter(p => (p?.tema ?? '').toLowerCase() === 'general'),
+    [percepcion]
+  );
+
+  // Helper seguro para extraer promedio * 20 por índice
+  const pct = (idx) => {
+    const val = parseFloat(generales?.[idx]?.promedio ?? 0);
+    return Number.isFinite(val) ? val * 20 : 0;
+  };
+
+  const transporte = { label: 'Transporte', count: pct(3) }; // pregunta 4
+  const salud = { label: 'Salud', count: pct(0) };           // pregunta 1
+
   const aceptacion = { semana1: '50', semana2: '70' }
   const alertas = [ 
-  { label: 'Actividad inusual de competencia en zona' },
-  { label: 'Mención viral detectada: corrupción en zona Z' },
-  { label: 'Incremento repentino de menciones sobre falta de seguridad' },
-  { label: 'Tendencia creciente de quejas por servicios públicos en zona norte' }
-];
+    { label: 'Actividad inusual de competencia en zona' },
+    { label: 'Mención viral detectada: corrupción en zona Z' },
+    { label: 'Incremento repentino de menciones sobre falta de seguridad' },
+    { label: 'Tendencia creciente de quejas por servicios públicos en zona norte' }
+  ];
 
   function compararSemanas({ semana1, semana2 }) {
-    const diferencia = semana2 - semana1;
-    const porcentajeCambio = (diferencia / semana1) * 100;
+    const s1 = Number(semana1) || 0;
+    const s2 = Number(semana2) || 0;
+    const diferencia = s2 - s1;
+    const porcentajeCambio = s1 === 0 ? 0 : (diferencia / s1) * 100;
 
     let tipoCambio;
     if (diferencia > 0) {
@@ -71,8 +86,8 @@ function Home() {
       />
     </svg>
   );
-  console.log('Semana1:', aceptacion.semana1);
-  console.log('Semana2:', aceptacion.semana2);
+  // console.log('Semana1:', aceptacion.semana1);
+  // console.log('Semana2:', aceptacion.semana2);
 
   // Triste
   const FelizSvg = () => (
@@ -87,7 +102,6 @@ function Home() {
     </svg>
   );
 
-  
   // Evaluar percepción de transporte
   if (transporte.count > 50) {
     percepcionTransporte = 'Percepción positiva';
@@ -111,7 +125,6 @@ function Home() {
     percepcionSalud = 'Percepción negativa';
     lipsSalud = <TristeSvg />;
   }
-
 
   return (
     <HomeProvider>
@@ -222,7 +235,7 @@ function Home() {
               <div className='flex flex-col md:flex-row gap-2 w-full'>
                 <div className='w-full md:w-[60%]'>
                   <Card title='Nivel de aceptación PL'>
-                    <div className='h-full w-full flex min-h-[100px] lg:min-h-[120px]'>
+                    <div className='h-full w-full flex min-h=[100px] lg:min-h-[120px]'>
                       <div className='w-[70%] h-full flex flex-col justify-center p-1 lg:p-2'>
                         <div className='flex items-end'>
                           <h1 className='text-gray-400 font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl'>

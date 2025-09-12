@@ -12,7 +12,7 @@ const LineChart = ({
 
   // ResizeObserver para responsividad
   useEffect(() => {
-    console.log(data);
+      // console.log(data);
     const resizeObserver = new ResizeObserver((entries) => {
       if (!entries || entries.length === 0) return;
       const { width, height } = entries[0].contentRect;

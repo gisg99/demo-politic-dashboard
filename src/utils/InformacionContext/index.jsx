@@ -28,7 +28,7 @@ const InformacionProvider = ({ children }) => {
     const fetchWeeklyReportGeneral = async (week) => {
         try{
             const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v2/prueba/analytics/reporte-semanal-general?semana_num=${week}`);
-            console.log(response);
+            // console.log(response);
             if(response.status === 200) {
                 setWeeklyReportGeneral(response.data);
             }
@@ -41,7 +41,7 @@ const InformacionProvider = ({ children }) => {
     const fetchWeeklyReportCandidato = async (week) => {
         try{
             const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v2/prueba/analytics/reporte-semanal-candidato?semana_num=${week}`);
-            console.log(response);
+            // console.log(response);
             if(response.status === 200) {
                 setWeeklyReportCandidato(response.data);
             }
@@ -53,7 +53,7 @@ const InformacionProvider = ({ children }) => {
     const fetchWeeklyReportPartido = async (week) => {
         try{
             const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v2/prueba/analytics/reporte-semanal-partido?semana_num=${week}`);
-            console.log(response);
+            // console.log(response);
             if(response.status === 200) {
                 setWeeklyReportPartido(response.data);
             }
@@ -65,7 +65,7 @@ const InformacionProvider = ({ children }) => {
     const fetchWeeksNumbers = async (week) => {
         try{
             const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v2/prueba/analytics/semanas`);
-            console.log(response);
+            // console.log(response);
             if(response.status === 200) { 
                 setWeeksNumbers(response.data);
             }

@@ -62,7 +62,7 @@ const DefaultTab = ({ tab }) => {
     };
 
     useEffect(() => {
-        console.log(tab);
+        // console.log(tab);
     }, [tab]);
 
     const socialMediaIcon = (platform) => {

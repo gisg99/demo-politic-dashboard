@@ -2,7 +2,7 @@ import {React, useState }from 'react'
 import { Card, DonutChart2, ElectoralMap, SimpleFunnelChart, HeatmapComponent } from '../../components'
 
 function Salud({data}) {
-    console.log(data);
+    // console.log(data);
     const heatmapData = [
     [20.6748, -103.344, "100"],
     [20.6782, -103.340, "85"],
