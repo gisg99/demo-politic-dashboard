@@ -1,19 +1,35 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Layout, Card, HeatmapComponent, ConnectionHoursChart, DeviceChart, DonutChart2 } from '../../components';
+import { MovilidadContext } from '../../utils/MovilidadContext';
 
 function Movilidad() {
 
-  const heatmapData = [
-    [20.6748, -103.344, "100"],
-    [20.6782, -103.340, "85"],
-    [20.6711, -103.350, "70"],
-    [20.6699, -103.346, "60"],
-    [20.6711, -103.350, "70"],
-    [20.6699, -103.346, "60"],
-    [20.6760, -103.349, "50"],
-    [20.6752, -103.341, "45"],
-    [20.6730, -103.343, "30"]
-    ];
+  const { visitas } = useContext(MovilidadContext);
+  const [puntos, setPuntos] = React.useState([]);
+
+  useEffect(() => {
+    if (visitas && visitas.length > 0) {
+      const nuevosPuntos = visitas.map(visita => [
+        visita.estacion,
+        parseFloat(visita.latitud),
+        parseFloat(visita.longitud),
+        parseInt(visita.total)
+      ]);
+      setPuntos(nuevosPuntos);
+    }
+  }, [visitas]);
+
+  // const heatmapData = [
+  //   [20.6748, -103.344, "100"],
+  //   [20.6782, -103.340, "85"],
+  //   [20.6711, -103.350, "70"],
+  //   [20.6699, -103.346, "60"],
+  //   [20.6711, -103.350, "70"],
+  //   [20.6699, -103.346, "60"],
+  //   [20.6760, -103.349, "50"],
+  //   [20.6752, -103.341, "45"],
+  //   [20.6730, -103.343, "30"]
+  //   ];
 
     const datosConexiones = [
       850, 520, 380, 290, 220, 340, 680, 1580,
@@ -47,7 +63,7 @@ function Movilidad() {
                 </div>
                 <div className='w-full h-64 sm:h-80 md:h-96 lg:h-[400px]'>
                   <HeatmapComponent 
-                    data={heatmapData} 
+                    data={puntos} 
                     useContainerHeight={true}  // Esto hace que use h-full
                   />
                 </div>

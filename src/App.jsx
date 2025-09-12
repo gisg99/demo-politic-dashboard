@@ -11,6 +11,7 @@ import Configuracion from './pages/Configuracion';
 import Segmentacion from './pages/Segmentacion';
 import './App.css';
 import { InformacionProvider } from './utils/InformacionContext';
+import { MovilidadProvider } from './utils/MovilidadContext';
 
 const AppRoutes = () => { 
 
@@ -32,11 +33,13 @@ function App() {
 
 
   return (
-    <InformacionProvider>
-      <BrowserRouter>
-          <AppRoutes />
-      </BrowserRouter>
-    </InformacionProvider>
+    <MovilidadProvider>
+      <InformacionProvider>
+        <BrowserRouter>
+            <AppRoutes />
+        </BrowserRouter>
+      </InformacionProvider>
+    </MovilidadProvider>
   )
 }
 

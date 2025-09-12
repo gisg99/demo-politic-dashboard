@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapContainer, TileLayer, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, useMap, CircleMarker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet.heat';
 import L from 'leaflet';
@@ -11,7 +11,7 @@ const HeatmapLayer = ({ points = [] }) => {
     if (!map) return;
 
     const safePoints = (Array.isArray(points) ? points : [])
-      .map(([lat, lng, intensity = 0]) => {
+      .map(([est, lat, lng, intensity = 0]) => {
         const i = Number.parseFloat(intensity);
         const v = Number.isFinite(i) ? Math.min(Math.max(i / 100, 0), 1) : 0;
         return [lat, lng, v];
@@ -31,9 +31,18 @@ const HeatmapLayer = ({ points = [] }) => {
       const isMobile = window.innerWidth < 1024;
 
       heatLayer = L.heatLayer(safePoints, {
-        radius: isMobile ? 20 : 25,
-        blur: isMobile ? 10 : 15,
+        radius: isMobile ? 30 : 40,  // Aumentado para mayor visibilidad
+        blur: isMobile ? 8 : 12,     // Reducido para más definición
         maxZoom: 17,
+        minOpacity: 0.3,             // Opacidad mínima para mejor visibilidad
+        gradient: {                  // Gradiente personalizado más vibrante
+          0.0: '#0000ff',
+          0.2: '#00ffff', 
+          0.4: '#00ff00',
+          0.6: '#ffff00',
+          0.8: '#ff8000',
+          1.0: '#ff0000'
+        }
       }).addTo(map);
     });
 
@@ -49,9 +58,75 @@ const HeatmapLayer = ({ points = [] }) => {
   return null;
 };
 
+// Componente para mostrar puntos individuales con tooltip
+const InteractivePoints = ({ points = [] }) => {
+  const safePoints = (Array.isArray(points) ? points : [])
+    .map(([est, lat, lng, intensity = 0]) => {
+      const i = Number.parseFloat(intensity);
+      const v = Number.isFinite(i) ? Math.min(Math.max(i / 100, 0), 1) : 0;
+      return { lat, lng, intensity: v };
+    })
+    .filter(({ lat, lng }) => Number.isFinite(lat) && Number.isFinite(lng));
+
+  return (
+    <>
+      {safePoints.map((point, index) => (
+        <CircleMarker
+          key={index}
+          center={[point.lat, point.lng]}
+          radius={4}
+          pathOptions={{
+            fillColor: getColorByIntensity(point.intensity),
+            color: '#000',
+            weight: 1,
+            opacity: 0.8,
+            fillOpacity: 0.7
+          }}
+          eventHandlers={{
+            mouseover: (e) => {
+              e.target.setStyle({
+                radius: 6,
+                weight: 2,
+                fillOpacity: 1
+              });
+            },
+            mouseout: (e) => {
+              e.target.setStyle({
+                radius: 4,
+                weight: 1,
+                fillOpacity: 0.7
+              });
+            }
+          }}
+        >
+          <Popup>
+            <div className="text-sm">
+              <div><strong>Estación:</strong> {point.estacion}</div>
+              <div><strong>Latitud:</strong> {point.lat.toFixed(6)}</div>
+              <div><strong>Longitud:</strong> {point.lng.toFixed(6)}</div>
+              <div><strong>Intensidad:</strong> {(point.intensity * 100).toFixed(1)}%</div>
+            </div>
+          </Popup>
+        </CircleMarker>
+      ))}
+    </>
+  );
+};
+
+// Función para obtener color basado en intensidad
+const getColorByIntensity = (intensity) => {
+  if (intensity < 0.2) return '#0000ff';
+  if (intensity < 0.4) return '#00ffff';
+  if (intensity < 0.6) return '#00ff00';
+  if (intensity < 0.8) return '#ffff00';
+  if (intensity < 1.0) return '#ff8000';
+  return '#ff0000';
+};
+
 const HeatmapComponent = ({ 
   data = [], 
-  useContainerHeight = false  // Nueva prop para controlar el comportamiento
+  useContainerHeight = false,
+  showInteractivePoints = true  // Nueva prop para controlar puntos interactivos
 }) => {
   const isMobile = window.innerWidth < 1024;
 
@@ -75,6 +150,7 @@ const HeatmapComponent = ({
           attribution={!isMobile ? '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors' : ''}
         />
         <HeatmapLayer points={data} />
+        {showInteractivePoints && <InteractivePoints points={data} />}
       </MapContainer>
     </div>
   );
