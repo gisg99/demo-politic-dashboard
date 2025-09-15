@@ -13,6 +13,7 @@ import './App.css';
 import { InformacionProvider } from './utils/InformacionContext';
 import { MovilidadProvider } from './utils/MovilidadContext';
 import { RedesProvider } from "./utils/RedesContext";
+import { AppProviders } from './AppProviders';
 
 const AppRoutes = () => { 
 
@@ -34,15 +35,11 @@ function App() {
 
 
   return (
-    <RedesProvider>
-      <MovilidadProvider>
-        <InformacionProvider>
-          <BrowserRouter>
-              <AppRoutes />
-          </BrowserRouter>
-        </InformacionProvider>
-      </MovilidadProvider>
-    </RedesProvider>
+    <AppProviders>
+      <BrowserRouter>
+          <AppRoutes />
+      </BrowserRouter>
+    </AppProviders>
   )
 }
 
