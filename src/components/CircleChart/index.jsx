@@ -104,7 +104,7 @@ const CircleChart = ({
             {item.percentage}%
           </span>
           {/* Label */}
-          <span className="text-gray-600 text-xs sm:text-xs lg:text-sm font-medium">
+          <span className="text-gray-600 text-xs sm:text-xs lg:text-sm font-medium uppercase">
             {item.label}
           </span>
         </div>
