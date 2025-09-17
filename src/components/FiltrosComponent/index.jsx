@@ -1,40 +1,65 @@
 // src/components/FiltrosComponent/index.jsx
-import React, { useRef, useContext } from 'react';
+import React, { useRef, useContext, useEffect } from 'react';
 import { Formik } from 'formik';
 import { FaCalendarAlt, FaClock } from 'react-icons/fa';
 
-// 👇 weeksNumbers sigue viniendo de InformacionContext
+// Contextos
 import { InformacionContext } from '../../utils/InformacionContext';
-// 👇 EL CONTROL DE SEMANA PARA REDES VIENE DE RedesContext
 import { RedesContext } from '../../utils/RedesContext';
+import { useFilters } from '../../utils/FiltersContext';
 
 const FiltrosComponent = () => {
   // Semanas disponibles
   const { weeksNumbers } = useContext(InformacionContext);
 
-  // Semana seleccionada global para REDES
+  // Control de semana para REDES (mantener compatibilidad con código existente)
   const { selectedWeek, setSelectedWeek } = useContext(RedesContext);
 
-  const initialValues = {
-    // sincroniza con la semana global de REDES
-    semana: selectedWeek ?? '',
-    fechaInicio: '',
-    fechaFin: '',
-    horaInicio: '',
-    horaFin: '',
-    zona: '',
-    distrito: '',
-    demograficos: '',
-    intencionVoto: ''
-  };
+  // Filtros centralizados
+  const { 
+    filters, 
+    updateFilter, 
+    resetFilters, 
+    registerFilterCallback,
+    hasActiveFilters 
+  } = useFilters();
 
-  const handleSubmit = (values) => {
-    // Aquí puedes disparar otros filtros si quieres
-    // Por ahora, solo controlamos la semana vía setSelectedWeek
+  // Sincronizar la semana del contexto de Redes con los filtros
+  useEffect(() => {
+    if (selectedWeek && selectedWeek !== filters.semana) {
+      updateFilter('semana', selectedWeek.toString());
+    }
+  }, [selectedWeek, filters.semana, updateFilter]);
+
+  // Registrar callback para manejar cambios en la semana desde los filtros
+  useEffect(() => {
+    const handleFilterChange = (newFilters, changedField, newValue) => {
+      // Si cambió la semana desde los filtros, actualizar el contexto de Redes
+      if (changedField === 'semana' && newValue !== '' && newValue != null) {
+        const weekNumber = Number(newValue);
+        if (!isNaN(weekNumber) && weekNumber !== selectedWeek) {
+          setSelectedWeek(weekNumber);
+        }
+      }
+    };
+
+    // Registrar el callback
+    const unregister = registerFilterCallback(handleFilterChange);
+
+    // Limpiar al desmontar
+    return unregister;
+  }, [registerFilterCallback, setSelectedWeek, selectedWeek]);
+
+  const handleSubmit = () => {
+    // Los filtros ya están actualizados en el contexto
+    // Otros contextos pueden estar escuchando cambios vía callbacks
+    console.log('Filtros aplicados:', filters);
   };
 
   const handleReset = (resetForm) => {
     resetForm();
+    resetFilters();
+    // Esto también reseteará la semana en RedesContext vía el callback
   };
 
   const openDatePicker = (inputRef) => {
@@ -51,10 +76,14 @@ const FiltrosComponent = () => {
         `}
       </style>
 
-      <Formik initialValues={initialValues} onSubmit={handleSubmit} enableReinitialize>
-        {({ values, setFieldValue, resetForm }) => {
-          const fechaInicioRef = useRef(null);
-          const fechaFinRef = useRef(null);
+      <Formik 
+        initialValues={filters} 
+        onSubmit={handleSubmit} 
+        enableReinitialize
+      >
+        {({ setFieldValue, resetForm }) => {
+          const start_dateRef = useRef(null);
+          const endDateRef = useRef(null);
 
           return (
             <div>
@@ -69,14 +98,11 @@ const FiltrosComponent = () => {
                   <div className="relative">
                     <select
                       name="semana"
-                      value={values.semana}
+                      value={filters.semana}
                       onChange={(e) => {
-                        const v = e.target.value;
-                        setFieldValue('semana', v);
-                        if (v !== '') {
-                          // ✅ Esto dispara el useEffect del RedesContext y hace el fetch
-                          setSelectedWeek(Number(v));
-                        }
+                        const value = e.target.value;
+                        setFieldValue('semana', value);
+                        updateFilter('semana', value);
                       }}
                       className="w-full pl-3 sm:pl-2 lg:pl-3 pr-2 sm:pr-1 lg:pr-2 py-1.5 sm:py-0.5 lg:py-1 border border-gray-300 rounded-full bg-white text-xs sm:text-[9px] lg:text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 appearance-none text-tertiary"
                     >
@@ -98,17 +124,21 @@ const FiltrosComponent = () => {
                   <div className="relative">
                     <div
                       className="absolute left-2 sm:left-1.5 top-1/2 transform -translate-y-1/2 p-0.5 rounded-sm cursor-pointer z-10"
-                      onClick={() => openDatePicker(fechaInicioRef)}
+                      onClick={() => openDatePicker(start_dateRef)}
                     >
                       <FaCalendarAlt className="text-tertiary w-3 h-3 sm:w-2 sm:h-2 lg:w-2.5 lg:h-2.5" />
                     </div>
-                    <div className="cursor-pointer" onClick={() => openDatePicker(fechaInicioRef)}>
+                    <div className="cursor-pointer" onClick={() => openDatePicker(start_dateRef)}>
                       <input
-                        ref={fechaInicioRef}
+                        ref={start_dateRef}
                         type="date"
-                        name="fechaInicio"
-                        value={values.fechaInicio}
-                        onChange={(e) => setFieldValue('fechaInicio', e.target.value)}
+                        name="start_date"
+                        value={filters.start_date}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setFieldValue('start_date', value);
+                          updateFilter('start_date', value);
+                        }}
                         className="date-input w-full pl-6 sm:pl-4 lg:pl-7 pr-2 sm:pr-1 lg:pr-2 py-1.5 sm:py-0.5 lg:py-1 border border-gray-300 rounded-full bg-white text-xs sm:text-[9px] lg:text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 cursor-pointer"
                       />
                     </div>
@@ -123,17 +153,21 @@ const FiltrosComponent = () => {
                   <div className="relative">
                     <div
                       className="absolute left-2 sm:left-1.5 top-1/2 transform -translate-y-1/2 p-0.5 rounded-sm cursor-pointer z-10"
-                      onClick={() => openDatePicker(fechaFinRef)}
+                      onClick={() => openDatePicker(endDateRef)}
                     >
                       <FaCalendarAlt className="text-tertiary w-3 h-3 sm:w-2 sm:h-2 lg:w-2.5 lg:h-2.5" />
                     </div>
-                    <div className="cursor-pointer" onClick={() => openDatePicker(fechaFinRef)}>
+                    <div className="cursor-pointer" onClick={() => openDatePicker(endDateRef)}>
                       <input
-                        ref={fechaFinRef}
+                        ref={endDateRef}
                         type="date"
-                        name="fechaFin"
-                        value={values.fechaFin}
-                        onChange={(e) => setFieldValue('fechaFin', e.target.value)}
+                        name="endDate"
+                        value={filters.endDate}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setFieldValue('endDate', value);
+                          updateFilter('endDate', value);
+                        }}
                         className="date-input w-full pl-6 sm:pl-4 lg:pl-7 pr-2 sm:pr-1 lg:pr-2 py-1.5 sm:py-0.5 lg:py-1 border border-gray-300 rounded-full bg-white text-xs sm:text-[9px] lg:text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 cursor-pointer"
                       />
                     </div>
@@ -148,16 +182,20 @@ const FiltrosComponent = () => {
                   <div className="relative">
                     <FaClock className="absolute left-2 sm:left-1.5 top-1/2 transform -translate-y-1/2 text-tertiary w-3 h-3 sm:w-2 sm:h-2 lg:w-2.5 lg:h-2.5" />
                     <select
-                      name="horaInicio"
-                      value={values.horaInicio}
-                      onChange={(e) => setFieldValue('horaInicio', e.target.value)}
+                      name="start_hour"
+                      value={filters.start_hour}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setFieldValue('start_hour', value);
+                        updateFilter('start_hour', value);
+                      }}
                       className="w-full pl-6 sm:pl-4 lg:pl-7 pr-2 sm:pr-1 lg:pr-2 py-1.5 sm:py-0.5 lg:py-1 border border-gray-300 rounded-full bg-white text-xs sm:text-[9px] lg:text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 appearance-none text-tertiary"
                     >
                       <option value="">Seleccionar</option>
-                      <option value="00:00">00:00</option>
-                      <option value="06:00">06:00</option>
-                      <option value="12:00">12:00</option>
-                      <option value="18:00">18:00</option>
+                      {Array.from({ length: 24 }, (_, hour) => {
+                        const hourString = hour.toString().padStart(2, '0') + ':00';
+                        return <option value={hourString} key={hourString}>{hourString}</option>
+                      })}
                     </select>
                   </div>
                 </div>
@@ -170,16 +208,20 @@ const FiltrosComponent = () => {
                   <div className="relative">
                     <FaClock className="absolute left-2 sm:left-1.5 top-1/2 transform -translate-y-1/2 text-tertiary w-3 h-3 sm:w-2 sm:h-2 lg:w-2.5 lg:h-2.5" />
                     <select
-                      name="horaFin"
-                      value={values.horaFin}
-                      onChange={(e) => setFieldValue('horaFin', e.target.value)}
+                      name="end_hour"
+                      value={filters.end_hour}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setFieldValue('end_hour', value);
+                        updateFilter('end_hour', value);
+                      }}
                       className="w-full pl-6 sm:pl-4 lg:pl-7 pr-2 sm:pr-1 lg:pr-2 py-1.5 sm:py-0.5 lg:py-1 border border-gray-300 rounded-full bg-white text-xs sm:text-[9px] lg:text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 appearance-none text-tertiary"
                     >
                       <option value="">Seleccionar</option>
-                      <option value="06:00">06:00</option>
-                      <option value="12:00">12:00</option>
-                      <option value="18:00">18:00</option>
-                      <option value="23:59">23:59</option>
+                      {Array.from({ length: 24 }, (_, hour) => {
+                        const hourString = hour.toString().padStart(2, '0') + ':00';
+                        return <option value={hourString} key={hourString}>{hourString}</option>
+                      })}
                     </select>
                   </div>
                 </div>
@@ -192,8 +234,12 @@ const FiltrosComponent = () => {
                   <div className="relative">
                     <select
                       name="zona"
-                      value={values.zona}
-                      onChange={(e) => setFieldValue('zona', e.target.value)}
+                      value={filters.zona}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setFieldValue('zona', value);
+                        updateFilter('zona', value);
+                      }}
                       className="w-full pl-3 sm:pl-2 lg:pl-3 pr-2 sm:pr-1 lg:pr-2 py-1.5 sm:py-0.5 lg:py-1 border border-gray-300 rounded-full bg-white text-xs sm:text-[9px] lg:text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 appearance-none text-tertiary"
                     >
                       <option value="">Seleccionar</option>
@@ -214,8 +260,12 @@ const FiltrosComponent = () => {
                   <div className="relative">
                     <select
                       name="distrito"
-                      value={values.distrito}
-                      onChange={(e) => setFieldValue('distrito', e.target.value)}
+                      value={filters.distrito}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setFieldValue('distrito', value);
+                        updateFilter('distrito', value);
+                      }}
                       className="w-full pl-3 sm:pl-2 lg:pl-3 pr-2 sm:pr-1 lg:pr-2 py-1.5 sm:py-0.5 lg:py-1 border border-gray-300 rounded-full bg-white text-xs sm:text-[9px] lg:text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 appearance-none text-tertiary"
                     >
                       <option value="">Seleccionar</option>
@@ -235,8 +285,12 @@ const FiltrosComponent = () => {
                   <div className="relative">
                     <select
                       name="demograficos"
-                      value={values.demograficos}
-                      onChange={(e) => setFieldValue('demograficos', e.target.value)}
+                      value={filters.demograficos}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setFieldValue('demograficos', value);
+                        updateFilter('demograficos', value);
+                      }}
                       className="w-full pl-3 sm:pl-2 lg:pl-3 pr-2 sm:pr-1 lg:pr-2 py-1.5 sm:py-0.5 lg:py-1 border border-gray-300 rounded-full bg-white text-xs sm:text-[9px] lg:text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 appearance-none text-tertiary"
                     >
                       <option value="">Seleccionar</option>
@@ -257,8 +311,12 @@ const FiltrosComponent = () => {
                   <div className="relative">
                     <select
                       name="intencionVoto"
-                      value={values.intencionVoto}
-                      onChange={(e) => setFieldValue('intencionVoto', e.target.value)}
+                      value={filters.intencionVoto}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setFieldValue('intencionVoto', value);
+                        updateFilter('intencionVoto', value);
+                      }}
                       className="w-full pl-3 sm:pl-2 lg:pl-3 pr-2 sm:pr-1 lg:pr-2 py-1.5 sm:py-0.5 lg:py-1 border border-gray-300 rounded-full bg-white text-xs sm:text-[9px] lg:text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 appearance-none text-tertiary"
                     >
                       <option value="">Seleccionar</option>
@@ -277,7 +335,7 @@ const FiltrosComponent = () => {
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-1 lg:gap-2 justify-center sm:justify-start mt-2 sm:mt-1 lg:mt-0">
                 <button
                   type="button"
-                  onClick={() => handleSubmit(values)}
+                  onClick={handleSubmit}
                   className="w-full sm:w-auto px-4 sm:px-3 lg:px-4 py-1.5 sm:py-0.5 lg:py-1.5 bg-white border border-tertiary text-tertiary hover:text-white rounded-full hover:bg-tertiary transition-colors duration-200 font-medium text-xs sm:text-[9px] lg:text-xs"
                 >
                   Aplicar Filtros

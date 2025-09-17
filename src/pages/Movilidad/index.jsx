@@ -4,7 +4,7 @@ import { MovilidadContext } from '../../utils/MovilidadContext';
 
 function Movilidad() {
 
-  const { visitas } = useContext(MovilidadContext);
+  const { visitas, horarios } = useContext(MovilidadContext);
   const [puntos, setPuntos] = React.useState([]);
 
   useEffect(() => {
