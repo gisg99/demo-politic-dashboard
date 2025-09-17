@@ -83,7 +83,8 @@ const InformacionProvider = ({ children }) => {
     }, [selectedWeek]);
 
     return (
-        <InformacionContext.Provider value={{ percepcion, weeklyReportCandidato, weeklyReportPartido, fetchWeeklyReportCandidato, fetchWeeklyReportPartido, weeksNumbers, selectedWeek, setSelectedWeek, weeklyReportGeneral, setWeeklyReportCandidato, fetchWeeklyReportGeneral }}>            {children}
+        <InformacionContext.Provider value={{ percepcion, weeklyReportCandidato, weeklyReportPartido, fetchWeeklyReportCandidato, fetchWeeklyReportPartido, weeksNumbers, selectedWeek, setSelectedWeek, weeklyReportGeneral, setWeeklyReportCandidato, fetchWeeklyReportGeneral }}>
+            {children}
         </InformacionContext.Provider>
     )
 }

@@ -97,12 +97,12 @@ const FiltrosComponent = () => {
                   </label>
                   <div className="relative">
                     <select
-                      name="semana"
-                      value={filters.semana}
+                      name="semana_num"
+                      value={filters.semana_num}
                       onChange={(e) => {
                         const value = e.target.value;
-                        setFieldValue('semana', value);
-                        updateFilter('semana', value);
+                        setFieldValue('semana_num', value);
+                        updateFilter('semana_num', value);
                       }}
                       className="w-full pl-3 sm:pl-2 lg:pl-3 pr-2 sm:pr-1 lg:pr-2 py-1.5 sm:py-0.5 lg:py-1 border border-gray-300 rounded-full bg-white text-xs sm:text-[9px] lg:text-xs focus:outline-none focus:ring-1 focus:ring-orange-400 appearance-none text-tertiary"
                     >
