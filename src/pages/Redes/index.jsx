@@ -7,7 +7,7 @@ import { ImArrowUp } from "react-icons/im";
 import { RedesContext } from '../../utils/RedesContext';
 
 function Redes() {
-  const { weeklyReportGeneral, selectedWeek, loading, error } = useContext(RedesContext);
+  const { weeklyReportGeneral, selectedWeek, loading, error, partidosPromedio } = useContext(RedesContext);
   const general = weeklyReportGeneral?.[0] ?? null;
 
   // --------- Normalizaciones DIRECTAS desde tu API ---------
@@ -59,12 +59,8 @@ function Redes() {
     { nombre: 'Candidato F', porcentaje: 20, color: '#FF9F40' }
   ];
 
-  const partidosData = [
-    { label: 'MC', value: 45, color: '#FFB74D' },
-    { label: 'MR', value: 30, color: '#BDBDBD' },
-    { label: 'PN', value: 15, color: '#9E9E9E' },
-    { label: 'PRI', value: 10, color: '#757575' }
-  ];
+  // ---- ELIMINADO: partidos planos ----
+  // const partidosData = [ ... ];
 
   const getColor = (index, count) => {
     const residuo = index % 4;
@@ -166,14 +162,19 @@ function Redes() {
                   <h1 className='text-center text-tertiary font-bold text-lg md:text-xl xl:text-2xl my-3'>
                     Partidos
                   </h1>
+
                   <div className='w-full h-full flex flex-col justify-center py-2'>
-                    <CircleChart 
-                      title=""
-                      data={partidosData}
-                      showLegend={true}
-                      legendPosition="right"
-                      size="medium"
-                    />
+                    {Array.isArray(partidosPromedio) && partidosPromedio.length > 0 ? (
+                      <CircleChart 
+                        title=""
+                        data={partidosPromedio}
+                        showLegend={true}
+                        legendPosition="right"
+                        size="medium"
+                      />
+                    ) : (
+                      <div className="text-center text-gray-500 text-sm">Sin datos de partidos</div>
+                    )}
                   </div>
                 </div>
               </Card>
