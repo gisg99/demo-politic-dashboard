@@ -99,7 +99,7 @@ function Redes() {
                 
                 <div className='h-full'>
                   <Card title='Menciones por Partido y Candidato'>
-                    <PoliticalMentionsChart/>
+                    <PoliticalMentionsChart/> 
                   </Card>
                 </div>
 
