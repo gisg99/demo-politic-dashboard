@@ -135,8 +135,6 @@ function Movilidad() {
                 <div className='flex w-full sm:w-[50%] justify-center min-h-[200px] sm:min-h-[250px]'>
                   <DonutChart2 
                     data={tipos || defaultData}
-                    title="Distribución por Tipo de Dispositivo"
-                    type="default"
                   />
                 </div>
               </div>
