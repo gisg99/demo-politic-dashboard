@@ -3,15 +3,12 @@ import Chart from 'chart.js/auto';
 
 // Componente reutilizable de gráfica de barras
 const DeviceChart = ({ 
-  data = [
-    { label: 'Mobile', value: 97, color: '#f59e0b' },
-    { label: 'Desktop', value: 5, color: '#fbbf24' }
-  ],
+  data,
   title = '',
   height = 300,
   showLegend = false,
   showGrid = true,
-  maxValue = 100,
+  maxValue = data.reduce((max, item) => Math.max(max, parseInt(item.total)), 0) + 20,
   unit = '',
   className = ''
 }) => {
@@ -73,9 +70,9 @@ const DeviceChart = ({
         chartInstance.current = new Chart(ctx, {
           type: 'bar',
           data: {
-            labels: data.map(item => item.label),
+            labels: data.map(item => item.type),
             datasets: [{
-              data: data.map(item => item.value),
+              data: data.map(item => parseInt(item.total)),
               backgroundColor: data.map(item => item.color || '#f59e0b'),
               borderWidth: 0,
               barThickness: sizes.barThickness,
@@ -130,7 +127,6 @@ const DeviceChart = ({
             scales: {
               y: {
                 beginAtZero: true,
-                max: maxValue,
                 grid: {
                   display: showGrid,
                   color: '#e5e7eb',
