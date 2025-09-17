@@ -7,29 +7,32 @@ const MovilidadContext = createContext();
 const MovilidadProvider = ({ children }) => {
   const [visitas, setVisitas] = useState(null);
   const [horarios, setHorarios] = useState(null);
+  const [tipos, setTipos] = useState(null);
   const [loadingVisitas, setLoadingVisitas] = useState(false);
   const [loadingHorarios, setLoadingHorarios] = useState(false);
+  const [loadingTipos, setLoadingTipos] = useState(false);
   
   const { filters, registerFilterCallback } = useFilters();
 
   // Mapeo de nombres de filtros del contexto a nombres de la API
   const mapFiltersToAPI = useCallback((filters) => {
     return {
-      start_date: filters.fechaInicio || '',
-      end_date: filters.fechaFin || '',
-      start_hour: filters.horaInicio || '',
-      end_hour: filters.horaFin || '',
+      start_date: filters.start_date || '',
+      end_date: filters.end_date || '',
+      start_hour: filters.start_hour || '',
+      end_hour: filters.end_hour || '',
       zona: filters.zona || '',
       distrito: filters.distrito || '',
       demograficos: filters.demograficos || '',
-      intencion_voto: filters.intencionVoto || ''
+      intencion_voto: filters.intencion_voto || ''
     };
   }, []);
 
   // Definir campos relevantes para cada dataset (usando nombres del contexto)
   const RELEVANT_FIELDS = {
-    visitas: ['fechaInicio', 'fechaFin'], 
-    horarios: ['horaInicio', 'horaFin', 'fechaInicio', 'fechaFin']
+    visitas: ['start_date', 'end_date'], 
+    horarios: ['start_hour', 'end_hour', 'start_date', 'end_date'],
+    types: ['start_hour', 'end_hour', 'start_date', 'end_date'],
   };
 
   const fetchVisitas = useCallback(async (currentFilters) => {
@@ -61,7 +64,7 @@ const MovilidadProvider = ({ children }) => {
         params: apiFilters 
       });
       
-      if (response.data && response.data.length > 0) {
+      if (response.status === 200) {
         setHorarios(response.data);
       } else {
         setHorarios([]);
@@ -71,6 +74,26 @@ const MovilidadProvider = ({ children }) => {
       setHorarios([]); // Set empty array on error
     } finally {
       setLoadingHorarios(false);
+    }
+  }, [mapFiltersToAPI]);
+
+  const fetchTipos = useCallback(async (currentFilters) => {
+    try {
+        setLoadingTipos(true);
+        const apiFilters = mapFiltersToAPI(currentFilters);
+            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v2/prueba/analytics/porcentaje-os`, {
+            params: apiFilters
+        });
+        if (response.status === 200) {
+            setTipos(response.data);
+        } else {
+            setTipos([]);
+        }
+    } catch (error) {
+        console.error('Error fetching tipos:', error);
+        setTipos([]); // Set empty array on error
+    } finally {
+        setLoadingTipos(false);
     }
   }, [mapFiltersToAPI]);
 
@@ -102,6 +125,7 @@ const MovilidadProvider = ({ children }) => {
       // Determinar qué datasets necesitan actualizarse
       const needsVisitasUpdate = shouldFetchDataset('visitas', changedField, changedFields);
       const needsHorariosUpdate = shouldFetchDataset('horarios', changedField, changedFields);
+        const needsTiposUpdate = shouldFetchDataset('types', changedField, changedFields);
       
       // Hacer fetch solo si es necesario
       if (needsVisitasUpdate) {
@@ -112,6 +136,11 @@ const MovilidadProvider = ({ children }) => {
       if (needsHorariosUpdate) {
         console.log('Updating horarios for:', changedField, changedFields);
         fetchHorarios(newFilters);
+      }
+
+      if (needsTiposUpdate) {
+        console.log('Updating tipos for:', changedField, changedFields);
+        fetchTipos(newFilters);
       }
     };
 
@@ -124,43 +153,50 @@ const MovilidadProvider = ({ children }) => {
 
   // ✅ useEffect separado para fetch inicial
   useEffect(() => {
-    const hasActiveFilters = Object.values(filters).some(value => value !== '' && value != null);
+    // const hasActiveFilters = Object.values(filters).some(value => value !== '' && value != null);
     
-    if (hasActiveFilters) {
+    // if (hasActiveFilters) {
       console.log('Initial fetch with filters:', filters);
       fetchVisitas(filters);
       fetchHorarios(filters);
-    }
+      fetchTipos(filters);
+    // }
   }, []); // ✅ Array vacío - solo ejecuta una vez al montar
 
   // Funciones de refetch
   const refetchVisitas = useCallback(() => fetchVisitas(filters), [fetchVisitas, filters]);
   const refetchHorarios = useCallback(() => fetchHorarios(filters), [fetchHorarios, filters]);
+  const refetchTipos = useCallback(() => fetchTipos(filters), [fetchTipos, filters]);
   const refetchAll = useCallback(() => {
     fetchVisitas(filters);
     fetchHorarios(filters);
-  }, [fetchVisitas, fetchHorarios, filters]);
+    fetchTipos(filters);
+  }, [fetchVisitas, fetchHorarios, fetchTipos, filters]);
 
   const value = { 
     // Data
     visitas,
     horarios,
+    tipos,
 
     // Loading states
     loadingVisitas,
     loadingHorarios,
-    loading: loadingVisitas || loadingHorarios,
+    loadingTipos,
+    loading: loadingVisitas || loadingHorarios || loadingTipos,
 
     // Refetch functions
     refetchVisitas,
     refetchHorarios,
+    refetchTipos,
     refetchAll,
 
     // Utilities
-    hasData: visitas !== null || horarios !== null,
-    isEmpty: visitas === null && horarios === null,
+    hasData: visitas !== null || horarios !== null || tipos !== null,
+    isEmpty: visitas === null && horarios === null && tipos === null,
     hasVisitas: Array.isArray(visitas) && visitas.length > 0,
     hasHorarios: Array.isArray(horarios) && horarios.length > 0,
+    hasTipos: Array.isArray(tipos) && tipos.length > 0,
   };
 
   return (

@@ -46,30 +46,30 @@ const ConnectionHoursChart = ({
   
   // Datos por defecto - distribución típica de conexiones durante el día
   const defaultData = [
-    850,   // 00:00
-    520,   // 01:00
-    380,   // 02:00
-    290,   // 03:00
-    220,   // 04:00
-    340,   // 05:00
-    680,   // 06:00
-    1580,  // 07:00
-    2180,  // 08:00
-    2450,  // 09:00
-    2280,  // 10:00
-    2120,  // 11:00
-    1980,  // 12:00
-    2150,  // 13:00
-    2320,  // 14:00
-    2480,  // 15:00
-    2550,  // 16:00
-    2420,  // 17:00
-    2380,  // 18:00
-    2250,  // 19:00
-    2100,  // 20:00
-    1850,  // 21:00
-    1420,  // 22:00
-    980    // 23:00
+    {"hora": 0, "total": 850},
+    {"hora": 1, "total": 520},
+    {"hora": 2, "total": 380},
+    {"hora": 3, "total": 290},
+    {"hora": 4, "total": 220},
+    {"hora": 5, "total": 340},
+    {"hora": 6, "total": 680},
+    {"hora": 7, "total": 1580},
+    {"hora": 8, "total": 2180},
+    {"hora": 9, "total": 2450},
+    {"hora": 10, "total": 2280},
+    {"hora": 11, "total": 2120},
+    {"hora": 12, "total": 1980},
+    {"hora": 13, "total": 2150},
+    {"hora": 14, "total": 2320},
+    {"hora": 15, "total": 2480},
+    {"hora": 16, "total": 2550},
+    {"hora": 17, "total": 2420},
+    {"hora": 18, "total": 2380},
+    {"hora": 19, "total": 2250},
+    {"hora": 20, "total": 2100},
+    {"hora": 21, "total": 1850},
+    {"hora": 22, "total": 1420},
+    {"hora": 23, "total": 980}
   ];
   
   const hoursData = data || defaultData;
@@ -90,11 +90,11 @@ const ConnectionHoursChart = ({
   
   // Configuración de datos para Chart.js
   const chartData = {
-    labels: labels,
+    labels: data ? data.map(item => item.hora.toString().padStart(2, '0') + ':00') : defaultData.map(item => item.hora.toString().padStart(2, '0') + ':00'),
     datasets: [
       {
         label: 'Número de conexiones',
-        data: validatedData,
+        data: data ? data.map(item => item.total) : defaultData.map(item => item.total),
         backgroundColor: backgroundColor,
         borderColor: borderColor,
         borderWidth: 1,

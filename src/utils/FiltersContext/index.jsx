@@ -20,7 +20,7 @@ export const FiltersProvider = ({ children }) => {
     zona: '',
     distrito: '',
     demograficos: '',
-    intencionVoto: ''
+    intencion_voto: ''
   });
 
   // Array de callbacks que se ejecutarán cuando cambien los filtros
@@ -75,7 +75,7 @@ export const FiltersProvider = ({ children }) => {
       zona: '',
       distrito: '',
       demograficos: '',
-      intencionVoto: ''
+      intencion_voto: ''
     };
 
     setFilters(initialFilters);
