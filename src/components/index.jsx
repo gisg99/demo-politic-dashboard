@@ -18,6 +18,7 @@ export * from './VerticalBar';
 export * from './FiltrosComponent';
 export * from './CircleChart';
 export * from './DonutChart2';
+export * from './DonutChart3';
 export * from './SocialPlatforms';
 export * from './General';
 export * from './Salud';
