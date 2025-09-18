@@ -3,10 +3,12 @@ import { Card } from "../../components";
 import { HeatmapComponent } from "../../components";
 import { LineChart2 } from "../../components/LineChart2";
 import { FaChevronLeft, FaChevronRight, FaXTwitter, FaUsers } from "react-icons/fa6";
+import { useInformacion } from "../../utils/InformacionContext";
 import { FaFacebookF, FaInstagram, FaTiktok, FaWhatsapp, FaYoutube, FaGoogle, FaMapMarkedAlt, FaLongArrowAltUp } from 'react-icons/fa';
 
 const DefaultTab = ({ tab }) => {
     const [selectedWeek, setSelectedWeek] = useState(0);
+    const { resultsByMunicipality } = useInformacion();
     const platformsConfig = {
         facebook: {
             icon: FaFacebookF,

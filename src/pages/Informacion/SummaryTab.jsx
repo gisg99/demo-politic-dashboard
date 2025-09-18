@@ -4,9 +4,10 @@ import { GeoJSONMap } from "../../components/GeoJSONMap";
 import { LineChart2 } from "../../components/LineChart2";
 import { InformacionContext } from "../../utils/InformacionContext";
 import { ImArrowUp, ImArrowDown } from "react-icons/im";
+import { ColoniasMap } from "../../components/ColoniasMap";
 
 const SummaryTab = () => {
-    const { weeklyReportGeneral, setWeeklyReportGeneral } = useContext(InformacionContext);
+    const { weeklyReportGeneral, setWeeklyReportGeneral, resultsByColonia } = useContext(InformacionContext);
     // console.log("Weekly Report General:", weeklyReportGeneral);
 
     const heatmapData = [
@@ -57,7 +58,7 @@ const SummaryTab = () => {
             <div className='flex flex-col lg:flex-row gap-3 lg:gap-2 w-full'>
                 <div className='w-full lg:w-[60%]'>
                     <Card title='Mapa de Calor por sección con resultados históricos'>
-                        <HeatmapComponent data={heatmapData} />
+                        <ColoniasMap data={resultsByColonia}/>
                     </Card>
                 </div>
                 <div className='flex flex-col gap-3 lg:gap-2 w-full lg:w-[40%]'>

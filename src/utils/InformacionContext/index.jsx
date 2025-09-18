@@ -4,6 +4,8 @@ import axios from "axios";
 const InformacionContext = createContext();
 
 const InformacionProvider = ({ children }) => {
+  const [resultsByMunicipality, setResultsByMunicipality] = useState([]);
+  const [resultsByColonia, setResultsByColonia] = useState([]);
   const [weeklyReportCandidato, setWeeklyReportCandidato] = useState([]);
   const [weeklyReportPartido, setWeeklyReportPartido] = useState([]);
   const [weeklyReportGeneral, setWeeklyReportGeneral] = useState([]); 
@@ -14,6 +16,28 @@ const InformacionProvider = ({ children }) => {
   // ===== NUEVO: estado para el detalle por partido (endpoint demo) =====
   const [selectedPartidoId, setSelectedPartidoId] = useState(1);   // cámbialo desde la UI
   const [weeklyReportPartidoDemo, setWeeklyReportPartidoDemo] = useState(null);
+
+  const fetchResultsByColonia = async () => {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v2/demo/prueba/colonias-votos`);
+        if (response.status === 200) {
+          setResultsByColonia(response.data);
+        }
+    } catch (error) {
+      console.error("Error fetching results by colonia:", error);
+    }
+  };
+
+  const fetchResultsByMunicipality = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v2/demo/prueba/total-votos-municipio`);
+        if (response.status === 200) {
+          setResultsByMunicipality(response.data);
+        }
+    } catch (error) {
+      console.error("Error fetching results by municipality:", error);
+    }
+  };
 
   // -------- existentes ----------
   const fetchPercepcion = async () => {
@@ -196,6 +220,8 @@ const InformacionProvider = ({ children }) => {
     fetchWeeklyReportGeneral(selectedWeek);
     fetchPercepcion();
     fetchWeeksNumbers();
+    fetchResultsByMunicipality();
+    fetchResultsByColonia();
   }, [selectedWeek]);
 
   // NUEVO: dispara el fetch del demo cuando cambie semana o partido elegido
@@ -219,6 +245,8 @@ const InformacionProvider = ({ children }) => {
         setWeeklyReportCandidato,
         fetchWeeklyReportGeneral,
         fetchNumMencionesByParties,
+        resultsByMunicipality,
+        resultsByColonia,
         // NUEVO: expuestos para consumir en la UI
         selectedPartidoId,
         setSelectedPartidoId,
@@ -232,3 +260,11 @@ const InformacionProvider = ({ children }) => {
 }
 
 export { InformacionContext, InformacionProvider }
+
+export const useInformacion = () => {
+  const context = React.useContext(InformacionContext);
+  if (!context) {
+    throw new Error("useInformacion must be used within an InformacionProvider");
+  }
+  return context;
+};
