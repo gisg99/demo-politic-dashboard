@@ -228,7 +228,7 @@ const InformacionProvider = ({ children }) => {
   useEffect(() => {
     fetchWeeklyReportPartidoDemo(selectedWeek, selectedPartidoId);
   }, [selectedWeek, selectedPartidoId]);
-
+ 
   return (
     <InformacionContext.Provider
       value={{
@@ -237,7 +237,7 @@ const InformacionProvider = ({ children }) => {
         weeklyReportCandidato,
         weeklyReportPartido,
         fetchWeeklyReportCandidato,
-        fetchWeeklyReportPartido,
+        fetchWeeklyReportPartido, 
         weeksNumbers,
         selectedWeek,
         setSelectedWeek,

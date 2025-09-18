@@ -22,6 +22,7 @@ export const RedesProvider = ({ children }) => {
   // Mapea filtros del contexto a la API (mismo que en Movilidad)
   const mapFiltersToAPI = useCallback((f) => {
     return {
+      // OJO: semana_num la pasaremos explícitamente como "effectiveWeek"
       start_date: f?.start_date || "",
       end_date: f?.end_date || "",
       start_hour: f?.start_hour || "",
@@ -33,11 +34,9 @@ export const RedesProvider = ({ children }) => {
     };
   }, []);
 
-  // Campos relevantes por dataset (usa nombres del contexto)
+  // Campos relevantes por dataset (incluimos semana_num para que el callback se dispare)
   const RELEVANT_FIELDS = {
-    // Para el reporte general semanal, típicamente fecha/hora afectan los datos
-    general: ["start_date", "end_date", "start_hour", "end_hour", "zona", "distrito", "demograficos", "intencion_voto"],
-    // Para el promedio de partidos: si tu backend NO filtra, déjalo vacío.
+    general: ["semana_num", "start_date", "end_date", "start_hour", "end_hour", "zona", "distrito", "demograficos", "intencion_voto"],
     promedio: [], // si más adelante filtra por fechas, añade los campos aquí
   };
 
@@ -74,14 +73,19 @@ export const RedesProvider = ({ children }) => {
 
   const fetchWeeklyReportGeneral = useCallback(
     async (currentFilters) => {
-      const week = Number(selectedWeek) || 1;
+      // Semana efectiva: filtro > estado > 1
+      const effectiveWeek =
+        Number(currentFilters?.semana_num) ||
+        Number(selectedWeek) ||
+        1;
+
       setLoadingGeneral(true);
       setError(null);
       try {
         const url = `${import.meta.env.VITE_API_BASE_URL}/api/v2/demo/prueba/demo-reporte-semanal-general`;
 
-        // Pasamos semana + filtros (si el back los ignora, no afecta)
-        const params = { semana_num: week, ...mapFiltersToAPI(currentFilters || {}) };
+        // Pasamos semana efectiva + filtros (si el back ignora filtros, no afecta)
+        const params = { semana_num: effectiveWeek, ...mapFiltersToAPI(currentFilters || {}) };
         const res = await axios.get(url, { params });
 
         if (res.status === 200 && res.data) {
@@ -141,7 +145,7 @@ export const RedesProvider = ({ children }) => {
 
   // =================== Registro de filtros ===================
 
-  // Registra el callback que reacciona a cambios de filtros
+  // Registra el callback que reacciona a cambios de filtros (incluida semana_num)
   useEffect(() => {
     const handleFilterChange = (newFilters, changedField, changedValue) => {
       const changedFields = changedField === "multiple" ? Object.keys(changedValue || {}) : [];
@@ -164,10 +168,11 @@ export const RedesProvider = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // intencionalmente vacío: solo una vez
 
-  // Cuando cambie la semana seleccionada, vuelve a pedir el general con filtros actuales
+  // Cuando cambie la semana seleccionada DESDE la UI de Redes, refetch con filtros actuales
   useEffect(() => {
     fetchWeeklyReportGeneral(filters);
-  }, [selectedWeek]); // eslint-disable-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedWeek]);
 
   // Helpers de refetch manual
   const refetchWeeklyGeneral = useCallback(() => fetchWeeklyReportGeneral(filters), [fetchWeeklyReportGeneral, filters]);
