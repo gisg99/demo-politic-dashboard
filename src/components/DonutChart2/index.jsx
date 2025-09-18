@@ -118,9 +118,9 @@ const DonutChart2 = ({
                       className="w-2 h-2 lg:w-2.5 lg:h-2.5 xl:w-3 xl:h-3 rounded-sm flex-shrink-0"
                       style={{ backgroundColor: item.color }}
                     />
-                    <span className="text-xs lg:text-sm text-gray-600 truncate max-w-[60px] lg:max-w-[100px] xl:max-w-[150px]">
-                      {item.label}
-                    </span>
+                      <span className="text-xs lg:text-sm text-gray-600 truncate max-w-[60px] lg:max-w-[100px] xl:max-w-[150px]">
+                        {item.label}
+                      </span>
                   </div> 
                 ))}
               </div>

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import { IoIosWoman, IoIosMan } from "react-icons/io";
 
 // Registrar los componentes necesarios de Chart.js
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -12,20 +11,25 @@ const DonutChart3 = ({
   type = 'default' // 'default' o 'gender'
 }) => {
   
-  const getRandomColor = () => {
-    const r = Math.floor(Math.random() * 256); // Rojo (0-255)
-    const g = Math.floor(Math.random() * 256); // Verde (0-255)
-    const b = Math.floor(Math.random() * 256); // Azul (0-255)
-    const a = 0.6; // Alpha (transparencia), ajustable
-    return `rgba(${r}, ${g}, ${b}, ${a})`;
+  const getRandomColor = (i) => {
+    // Usar módulo para hacer que los colores se repitan cada 4 elementos
+    const colorIndex = i % 4;
+    switch(colorIndex) {
+      case 0: return '#ffc107';   // Amarillo
+      case 1: return '#ff9800';   // Naranja
+      case 2: return '#ffb74d';   // Naranja claro
+      case 3: return '#ff6b35';   // Naranja rojizo
+      default: return '#ff6b35';
+    }
   };
 
   // Configuración base del gráfico
   const chartData = {
-    labels: data.map(item => item.dispositivo),
+    labels: data.map((item) => item.dispositivo),
     datasets: [{
       data: data.map(item => item.total),
-      backgroundColor: data.map(() => getRandomColor()),
+      // CORRECCIÓN: Pasar el índice numérico, no el objeto
+      backgroundColor: data.map((item, index) => getRandomColor(index)),
       borderWidth: 0,
       cutout: '50%', // Tamaño del agujero central
     }]
@@ -96,17 +100,6 @@ const DonutChart3 = ({
                 {dataWithPercentages.map((item, index) => (
                   <div key={index} className="flex items-center gap-1">
                     <div className="flex items-center gap-1">
-                      {item.label === 'Masculino' || item.label === 'Hombres' ? (
-                        <IoIosMan  
-                          className="text-sm lg:text-base xl:text-lg 2xl:text-xl"
-                          style={{ color: item.color }}
-                        />
-                      ) : (
-                        <IoIosWoman 
-                          className="text-sm lg:text-base xl:text-lg 2xl:text-xl"
-                          style={{ color: item.color }}
-                        />
-                      )}
                       <span className="font-bold text-xs lg:text-sm xl:text-base 2xl:text-lg text-gray-400">
                         {item.percentage}%
                       </span>
@@ -124,10 +117,10 @@ const DonutChart3 = ({
                   <div key={index} className="flex items-center gap-1 lg:gap-1.5 xl:gap-2">
                     <div 
                       className="w-2 h-2 lg:w-2.5 lg:h-2.5 xl:w-3 xl:h-3 rounded-sm flex-shrink-0"
-                      style={{ backgroundColor: item.color }}
+                      style={{ backgroundColor: getRandomColor(index) }}
                     />
                     <span className="text-xs lg:text-sm text-gray-600 truncate max-w-[60px] lg:max-w-[100px] xl:max-w-[150px]">
-                      {item.label}
+                      {item.dispositivo}
                     </span>
                   </div> 
                 ))}
