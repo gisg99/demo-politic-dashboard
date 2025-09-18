@@ -2,40 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 
 // Datos de ejemplo expandidos para simular más puntos
 const generateSampleData = () => {
-  const baseData = [
-    {
-      "municipio": "AHUALULCO DE MERCADO",
-      "colonia": "CENTRO",
-      "TOTAL_VOTOS": 416,
-      "latitud": "20.5373",
-      "longitud": "-104.0146",
-      "partido_predominante": "MC"
-    },
-    {
-      "municipio": "GUADALAJARA",
-      "colonia": "CENTRO",
-      "TOTAL_VOTOS": 1200,
-      "latitud": "20.6597",
-      "longitud": "-103.3496",
-      "partido_predominante": "MORENA"
-    },
-    {
-      "municipio": "ZAPOPAN",
-      "colonia": "CENTRO",
-      "TOTAL_VOTOS": 980,
-      "latitud": "20.7214",
-      "longitud": "-103.3844",
-      "partido_predominante": "PAN"
-    },
-    {
-      "municipio": "TLAQUEPAQUE",
-      "colonia": "CENTRO",
-      "TOTAL_VOTOS": 750,
-      "latitud": "20.6401",
-      "longitud": "-103.3135",
-      "partido_predominante": "PRI"
-    }
-  ];
 
   const partidos = ['PAN', 'PRI', 'MORENA', 'MC', 'PVEM', 'PRD'];
   const municipios = ['GUADALAJARA', 'ZAPOPAN', 'TLAQUEPAQUE', 'TONALA', 'TLAJOMULCO'];

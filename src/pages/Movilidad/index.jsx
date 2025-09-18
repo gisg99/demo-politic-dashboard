@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { Layout, Card, HeatmapComponent, ConnectionHoursChart, DeviceChart, DonutChart2 } from '../../components';
+import { Layout, Card, HeatmapComponent, ConnectionHoursChart, DeviceChart, DonutChart3 } from '../../components';
 import { useMovilidad } from '../../utils/MovilidadContext';
 
 function Movilidad() {
@@ -133,7 +133,7 @@ function Movilidad() {
                 
                 {/* Donut Chart responsive */}
                 <div className='flex w-full sm:w-[50%] justify-center min-h-[200px] sm:min-h-[250px]'>
-                  <DonutChart2 
+                  <DonutChart3 
                     data={tipos || defaultData}
                   />
                 </div>
