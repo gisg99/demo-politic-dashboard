@@ -7,7 +7,7 @@ import { ImArrowUp, ImArrowDown } from "react-icons/im";
 import { ColoniasMap } from "../../components/ColoniasMap";
 
 const SummaryTab = () => {
-    const { weeklyReportGeneral, setWeeklyReportGeneral, resultsByColonia } = useContext(InformacionContext);
+    const { weeklyReportGeneral, setWeeklyReportGeneral, resultsByColonia, resultsByMunicipality } = useContext(InformacionContext);
     // console.log("Weekly Report General:", weeklyReportGeneral);
 
     const heatmapData = [
@@ -61,10 +61,10 @@ const SummaryTab = () => {
                         <ColoniasMap data={resultsByColonia}/>
                     </Card>
                 </div>
-                <div className='flex flex-col gap-3 lg:gap-2 w-full lg:w-[40%]'>
+                <div className='flex flex-col gap-3 lg:gap-2 w-full lg:w-[40%]' onClick={() => console.log(resultsByMunicipality)}>
                     <Card title='Estructura territorial de rivales'>
                         <div className="flex flex-col lg:flex-row gap-3 lg:gap-4 w-full items-center">
-                            <div className="flex flex-row lg:flex-col gap-4 lg:gap-4 justify-center lg:justify-start">
+                            {/* <div className="flex flex-row lg:flex-col gap-4 lg:gap-4 justify-center lg:justify-start">
                                 <div className='flex gap-2'>
                                     <div className='w-6 h-4 lg:w-8 lg:h-6 bg-[#23c054]'></div>
                                     <p className="text-xs lg:text-sm">Morena</p>
@@ -73,8 +73,8 @@ const SummaryTab = () => {
                                     <div className='w-6 h-4 lg:w-8 lg:h-6 bg-[#c32222]'></div>
                                     <p className="text-xs lg:text-sm">MC</p>
                                 </div>
-                            </div>
-                            <GeoJSONMap />
+                            </div> */}
+                            {<GeoJSONMap electoralData={resultsByMunicipality}/>}
                         </div>
                     </Card>
                     <Card title='Participación histórica vs actual'>
