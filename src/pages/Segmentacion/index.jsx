@@ -1,53 +1,64 @@
 // src/pages/Segmentacion/index.jsx
-import React, { useContext, useMemo } from 'react'
+import React, { useContext, useMemo, useEffect } from 'react';
 import { Card, Layout, DonutChart2, CircleChart, SocialPlatforms } from '../../components';
 import { RedesContext } from '../../utils/RedesContext';
+import { useSegmentacion } from "../../utils/SegmentacionContext";
 
 function Segmentacion() {
-  const { weeklyReportGeneral, loading, error, selectedWeek } = useContext(RedesContext);
+  const {
+    weeklyReportGeneral,
+    loading: loadingRedes,
+    error: errorRedes,
+    selectedWeek: selectedWeekRedes
+  } = useContext(RedesContext);
+
+  const {
+    edadData,
+    generoData,
+    nivelSocioeconomicoData,
+    interesesData,           // <-- NUEVO
+    loading: loadingSeg,
+    error: errorSeg,
+    selectedWeek: selectedWeekSeg,
+    setSelectedWeek: setWeekSeg
+  } = useSegmentacion();
+
+  useEffect(() => {
+    if (selectedWeekRedes != null) setWeekSeg(Number(selectedWeekRedes));
+  }, [selectedWeekRedes, setWeekSeg]);
+
   const general = weeklyReportGeneral?.[0] ?? null;
 
-  // ===== Hashtags frecuentes desde el back =====
   const hashtags = useMemo(() => {
     const raw = (general?.hashtags_mas_usados ?? general?.hashtags_positivos ?? '')
-      .split(',')
-      .map(s => s.trim())
-      .filter(Boolean);
-    // formatea con "#"
-    return raw.map(tag => tag.startsWith('#') ? tag : `#${tag}`);
+      .split(',').map(s => s.trim()).filter(Boolean);
+    return raw.map(tag => (tag.startsWith('#') ? tag : `#${tag}`));
   }, [general]);
 
-  // ===== Plataformas más usadas desde el back =====
   const plataformasMasUsadas = useMemo(() => {
     const list = (general?.plataformas_mas_usadas ?? '')
-      .split(',')
-      .map(p => p.trim().toLowerCase())
-      .filter(Boolean);
-    // normaliza "twitter" a "x" si tu SocialPlatforms lo espera así
+      .split(',').map(p => p.trim().toLowerCase()).filter(Boolean);
     return list.map(p => (p === 'twitter' ? 'x' : p));
   }, [general]);
 
-  // --- (lo demás de tu componente se queda igual) ---
+  // === Intereses desde el contexto ===
+  // Mapea "Medio Ambiente" -> "M. Ambiente" para mantener tu UI corta
+  const mapShortLabel = (label) => {
+    if (label.toLowerCase() === 'medio ambiente') return 'M. Ambiente';
+    return label;
+    // Agrega más reglas si quieres abreviar otros
+  };
 
-  // Datos para el gráfico de Edad con porcentajes
-  const edadDataRaw = [
-    { label: '18-25', value: 12, color: '#E0E0E0' },
-    { label: '26-34', value: 18, color: '#BDBDBD' },
-    { label: '34-44', value: 25, color: '#FFC107' },
-    { label: '45-54', value: 20, color: '#FFB74D' },
-    { label: '55-64', value: 15, color: '#FF9800' },
-    { label: '65+', value: 10, color: '#FF6B35' }
-  ];
-  const totalEdad = edadDataRaw.reduce((sum, item) => sum + item.value, 0);
-  const edadData = edadDataRaw.map(item => ({
-    ...item,
-    label: `${item.label} (${Math.round((item.value / totalEdad) * 100)}%)`
-  }));
+  // Top 4
+  const interesesTop = useMemo(() => {
+    return (interesesData || [])
+      .map(it => ({ ...it, label: mapShortLabel(it.label) }))
+      .slice(0, 12);
+  }, [interesesData]);
 
-  const generoData = [
-    { label: 'Masculino', value: 64.6, color: '#FFB74D' },
-    { label: 'Femenino', value: 35.4, color: '#FF8A65' }
-  ];
+  const loading = loadingRedes || loadingSeg;
+  const error = errorRedes || errorSeg;
+  const selectedWeek = selectedWeekRedes ?? selectedWeekSeg;
 
   const ocupacionData = [
     { label: 'Agropecuario', value: 5, color: '#9E9E9E' },
@@ -63,28 +74,15 @@ function Segmentacion() {
     { label: 'Protección Ciudadana', value: 6, color: '#FF5722' }
   ];
 
-  const intereses = [
-    {label: 'Educación', count: 90, color: '#FF6B4D'},
-    {label: 'Deportes', count: 70, color: '#FFB74D'},
-    {label: 'M. Ambiente', count: 80, color: '#FFD54F'},
-    {label: 'Cultura', count: 60, color: '#FFAB91'},
-  ];
-
-  const nivelSocioeconomicoData = [
-    { label: 'C', value: 25, color: '#38b6ff' },
-    { label: 'C+', value: 48, color: '#ffbd59' },
-    { label: 'D+', value: 27, color: '#1800ad' }
-  ];
-
   const getColor = (index, count) => {
     const residuo = index % 4;
-    switch(residuo){
-      case 0: return `linear-gradient(90deg,rgb(255, 109, 77) 0%,rgb(255, 109, 77) ${count}%, rgb(255, 109, 77, .15) ${count}%, rgb(255, 109, 77, .15) 100%)`;
-      case 1: return `linear-gradient(90deg,rgb(255, 189, 89) 0%,rgb(255, 189, 89) ${count}%, rgb(255, 189, 89, .15) ${count}%, rgb(255, 189, 89, .15) 100%)`;
-      case 2: return `linear-gradient(90deg,rgb(255, 222, 89) 0%,rgb(255, 222, 89) ${count}%, rgb(255, 222, 89, .15) ${count}%, rgb(255, 222, 89, .15) 100%)`;
-      default: return `linear-gradient(90deg,rgb(255, 145, 77) 0%,rgb(255, 145, 77) ${count}%, rgb(255, 145, 77, .15) ${count}%, rgb(255, 145, 77, .15) 100%)`;
+    switch (residuo) {
+      case 0: return `linear-gradient(90deg,rgb(255,109,77) 0%,rgb(255,109,77) ${count}%, rgba(255,109,77,.15) ${count}%, rgba(255,109,77,.15) 100%)`;
+      case 1: return `linear-gradient(90deg,rgb(255,189,89) 0%,rgb(255,189,89) ${count}%, rgba(255,189,89,.15) ${count}%, rgba(255,189,89,.15) 100%)`;
+      case 2: return `linear-gradient(90deg,rgb(255,222,89) 0%,rgb(255,222,89) ${count}%, rgba(255,222,89,.15) ${count}%, rgba(255,222,89,.15) 100%)`;
+      default: return `linear-gradient(90deg,rgb(255,145,77) 0%,rgb(255,145,77) ${count}%, rgba(255,145,77,.15) ${count}%, rgba(255,145,77,.15) 100%)`;
     }
-  }
+  };
 
   if (loading) {
     return (
@@ -111,8 +109,8 @@ function Segmentacion() {
             Descargar
           </button>
         </div>
-        
-        <div className='flex flex-col w-full gap-3 sm:gap-4 lg:gap-6'> 
+
+        <div className='flex flex-col w-full gap-3 sm:gap-4 lg:gap-6'>
           {/* Primera fila - Demográficos y Ocupación */}
           <div className='flex flex-col lg:flex-row gap-3 lg:gap-6 w-full'>
             <div className='w-full lg:w-1/2 lg:flex-shrink-0'>
@@ -127,11 +125,11 @@ function Segmentacion() {
                 </div>
               </Card>
             </div>
-            
+
             <div className='w-full lg:w-1/2 lg:flex-shrink-0'>
               <Card title="Ocupación">
                 <div className='w-full flex flex-col justify-center py-2 min-h-[400px] sm:min-h-[500px] lg:min-h-[480px]'>
-                  <CircleChart 
+                  <CircleChart
                     title="Sector productivo"
                     data={ocupacionData}
                     showLegend={true}
@@ -149,11 +147,11 @@ function Segmentacion() {
               <Card title="Intereses">
                 <div className='w-full flex flex-col justify-start py-1 sm:py-3 min-h-[300px] lg:min-h-[400px]'>
                   <div className='flex flex-col gap-2 lg:gap-3 mb-4'>
-                    {intereses.map((tema, index) => (
+                    {(interesesTop.length ? interesesTop : [{label:'Sin datos', count:0}]).map((tema, index) => (
                       <div key={index} className='w-full flex flex-col'>
                         <div className='flex group gap-1 sm:gap-2 w-full items-center justify-between px-1 sm:px-3'>
                           <h1 className='text-gray-500 text-sm sm:text-base lg:text-lg flex-shrink-0'>{tema.label}</h1>
-                          <div className='w-[60%] sm:w-[60%] h-2 sm:h-3 rounded-xs' style={{ background: getColor(index, tema.count)}}>
+                          <div className='w-[60%] sm:w-[60%] h-2 sm:h-3 rounded-xs' style={{ background: getColor(index, tema.count) }}>
                             <div className='text-gray-400 text-sm sm:text-base lg:text-lg font-semibold w-min relative -top-2 sm:-top-3 -left-8 sm:-left-13 px-1 sm:px-2 rounded-lg group-hover:block'>
                               {tema.count}%
                             </div>
@@ -162,8 +160,8 @@ function Segmentacion() {
                       </div>
                     ))}
                   </div>
-                  
-                  {/* Hashtags desde RedesContext */}
+
+                  {/* Hashtags */}
                   <div className='mt-auto'>
                     <h1 className='text-sm sm:text-lg lg:text-[1.3rem] xl:text-[1.8rem] text-tertiary font-bold mb-2 sm:mb-3'>
                       Hashtags Frecuentes
@@ -183,11 +181,11 @@ function Segmentacion() {
                 </div>
               </Card>
             </div>
-            
+
             <div className='w-full lg:w-1/2 lg:flex-shrink-0'>
               <Card title="Nivel socioeconómico">
-                <div className='w-full flex flex-col justify-center py-2 min-h=[300px] lg:min-h-[400px]'>
-                  <CircleChart 
+                <div className='w-full flex flex-col justify-center py-2 min-h-[300px] lg:min-h-[400px]'>
+                  <CircleChart
                     title=""
                     data={nivelSocioeconomicoData}
                     showLegend={true}
@@ -198,7 +196,7 @@ function Segmentacion() {
               </Card>
             </div>
           </div>
- 
+
           {/* Tercera fila - Horarios/Plataformas */}
           <div className='flex flex-col lg:flex-row gap-3 lg:gap-6 w-full'>
             <div className='w-full lg:w-1/2 lg:flex-shrink-0'>
@@ -207,8 +205,6 @@ function Segmentacion() {
                   <h1 className='text-gray-500 font-semibold text-2xl sm:text-3xl lg:text-4xl xl:text-5xl mb-3 sm:mb-4'>
                     5:00 a 8:00 pm
                   </h1>
-                  
-                  {/* Plataformas más usadas desde RedesContext */}
                   <div className='w-full mt-auto'>
                     {plataformasMasUsadas.length > 0 ? (
                       <SocialPlatforms platforms={plataformasMasUsadas} />
@@ -219,13 +215,13 @@ function Segmentacion() {
                 </div>
               </Card>
             </div>
-            
+
             <div className='hidden lg:block w-full lg:w-1/2 lg:flex-shrink-0'>{/* reservado */}</div>
           </div>
         </div>
       </div>
     </Layout>
-  )
+  );
 }
 
-export default Segmentacion
+export default Segmentacion;

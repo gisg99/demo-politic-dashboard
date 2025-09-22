@@ -1,5 +1,6 @@
-import { useRoutes, BrowserRouter, Navigate } from 'react-router-dom'
-import reactLogo from './assets/react.svg';
+// App.jsx
+import { useRoutes, BrowserRouter } from 'react-router-dom';
+// import reactLogo from './assets/react.svg'; // <- si no lo usas, quítalo
 import Home from './pages/Home';
 import Indicadores from './pages/Indicadores';
 import Geolocalizacion from './pages/Geolocalizacion';
@@ -10,13 +11,13 @@ import Redes from './pages/Redes';
 import Configuracion from './pages/Configuracion';
 import Segmentacion from './pages/Segmentacion';
 import './App.css';
+import { SegmentacionProvider } from './utils/SegmentacionContext'; // ✅ este es el bueno
 import { AppProviders } from './AppProviders';
 
-const AppRoutes = () => { 
-
+const AppRoutes = () => {
   const routes = useRoutes([
-    { path: '/', element: <Home/>},
-    { path: '/segmentacion', element: <Segmentacion/>},
+    { path: '/', element: <Home/> },
+    { path: '/segmentacion', element: <Segmentacion/> },
     { path: '/indicadores', element: <Indicadores/> },
     { path: '/geolocalizacion', element: <Geolocalizacion/> },
     { path: '/configuracion', element: <Configuracion/> },
@@ -24,20 +25,20 @@ const AppRoutes = () => {
     { path: '/alertas', element: <Alertas/> },
     { path: '/informacion', element: <Informacion/> },
     { path: '/redes', element: <Redes/> },
-    ]);
+  ]);
   return routes;
 };
 
 function App() {
-
-
   return (
     <AppProviders>
-      <BrowserRouter>
+      <SegmentacionProvider>
+        <BrowserRouter>
           <AppRoutes />
-      </BrowserRouter>
+        </BrowserRouter>
+      </SegmentacionProvider>
     </AppProviders>
-  )
+  );
 }
 
-export default App
+export default App;
