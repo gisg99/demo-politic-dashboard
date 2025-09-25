@@ -10,7 +10,7 @@ export const SegmentacionProvider = ({ children }) => {
   // =========================
   const [selectedWeek, setSelectedWeek] = useState(1);
   const [idCandidato, setIdCandidato] = useState(2);
-
+ 
   // =========================
   // States por dataset
   // =========================
@@ -44,7 +44,7 @@ export const SegmentacionProvider = ({ children }) => {
   const fetchAges = useCallback(async () => {
     try {
       setLoadingAges(true); setErrorAges(null);
-      const { data } = await axios.get(`http://localhost:4000/api/v2/usuarios/ages`);
+      const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v2/usuarios/ages`);
       setAges(Array.isArray(data) ? data : []);
     } catch (e) {
       console.error("Error fetching ages:", e);
@@ -56,7 +56,7 @@ export const SegmentacionProvider = ({ children }) => {
   const fetchGeneros = useCallback(async (semana, candidato) => {
     try {
       setLoadingGeneros(true); setErrorGeneros(null);
-      const { data } = await axios.get(`http://localhost:4000/api/v2/demo/prueba/demo-generos`, {
+      const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v2/demo/prueba/demo-generos`, {
         params: { semana_num: semana, id_candidato: candidato },
       });
       setGeneros(data || null);
@@ -70,7 +70,7 @@ export const SegmentacionProvider = ({ children }) => {
   const fetchMunicipiosVotos = useCallback(async () => {
     try {
       setLoadingMunicipios(true); setErrorMunicipios(null);
-      const { data } = await axios.get(`http://localhost:4000/api/v2/demo/prueba/total-votos-municipio`);
+      const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v2/demo/prueba/total-votos-municipio`);
       setMunicipiosVotos(Array.isArray(data) ? data : []);
     } catch (e) {
       console.error("Error fetching municipios votos:", e);
@@ -82,7 +82,7 @@ export const SegmentacionProvider = ({ children }) => {
   const fetchColoniasVotos = useCallback(async () => {
     try {
       setLoadingColonias(true); setErrorColonias(null);
-      const { data } = await axios.get(`http://localhost:4000/api/v2/demo/prueba/colonias-votos`);
+      const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v2/demo/prueba/colonias-votos`);
       setColoniasVotos(Array.isArray(data) ? data : []);
     } catch (e) {
       console.error("Error fetching colonias votos:", e);
@@ -94,7 +94,7 @@ export const SegmentacionProvider = ({ children }) => {
   const fetchNse = useCallback(async () => {
     try {
       setLoadingNse(true); setErrorNse(null);
-      const { data } = await axios.get(`http://localhost:4000/api/v2/demo/prueba/nivel-marginacion`);
+      const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v2/demo/prueba/nivel-marginacion`);
       setNse(data || null);
     } catch (e) {
       console.error("Error fetching NSE:", e);
@@ -107,7 +107,7 @@ export const SegmentacionProvider = ({ children }) => {
   const fetchPreferences = useCallback(async () => {
     try {
       setLoadingPrefs(true); setErrorPrefs(null);
-      const { data } = await axios.get(`http://localhost:4000/api/v2/usuarios/preferences`);
+      const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v2/usuarios/preferences`);
       // data esperado: [{ opcion: "Cultura", porcentaje: "47.83" }, ...]
       setPreferences(Array.isArray(data) ? data : []);
     } catch (e) {

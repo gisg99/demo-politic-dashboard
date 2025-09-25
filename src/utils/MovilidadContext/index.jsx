@@ -117,7 +117,7 @@ const MovilidadProvider = ({ children }) => {
   // ✅ SOLUCION PRINCIPAL: useEffect separado solo para registrar el callback
   useEffect(() => {
     const handleFilterChange = (newFilters, changedField, changedValue) => {
-      console.log('Filter change detected:', { changedField, changedValue });
+      // console.log('Filter change detected:', { changedField, changedValue });
       
       // Para el caso de 'multiple', changedValue contiene los campos que cambiaron
       const changedFields = changedField === 'multiple' ? Object.keys(changedValue || {}) : [];
@@ -156,7 +156,7 @@ const MovilidadProvider = ({ children }) => {
     // const hasActiveFilters = Object.values(filters).some(value => value !== '' && value != null);
     
     // if (hasActiveFilters) {
-      console.log('Initial fetch with filters:', filters);
+      // console.log('Initial fetch with filters:', filters);
       fetchVisitas(filters);
       fetchHorarios(filters);
       fetchTipos(filters);

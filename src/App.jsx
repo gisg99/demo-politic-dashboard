@@ -13,6 +13,7 @@ import Segmentacion from './pages/Segmentacion';
 import './App.css';
 import { SegmentacionProvider } from './utils/SegmentacionContext'; // ✅ este es el bueno
 import { AppProviders } from './AppProviders';
+import { IndicadoresProvider  } from './utils/IndicadoresContext';
 
 const AppRoutes = () => {
   const routes = useRoutes([
@@ -32,11 +33,13 @@ const AppRoutes = () => {
 function App() {
   return (
     <AppProviders>
-      <SegmentacionProvider>
-        <BrowserRouter>
-          <AppRoutes />
-        </BrowserRouter>
-      </SegmentacionProvider>
+      <IndicadoresProvider>
+        <SegmentacionProvider>
+          <BrowserRouter>
+            <AppRoutes />
+          </BrowserRouter>
+        </SegmentacionProvider>
+      </IndicadoresProvider>
     </AppProviders>
   );
 }

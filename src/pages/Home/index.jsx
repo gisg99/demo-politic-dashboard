@@ -20,6 +20,7 @@ function Home() {
   let lipsTransporte = null;
   let percepcionSalud = '';
   let lipsSalud = null;
+  console.log('Percepción:', percepcion);
 
   // Filtra percepciones de "General" de forma segura
   const generales = useMemo(
