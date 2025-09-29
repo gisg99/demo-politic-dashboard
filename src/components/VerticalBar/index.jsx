@@ -78,7 +78,7 @@ function VerticalBar({ value = 0, label = '' }) {
       </div>
 
       {/* Label responsive con truncado inteligente */}
-      <span className="mt-1 sm:mt-2 text-[10px] sm:text-xs md:text-sm lg:text-sm 
+      <span className="mt-1 sm:mt-2 text-[10px] font-bold sm:text-xs md:text-sm lg:text-[10px] 
                        text-gray-500 text-center leading-tight max-w-full 
                        break-words px-1">
         {label}

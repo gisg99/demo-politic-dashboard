@@ -72,7 +72,7 @@ const Comparator = ({ start }) => {
 
         return (
             <div
-              className="group cursor-pointer transition-transform hover:scale-110"
+              className="group transition-transform "
               title={config.name}
             >
               <div
@@ -115,13 +115,13 @@ const Comparator = ({ start }) => {
                         <h1 className="text-lg lg:text-3xl font-semibold text-orange-500">{weeklyReportCandidato[selectedIndex].nombre_candidato}</h1>
                         <div className="flex gap-1 lg:gap-2 h-full items-end">
                             <span className="text-xs lg:text-sm font-medium">Redes sociales</span>
-                            {weeklyReportCandidato[selectedIndex].facebook && <a href={weeklyReportCandidato[selectedIndex].facebook} target="_blank" rel="noopener noreferrer">{socialMediaIcon("facebook")}</a>}
-                            {weeklyReportCandidato[selectedIndex].instagram && <a href={weeklyReportCandidato[selectedIndex].instagram} target="_blank" rel="noopener noreferrer">{socialMediaIcon("instagram")}</a>}
-                            {weeklyReportCandidato[selectedIndex].twitter && <a href={weeklyReportCandidato[selectedIndex].twitter} target="_blank" rel="noopener noreferrer">{socialMediaIcon("twitter")}</a>}
-                            {weeklyReportCandidato[selectedIndex].youtube && <a href={weeklyReportCandidato[selectedIndex].youtube} target="_blank" rel="noopener noreferrer">{socialMediaIcon("youtube")}</a>}
-                            {weeklyReportCandidato[selectedIndex].whatsapp && <a href={weeklyReportCandidato[selectedIndex].whatsapp} target="_blank" rel="noopener noreferrer">{socialMediaIcon("whatsapp")}</a>}
-                            {weeklyReportCandidato[selectedIndex].tiktok && <a href={weeklyReportCandidato[selectedIndex].tiktok} target="_blank" rel="noopener noreferrer">{socialMediaIcon("tiktok")}</a>}
-                            {weeklyReportCandidato[selectedIndex].linkedin && <a href={weeklyReportCandidato[selectedIndex].linkedin} target="_blank" rel="noopener noreferrer"></a>}
+                            {weeklyReportCandidato[selectedIndex].facebook && <a href={weeklyReportCandidato[selectedIndex].facebook} target="_blank" rel="noopener noreferrer" className="hover:scale-110">{socialMediaIcon("facebook")}</a>}
+                            {weeklyReportCandidato[selectedIndex].instagram && <a href={weeklyReportCandidato[selectedIndex].instagram} target="_blank" rel="noopener noreferrer" className="hover:scale-110">{socialMediaIcon("instagram")}</a>}
+                            {weeklyReportCandidato[selectedIndex].twitter && <a href={weeklyReportCandidato[selectedIndex].twitter} target="_blank" rel="noopener noreferrer" className="hover:scale-110">{socialMediaIcon("twitter")}</a>}
+                            {weeklyReportCandidato[selectedIndex].youtube && <a href={weeklyReportCandidato[selectedIndex].youtube} target="_blank" rel="noopener noreferrer" className="hover:scale-110">{socialMediaIcon("youtube")}</a>}
+                            {weeklyReportCandidato[selectedIndex].whatsapp && <a href={weeklyReportCandidato[selectedIndex].whatsapp} target="_blank" rel="noopener noreferrer" className="hover:scale-110">{socialMediaIcon("whatsapp")}</a>}
+                            {weeklyReportCandidato[selectedIndex].tiktok && <a href={weeklyReportCandidato[selectedIndex].tiktok} target="_blank" rel="noopener noreferrer" className="hover:scale-110">{socialMediaIcon("tiktok")}</a>}
+                            {weeklyReportCandidato[selectedIndex].linkedin && <a href={weeklyReportCandidato[selectedIndex].linkedin} target="_blank" rel="noopener noreferrer" className="hover:scale-110"></a>}
                         </div>
                     </div>
                 </div>

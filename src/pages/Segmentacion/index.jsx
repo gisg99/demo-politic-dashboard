@@ -4,6 +4,54 @@ import { Card, Layout, DonutChart2, CircleChart, SocialPlatforms } from '../../c
 import { RedesContext } from '../../utils/RedesContext';
 import { useSegmentacion } from "../../utils/SegmentacionContext";
 
+function formatHour(h) {
+  const hour = ((h % 24) + 24) % 24;
+  const suffix = hour >= 12 ? "pm" : "am";
+  const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+  return `${hour12}:00 ${suffix}`;
+}
+
+// Encuentra la ventana circular de 4 horas con mayor suma.
+// Devuelve { label, start, end, sum }
+function getMax4HourRange(visitasHora = []) {
+  // Normaliza y valida
+  const data = (visitasHora || [])
+    .filter((x) => x && typeof x.hora === "number" && x.total != null)
+    .map((x) => ({ hora: x.hora % 24, total: Number(x.total) || 0 }))
+    .sort((a, b) => a.hora - b.hora);
+
+  if (data.length < 4) {
+    return { label: "Sin datos", start: null, end: null, sum: 0 };
+  }
+
+  // Asegura 24 posiciones (rellena horas faltantes con 0)
+  const arr = Array.from({ length: 24 }, (_, h) => {
+    const item = data.find((d) => d.hora === h);
+    return item ? item.total : 0;
+  });
+
+  let maxSum = -Infinity;
+  let bestStart = 0;
+
+  for (let i = 0; i < 24; i++) {
+    const s = arr[i] + arr[(i + 1) % 24] + arr[(i + 2) % 24] + arr[(i + 3) % 24];
+    if (s > maxSum) {
+      maxSum = s;
+      bestStart = i;
+    }
+  }
+
+  const start = bestStart;
+  const end = (bestStart + 3) % 24;
+
+  return {
+    start,
+    end,
+    sum: maxSum,
+    label: `${formatHour(start)} a ${formatHour(end)}`
+  };
+}
+
 function Segmentacion() {
   const {
     weeklyReportGeneral,
@@ -16,10 +64,11 @@ function Segmentacion() {
     edadData,
     generoData,
     nivelSocioeconomicoData,
-    interesesData,           // <-- NUEVO
+    interesesData,
     loading: loadingSeg,
     error: errorSeg,
     selectedWeek: selectedWeekSeg,
+    visitasHora,
     setSelectedWeek: setWeekSeg
   } = useSegmentacion();
 
@@ -41,20 +90,21 @@ function Segmentacion() {
     return list.map(p => (p === 'twitter' ? 'x' : p));
   }, [general]);
 
-  // === Intereses desde el contexto ===
-  // Mapea "Medio Ambiente" -> "M. Ambiente" para mantener tu UI corta
+  // Abreviaciones amigables
   const mapShortLabel = (label) => {
+    if (!label) return label;
     if (label.toLowerCase() === 'medio ambiente') return 'M. Ambiente';
     return label;
-    // Agrega más reglas si quieres abreviar otros
   };
 
-  // Top 4
   const interesesTop = useMemo(() => {
     return (interesesData || [])
       .map(it => ({ ...it, label: mapShortLabel(it.label) }))
       .slice(0, 12);
   }, [interesesData]);
+
+  // Calcula el rango de 4 horas (useMemo para evitar recálculos)
+  const rango = useMemo(() => getMax4HourRange(visitasHora), [visitasHora]);
 
   const loading = loadingRedes || loadingSeg;
   const error = errorRedes || errorSeg;
@@ -128,7 +178,7 @@ function Segmentacion() {
 
             <div className='w-full lg:w-1/2 lg:flex-shrink-0'>
               <Card title="Ocupación">
-                <div className='w-full flex flex-col justify-center py-2 min-h-[400px] sm:min-h-[500px] lg:min-h-[480px]'>
+                <div className='w-full flex flex-col justify-center py-2 min-h=[400px] sm:min-h-[500px] lg:min-h-[480px]'>
                   <CircleChart
                     title="Sector productivo"
                     data={ocupacionData}
@@ -147,7 +197,7 @@ function Segmentacion() {
               <Card title="Intereses">
                 <div className='w-full flex flex-col justify-start py-1 sm:py-3 min-h-[300px] lg:min-h-[400px]'>
                   <div className='flex flex-col gap-2 lg:gap-3 mb-4'>
-                    {(interesesTop.length ? interesesTop : [{label:'Sin datos', count:0}]).map((tema, index) => (
+                    {(interesesTop.length ? interesesTop : [{ label:'Sin datos', count:0 }]).map((tema, index) => (
                       <div key={index} className='w-full flex flex-col'>
                         <div className='flex group gap-1 sm:gap-2 w-full items-center justify-between px-1 sm:px-3'>
                           <h1 className='text-gray-500 text-sm sm:text-base lg:text-lg flex-shrink-0'>{tema.label}</h1>
@@ -202,9 +252,16 @@ function Segmentacion() {
             <div className='w-full lg:w-1/2 lg:flex-shrink-0'>
               <Card title="Horarios de mayor actividad">
                 <div className='w-full flex flex-col justify-start items-start py-3 sm:py-4 min-h-[200px] lg:min-h-[250px]'>
-                  <h1 className='text-gray-500 font-semibold text-2xl sm:text-3xl lg:text-4xl xl:text-5xl mb-3 sm:mb-4'>
-                    5:00 a 8:00 pm
+                  <h1
+                    // onClick={() => console.log({ visitasHora, rango })}
+                    className="text-gray-500 font-semibold text-2xl sm:text-3xl lg:text-4xl xl:text-5xl mb-1 sm:mb-2"
+                  >
+                    {rango.label}
                   </h1>
+                  <div className="text-gray-400 text-sm sm:text-base mb-3">
+                    Total en ese rango: <span className="font-semibold">{rango.sum.toLocaleString?.() ?? rango.sum}</span>
+                  </div>
+
                   <div className='w-full mt-auto'>
                     {plataformasMasUsadas.length > 0 ? (
                       <SocialPlatforms platforms={plataformasMasUsadas} />

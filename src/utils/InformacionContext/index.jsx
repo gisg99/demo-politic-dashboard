@@ -43,7 +43,7 @@ const InformacionProvider = ({ children }) => {
   const fetchPercepcion = async () => {
     try{
       const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v2/demo/prueba/demo-percepciones`);
-      console.log("response percepciones: ", response);
+      // console.log("response percepciones: ", response);
       if( response.status === 200){
         setPercepcion(response.data);
       }

@@ -91,7 +91,7 @@ export const FiltersProvider = ({ children }) => {
   // Función para registrar un callback que se ejecutará cuando cambien los filtros
   const registerFilterCallback = useCallback((callback) => {
     if (typeof callback !== 'function') {
-      console.warn('registerFilterCallback expects a function');
+      // console.warn('registerFilterCallback expects a function');
       return;
     }
 

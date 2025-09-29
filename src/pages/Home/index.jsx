@@ -9,7 +9,7 @@ import { InformacionContext } from '../../utils/InformacionContext';
 import { RedesContext } from '../../utils/RedesContext'; // ⬅️ IMPORTANTE
 
 function Home() {
-  const { percepcion } = useContext(InformacionContext);
+  const { percepcion, weeklyReportPartido } = useContext(InformacionContext);
 
   // ⬇️ Traemos la info de Redes (semana seleccionada, loading, y el general[0])
   const { weeklyReportGeneral, selectedWeek, loading: loadingRedes, error: errorRedes } = useContext(RedesContext);
@@ -86,6 +86,12 @@ function Home() {
   if (salud.count > 50) { percepcionSalud = 'Percepción positiva'; lipsSalud = <FelizSvg />; }
   else if (salud.count > 30) { percepcionSalud = 'Percepción media'; lipsSalud = <SeriaSvg />; }
   else { percepcionSalud = 'Percepción negativa'; lipsSalud = <TristeSvg />; }
+
+  // Estado para la barra seleccionada
+  const [selectedBar, setSelectedBar] = React.useState(0);
+
+  // Obtener el valor de aprobación de la barra seleccionada
+  const aprobacionSeleccionada = weeklyReportPartido?.[selectedBar]?.aprobacion_a_favor ?? 0;
 
   return (
     <HomeProvider>
@@ -210,8 +216,8 @@ function Home() {
                     <div className='h-full w-full flex min-h=[100px] lg:min-h-[120px]'>
                       <div className='w-[70%] h-full flex flex-col justify-center p-1 lg:p-2'>
                         <div className='flex items-end'>
-                          <h1 className='text-gray-400 font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl'>
-                            {resultado.porcentaje}%
+                          <h1 onClick={() => {console.log(weeklyReportPartido[selectedBar])}} className='text-gray-400 font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl'>
+                            {aprobacionSeleccionada}%
                           </h1>
                           {resultado.tipoCambio === 'incremento' ? 
                             <ImArrowUp className='text-tertiary w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 xl:w-7 xl:h-7' /> : 
@@ -222,9 +228,21 @@ function Home() {
                           Respecto a la semana anterior <br className='hidden lg:block'/> tuvimos un {resultado.tipoCambio}
                         </h1>
                       </div>
-                      <div className="w-[30%] flex justify-center items-end gap-2 lg:gap-6">
-                        <VerticalBar value={aceptacion.semana1} label="MC" />
-                        <VerticalBar value={aceptacion.semana2} label="Morena" />
+                      <div className="w-[40%] flex justify-center items-end gap-2 lg:gap-6">
+                        {weeklyReportPartido && weeklyReportPartido.map((resultado, idx) => (
+                          <div
+                            key={resultado.id}
+                            onClick={() => setSelectedBar(idx)}
+                            style={{
+                              cursor: 'pointer',
+                              opacity: selectedBar === idx ? 1 : 0.6,
+                              borderBottom: selectedBar === idx ? '2px solid orange' : 'none',
+                              transition: 'opacity 0.2s'
+                            }}
+                          >
+                            <VerticalBar value={resultado.aprobacion_a_favor} label={resultado.iniciales} />
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </Card>

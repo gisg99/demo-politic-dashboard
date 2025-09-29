@@ -129,17 +129,17 @@ const MovilidadProvider = ({ children }) => {
       
       // Hacer fetch solo si es necesario
       if (needsVisitasUpdate) {
-        console.log('Updating visitas for:', changedField, changedFields);
+        // console.log('Updating visitas for:', changedField, changedFields);
         fetchVisitas(newFilters);
       }
       
       if (needsHorariosUpdate) {
-        console.log('Updating horarios for:', changedField, changedFields);
+        // console.log('Updating horarios for:', changedField, changedFields);
         fetchHorarios(newFilters);
       }
 
       if (needsTiposUpdate) {
-        console.log('Updating tipos for:', changedField, changedFields);
+        // console.log('Updating tipos for:', changedField, changedFields);
         fetchTipos(newFilters);
       }
     };
